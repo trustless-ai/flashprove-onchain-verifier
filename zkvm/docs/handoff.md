@@ -13,11 +13,11 @@ call path are in this repository and are tested locally.
 | Piece | Value | Where it comes from |
 |---|---|---|
 | Guest program | SP1 guest built from `zkvm/guest`, `zkvm/fp-pv` and `rust-nostd-verifier/fp-core` | `zkvm/guest/` |
-| ELF SHA-256 | **`0c78b659f7e7df5a8bb84675a5cac5e3c40242fdf5fc077667da93e2345dd30d`** | `zkvm/config/vkey.json` |
-| ELF size | **12184776 bytes** | `zkvm/config/vkey.json` |
+| ELF SHA-256 | **`2d077855ff441449f6778a432d8cca59ff65922b1c48a766dc2ed9bca070f652`** | `zkvm/config/vkey.json` |
+| ELF size | **12245688 bytes** | `zkvm/config/vkey.json` |
 | SP1 circuit | **v6.1.0** | `sp1_sdk::SP1_CIRCUIT_VERSION` |
 | SP1 SDK / zkVM | **6.10.0** | `zkvm/Cargo.toml`, `Cargo.lock` |
-| Program vkey (on-chain) | **`0x007991cd508039250725758bafb93d0173397e4743679884dfd7cae0ca21d0aa`** | `zkvm/config/vkey.json` (`sp1.vkey_bytes32`) |
+| Program vkey (on-chain) | **`0x00200f72646a715059f034051e4624c3f6940a6d2c2c4dca8aa3575c45f29464`** | `zkvm/config/vkey.json` (`sp1.vkey_bytes32`) |
 | Public-values schema | `FPV1`, 128 bytes at offset 0 | `zkvm/fp-pv/src/pv.rs`, `zkvm/contracts/src/libraries/FlashProvePublicValues.sol` |
 | Input digest scheme | `FlashProve/input-v1\0` + length-prefixed fields, SHA-256 | `zkvm/fp-pv/src/inputs.rs` |
 | Input files (accepted example) | `zkvm/config/input-manifest.json`: nine files, sizes, SHA-256 values, leaf 0, the bundle digest | `fp-pv manifest` |
@@ -217,7 +217,7 @@ Measured on the accepted example at this commit:
 | Guest cycles (execute) | **27,547,235,173** | `host-exec` on the accepted example |
 | Shards (upper estimate) | **1642** = ceil(cycles / 2^24) | `host-exec` prints it |
 | `setup` (ELF → vkey) | **16 min 36 s** on a loaded 10-core Mac (6,475 s user, 652% CPU) | `gen-vkey --update` |
-| Guest ELF | **12184776 bytes** | `gen-vkey` |
+| Guest ELF | **12245688 bytes** | `gen-vkey` |
 | Public values | about 6.5 KB (128-byte block + report + status) | `host-exec` |
 
 Estimates for Groth16 proving (not measured here; they follow from the cycle count and SP1's
