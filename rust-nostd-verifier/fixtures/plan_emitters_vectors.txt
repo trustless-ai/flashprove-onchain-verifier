@@ -1,0 +1,460 @@
+CASE	send
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	2	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+PART	1	key
+ROUND	0	SEND seed	send	3	1	0	d6b88a9c,159cd43f,4bd39461,fdce0ff7,3df697bc,b048d544@-512	1	0	1	0	64	2	0	18	2	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	SEND answer	send	0	5	0	0@0	1	0	1	0	96	0	4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	BAT-sigma	sigma	1	0	0	40000003,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-382	1	0	1	0	0	0	0	1	0	0	0	0	4	0	0	0	3	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	3	BAT-sigma	sub	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	2	1	0	0	0	1	0	0	0	0	2	0	0	0	3	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	4	LAST	last	0	5	0	0@0	1	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	root	send	2	32	4040000000000000	1	0	1	0
+MSG	1	root	send	2	32	4040000000000000	1	0	1	0
+MSG	2	sample answers	send	1	96	4058000000000000	1	0	1	0
+MSG	3	chain salt	start	5	32	4040000000000000	1	0	0	0
+MSG	4	header	the file	7	128	4060000000000000	1	0	0	3
+CASE	bat
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	BAT	bat	1	0	0	0b212174,0b212167,027923d7,fc4a4a2e,fc4a4a32,fec36e12@-353	1	0	1	0	0	0	0	1	0	0	0	0	5	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	BAT-sigma	sigma	1	0	0	40000003,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-381	1	0	1	0	0	0	0	1	0	0	0	0	7	0	0	0	3	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	SPLIT	split	0	5	0	0@0	1	0	1	0	24	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	split target	split	0	24	4038000000000000	1	0	1	0
+CASE	psc
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	PSC epsilon	psc	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	PSC round	psc	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	2	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	PSC round	psc	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	2	0	24	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	3	PSC Y	psc	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	4	PSC values	psc	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	5	PSC epsilon	psc affine	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	6	PSC round	psc affine	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	2	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	7	ZERO	zero	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-381	1	0	1	0	0	0	0	4	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	8	LINE	line	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	9	LKP shift	shift	1	0	0	f0000002,effffffa,dffffffa,affffffe,b0000001,90000001@-380	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	10	JOIN	join	1	0	0	40000003,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-382	1	0	1	0	0	0	0	3	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	11	LKP	lkp	1	0	0	48000003,47fffff7,0ffffff7,e7fffffe,e8000002,f8000002@-379	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	12	PSC epsilon	tree	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	13	PSC round	tree	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	14	PSC Y	tree	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	15	PSC values	tree	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	16	LINE	tree	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	17	PSC epsilon	tree	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	18	PSC round	tree	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	2	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	19	PSC Y	tree	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	20	PSC values	tree	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	21	LINE	tree	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	22	BAT-sigma	batt	1	0	0	60000002,5ffffffa,bffffffa,dffffffe,e0000001,a0000001@-381	1	0	1	0	0	0	0	1	0	0	0	0	6	0	0	0	3	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	23	PSC epsilon	batt	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	24	PSC round	batt	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	3	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	hiding sum	psc	0	24	4038000000000000	1	0	1	0
+MSG	1	round polynomial	psc	0	48	4048000000000000	2	0	1	0
+MSG	2	round polynomial	psc	0	24	4038000000000000	2	0	1	0
+MSG	3	round polynomial in Y	psc	0	48	4048000000000000	1	0	1	0
+MSG	4	values at the last point	psc	0	48	4048000000000000	1	0	1	0
+MSG	5	hiding sum	psc affine	0	24	4038000000000000	1	0	1	0
+MSG	6	round polynomial	psc affine	0	48	4048000000000000	2	0	1	0
+MSG	7	hiding sum	tree	0	24	4038000000000000	1	0	1	0
+MSG	8	round polynomial	tree	0	48	4048000000000000	1	0	1	0
+MSG	9	round polynomial in Y	tree	0	48	4048000000000000	1	0	1	0
+MSG	10	values at the last point	tree	0	48	4048000000000000	1	0	1	0
+MSG	11	hiding sum	tree	0	24	4038000000000000	1	0	1	0
+MSG	12	round polynomial	tree	0	48	4048000000000000	2	0	1	0
+MSG	13	round polynomial in Y	tree	0	48	4048000000000000	1	0	1	0
+MSG	14	values at the last point	tree	0	48	4048000000000000	1	0	1	0
+MSG	15	hiding sum	batt	0	24	4038000000000000	1	0	1	0
+MSG	16	round polynomial	batt	0	48	4048000000000000	3	0	1	0
+CASE	psc_open_coeff
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	PSC epsilon	psc open	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	PSC round	psc open	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	72	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	PSC round	psc open	1	0	0	0@0	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	3	PSC Y	psc open	1	0	0	40000004,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-382	1	0	1	0	96	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	4	PSC values	psc open	0	5	0	0@0	1	0	1	0	24	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	5	BAT-sigma	batt	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-381	1	0	1	0	0	0	0	1	0	0	0	0	5	0	0	0	3	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	6	PSC epsilon	batt	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	7	PSC round	batt	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	2	0	72	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	hiding sum	psc open	0	24	4038000000000000	1	0	1	0
+MSG	1	round polynomial	psc open	0	72	4052000000000000	1	0	1	0
+MSG	2	round polynomial	psc open	0	24	4038000000000000	1	0	1	0
+MSG	3	round polynomial in Y	psc open	0	96	4058000000000000	1	0	1	0
+MSG	4	values at the last point	psc open	0	24	4038000000000000	1	0	1	0
+MSG	5	hiding sum	batt	0	24	4038000000000000	1	0	1	0
+MSG	6	round polynomial	batt	0	72	4052000000000000	2	0	1	0
+CASE	lookup
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	1	lookup refused: the look-up's sizes are not admitted
+PART	0	proof
+ROUND	0	LKP shift	lookup	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-380	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	LKP	lookup	1	0	0	20000003,1ffffff8,3ffffff8,9ffffffe,a0000002,e0000002@-381	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	PSC epsilon	lookup, tie	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	3	PSC Y	lookup, tie	1	0	0	40000004,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-382	1	0	1	0	72	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	4	PSC values	lookup, tie	0	5	0	0@0	1	0	1	0	72	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	5	PSC epsilon	lookup, tie	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	6	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	6	PSC Y	lookup, tie	1	0	0	40000004,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-382	1	0	6	0	72	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	7	PSC values	lookup, tie	0	5	0	0@0	1	0	6	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	8	PSC epsilon	lookup, parts	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	9	PSC Y	lookup, parts	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	10	PSC values	lookup, parts	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	11	JOIN	lookup	1	0	0	40000003,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-382	1	0	1	0	0	0	0	3	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	12	PSC epsilon	lookup, keys	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	13	PSC Y	lookup, keys	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	14	PSC values	lookup, keys	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	15	LINE	lookup, keys	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	16	PSC epsilon	lookup, keys	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	17	PSC round	lookup, keys	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	18	PSC Y	lookup, keys	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	19	PSC values	lookup, keys	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	20	LINE	lookup, keys	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	21	PSC epsilon	lookup, keys	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	22	PSC Y	lookup, keys	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	23	PSC values	lookup, keys	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	24	LINE	lookup, keys	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	25	PSC epsilon	lookup, keys	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	26	PSC round	lookup, keys	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	27	PSC Y	lookup, keys	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	28	PSC values	lookup, keys	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	29	LINE	lookup, keys	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	30	PSC epsilon	lookup, table	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	31	PSC round	lookup, table	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	3	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	32	PSC Y	lookup, table	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	33	PSC values	lookup, table	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	34	LINE	lookup, table	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	35	PSC epsilon	lookup, table	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	36	PSC round	lookup, table	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	4	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	37	PSC Y	lookup, table	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	38	PSC values	lookup, table	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	39	LINE	lookup, table	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	40	PSC epsilon	lookup, table	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	41	PSC round	lookup, table	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	5	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	42	PSC Y	lookup, table	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	43	PSC values	lookup, table	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	44	LINE	lookup, table	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	45	PSC epsilon	lookup, leaves	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	46	PSC round	lookup, leaves	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	3	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	47	PSC round	lookup, leaves	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	3	0	24	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	48	ZERO	lookup, bits	1	0	0	40000003,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-381	1	0	1	0	0	0	0	6	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	49	PSC epsilon	lookup, bits	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	50	PSC round	lookup, bits	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	6	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	51	PSC Y	lookup, bits	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	52	PSC values	lookup, bits	0	5	0	0@0	1	0	1	0	24	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	53	LKP	lookup small	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	54	PSC epsilon	lookup small, tie	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	55	PSC Y	lookup small, tie	1	0	0	40000004,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-382	1	0	1	0	72	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	56	PSC values	lookup small, tie	0	5	0	0@0	1	0	1	0	72	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	57	JOIN	lookup small	1	0	0	40000003,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-382	1	0	1	0	0	0	0	3	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	58	PSC epsilon	lookup small, keys	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	59	PSC Y	lookup small, keys	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	60	PSC values	lookup small, keys	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	61	LINE	lookup small, keys	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	62	PSC epsilon	lookup small, table	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	63	PSC round	lookup small, table	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	3	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	64	PSC Y	lookup small, table	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	65	PSC values	lookup small, table	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	66	LINE	lookup small, table	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	67	PSC epsilon	lookup small, table	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	68	PSC round	lookup small, table	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	4	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	69	PSC Y	lookup small, table	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	70	PSC values	lookup small, table	0	5	0	0@0	1	0	1	0	48	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	71	LINE	lookup small, table	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	72	PSC epsilon	lookup small, leaves	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	73	PSC round	lookup small, leaves	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	2	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	74	PSC round	lookup small, leaves	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	3	0	24	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	75	ZERO	lookup small, bits	1	0	0	60000002,5ffffffa,bffffffa,dffffffe,e0000001,a0000001@-381	1	0	1	0	0	0	0	5	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	76	PSC epsilon	lookup small, bits	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	77	PSC round	lookup small, bits	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	5	0	48	0	0	1	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	78	PSC Y	lookup small, bits	1	0	0	80000003,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	48	0	0	1	1	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	79	PSC values	lookup small, bits	0	5	0	0@0	1	0	1	0	24	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	hiding sum	lookup, tie	0	24	4038000000000000	1	0	1	0
+MSG	1	round polynomial in Y	lookup, tie	0	72	4052000000000000	1	0	1	0
+MSG	2	values at the last point	lookup, tie	0	72	4052000000000000	1	0	1	0
+MSG	3	hiding sum	lookup, tie	0	24	4038000000000000	6	0	1	0
+MSG	4	round polynomial in Y	lookup, tie	0	72	4052000000000000	6	0	1	0
+MSG	5	values at the last point	lookup, tie	0	48	4048000000000000	6	0	1	0
+MSG	6	hiding sum	lookup, parts	0	24	4038000000000000	1	0	1	0
+MSG	7	round polynomial in Y	lookup, parts	0	48	4048000000000000	1	0	1	0
+MSG	8	values at the last point	lookup, parts	0	48	4048000000000000	1	0	1	0
+MSG	9	hiding sum	lookup, keys	0	24	4038000000000000	1	0	1	0
+MSG	10	round polynomial in Y	lookup, keys	0	48	4048000000000000	1	0	1	0
+MSG	11	values at the last point	lookup, keys	0	48	4048000000000000	1	0	1	0
+MSG	12	hiding sum	lookup, keys	0	24	4038000000000000	1	0	1	0
+MSG	13	round polynomial	lookup, keys	0	48	4048000000000000	1	0	1	0
+MSG	14	round polynomial in Y	lookup, keys	0	48	4048000000000000	1	0	1	0
+MSG	15	values at the last point	lookup, keys	0	48	4048000000000000	1	0	1	0
+MSG	16	hiding sum	lookup, keys	0	24	4038000000000000	1	0	1	0
+MSG	17	round polynomial in Y	lookup, keys	0	48	4048000000000000	1	0	1	0
+MSG	18	values at the last point	lookup, keys	0	48	4048000000000000	1	0	1	0
+MSG	19	hiding sum	lookup, keys	0	24	4038000000000000	1	0	1	0
+MSG	20	round polynomial	lookup, keys	0	48	4048000000000000	1	0	1	0
+MSG	21	round polynomial in Y	lookup, keys	0	48	4048000000000000	1	0	1	0
+MSG	22	values at the last point	lookup, keys	0	48	4048000000000000	1	0	1	0
+MSG	23	hiding sum	lookup, table	0	24	4038000000000000	1	0	1	0
+MSG	24	round polynomial	lookup, table	0	48	4048000000000000	3	0	1	0
+MSG	25	round polynomial in Y	lookup, table	0	48	4048000000000000	1	0	1	0
+MSG	26	values at the last point	lookup, table	0	48	4048000000000000	1	0	1	0
+MSG	27	hiding sum	lookup, table	0	24	4038000000000000	1	0	1	0
+MSG	28	round polynomial	lookup, table	0	48	4048000000000000	4	0	1	0
+MSG	29	round polynomial in Y	lookup, table	0	48	4048000000000000	1	0	1	0
+MSG	30	values at the last point	lookup, table	0	48	4048000000000000	1	0	1	0
+MSG	31	hiding sum	lookup, table	0	24	4038000000000000	1	0	1	0
+MSG	32	round polynomial	lookup, table	0	48	4048000000000000	5	0	1	0
+MSG	33	round polynomial in Y	lookup, table	0	48	4048000000000000	1	0	1	0
+MSG	34	values at the last point	lookup, table	0	48	4048000000000000	1	0	1	0
+MSG	35	hiding sum	lookup, leaves	0	24	4038000000000000	1	0	1	0
+MSG	36	round polynomial	lookup, leaves	0	48	4048000000000000	3	0	1	0
+MSG	37	round polynomial	lookup, leaves	0	24	4038000000000000	3	0	1	0
+MSG	38	hiding sum	lookup, bits	0	24	4038000000000000	1	0	1	0
+MSG	39	round polynomial	lookup, bits	0	48	4048000000000000	6	0	1	0
+MSG	40	round polynomial in Y	lookup, bits	0	48	4048000000000000	1	0	1	0
+MSG	41	values at the last point	lookup, bits	0	24	4038000000000000	1	0	1	0
+MSG	42	hiding sum	lookup small, tie	0	24	4038000000000000	1	0	1	0
+MSG	43	round polynomial in Y	lookup small, tie	0	72	4052000000000000	1	0	1	0
+MSG	44	values at the last point	lookup small, tie	0	72	4052000000000000	1	0	1	0
+MSG	45	hiding sum	lookup small, keys	0	24	4038000000000000	1	0	1	0
+MSG	46	round polynomial in Y	lookup small, keys	0	48	4048000000000000	1	0	1	0
+MSG	47	values at the last point	lookup small, keys	0	48	4048000000000000	1	0	1	0
+MSG	48	hiding sum	lookup small, table	0	24	4038000000000000	1	0	1	0
+MSG	49	round polynomial	lookup small, table	0	48	4048000000000000	3	0	1	0
+MSG	50	round polynomial in Y	lookup small, table	0	48	4048000000000000	1	0	1	0
+MSG	51	values at the last point	lookup small, table	0	48	4048000000000000	1	0	1	0
+MSG	52	hiding sum	lookup small, table	0	24	4038000000000000	1	0	1	0
+MSG	53	round polynomial	lookup small, table	0	48	4048000000000000	4	0	1	0
+MSG	54	round polynomial in Y	lookup small, table	0	48	4048000000000000	1	0	1	0
+MSG	55	values at the last point	lookup small, table	0	48	4048000000000000	1	0	1	0
+MSG	56	hiding sum	lookup small, leaves	0	24	4038000000000000	1	0	1	0
+MSG	57	round polynomial	lookup small, leaves	0	48	4048000000000000	2	0	1	0
+MSG	58	round polynomial	lookup small, leaves	0	24	4038000000000000	3	0	1	0
+MSG	59	hiding sum	lookup small, bits	0	24	4038000000000000	1	0	1	0
+MSG	60	round polynomial	lookup small, bits	0	48	4048000000000000	5	0	1	0
+MSG	61	round polynomial in Y	lookup small, bits	0	48	4048000000000000	1	0	1	0
+MSG	62	values at the last point	lookup small, bits	0	24	4038000000000000	1	0	1	0
+CASE	rng
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	5	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	RNG	rng	5	4	0	00000001@-27	1	5	1	0	0	0	0	0	0	0	0	270	0	0	27	0	3	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	nonce	rng	3	8	4020000000000000	1	0	0	0
+CASE	rng_refuse
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	5	0	0	0	0	0
+VERDICT	1	rng too many: so many columns that the number of drawn entries does not fit 64 bits
+PART	0	proof
+CASE	fold
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	FOLD epsilon	fold masked	2	0	0	bdf7ff24,bdf7ff17,2a371c37,c0ad559e,c0ad55a2,eae471e2@-356	1	0	1	0	56	1	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	FOLD round	fold masked	1	2	0	c96f6c71,a4ee930b,ddd74d67,50e091d5,6fb2f724,fffffffc@-224	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	FOLD round	fold masked	1	2	0	c96f6c5e,a4ee9305,ddd74d67,50e091d5,6fb2f724,fffffffc@-224	1	0	2	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	3	FOLD epsilon	fold nomask	2	0	0	bdf7ff24,bdf7ff17,2a371c37,c0ad559e,c0ad55a2,eae471e2@-356	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	0	0	0	3	0	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	4	FOLD round	fold nomask	1	2	0	c96f6c5e,a4ee9305,ddd74d67,50e091d5,6fb2f724,fffffffc@-224	1	0	3	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	0	0	0	3	0	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	5	FOLD epsilon	fold plain	2	0	0	0b212174,0b212167,027923d7,fc4a4a2e,fc4a4a32,fec36e12@-355	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	3	1	4	4	4	0	0	0	0	0	1	0	2087601179	0	0	0	0	0	0	0	0	0	0	0
+ROUND	6	LOC	loc	4	3	0	0bcf2ca8,9b08d785,19fa4c2a,fdff344a,1739391f,e4855017@-224	1	0	1	0	0	0	0	0	0	119	4	0	0	0	0	0	3	1	4	8	4	4	4	2	0	0	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	7	BASE lambda	base	1	2	0	9fbf728e,6d8aaed1,52b662c2,8465b8ea,671c6a32,fffffffa@-224	1	0	1	0	56	1	0	1	0	0	0	0	0	0	0	0	3	1	4	4	4	0	0	0	0	0	1	0	2087601179	0	0	0	0	0	0	0	0	0	0	0
+ROUND	8	BASE	base	4	3	0	c0ebace8,cdb4394f,7c73fef0,c37d8870,c8f6b850,dea463ea@-224	1	0	1	0	192	0	0	0	0	54	4	0	0	0	0	0	3	1	4	4	4	0	0	0	0	0	1	0	2087601179	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	root	fold masked	2	32	4040000000000000	1	0	1	0
+MSG	1	hiding sum	fold masked	0	24	4038000000000000	1	0	1	0
+MSG	2	round polynomial	fold masked	0	48	4048000000000000	1	0	1	0
+MSG	3	round polynomial	fold masked	0	48	4048000000000000	2	0	1	0
+MSG	4	hiding sum	fold nomask	0	24	4038000000000000	1	0	1	0
+MSG	5	round polynomial	fold nomask	0	48	4048000000000000	3	0	1	0
+MSG	6	hiding sum	fold plain	0	24	4038000000000000	1	0	1	0
+MSG	7	opened symbols	loc, leaves	4	7616	408ffc373ff392f9	1	0	0	119
+MSG	8	salts	loc, leaves	5	4760	4083fda287f83bdc	1	0	0	0
+MSG	9	paths	loc, leaves	6	256	3fce44f2af0ebb5c	1	0	0	476
+MSG	10	root	base	2	32	4040000000000000	1	0	1	0
+MSG	11	masked target	base	0	24	4038000000000000	1	0	1	0
+MSG	12	masked message and randomness	base	0	192	4068000000000000	1	0	1	0
+MSG	13	opened symbols	base, leaves	4	3456	408f04e78f997557	1	0	0	54
+MSG	14	salts	base, leaves	5	2160	40836310b9bfe956	1	0	0	0
+MSG	15	paths	base, leaves	6	256	402f023a481cb3fe	1	0	0	216
+CASE	cs
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	SEND seed	cs	3	1	0	b009ebc9,82b960c0,f26f46ed,1aa75c11,4c2c1615,a1a4d108@-326	1	0	1	0	32	1	0	7	1	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	CS	cs	4	3	0	8188844d,0de88128,7c73fef7,c37d8870,c8f6b850,dea463ea@-224	1	0	1	0	24	0	1	1	0	54	4	0	110	0	0	0	4	1	4	4	4	0	0	0	0	0	1	0	2087601179	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	BASE lambda	base	1	2	0	9d64970e,96404bea,ddd74d67,50e091d5,6fb2f724,fffffffc@-224	1	0	1	0	56	1	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	3	BASE	base	4	3	0	0bcf2ca8,9b08d785,19fa4c2a,fdff344a,1739391f,e4855017@-224	1	0	1	0	432	0	0	0	0	119	4	0	0	0	0	0	3	1	4	8	4	4	4	2	0	0	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	root	cs	2	32	4040000000000000	1	0	1	0
+MSG	1	sample answers	cs	1	24	4038000000000000	1	0	1	0
+MSG	2	opened symbols	cs, old rows	4	3456	408f04e78f997557	1	0	0	54
+MSG	3	salts	cs, old rows	5	2160	40836310b9bfe956	1	0	0	0
+MSG	4	paths	cs, old rows	6	256	402f023a481cb3fe	1	0	0	216
+MSG	5	root	base	2	32	4040000000000000	1	0	1	0
+MSG	6	masked target	base	0	24	4038000000000000	1	0	1	0
+MSG	7	masked message and randomness	base	0	432	407b000000000000	1	0	1	0
+MSG	8	opened symbols	base, old rows	4	7616	408ffc373ff392f9	1	0	0	119
+MSG	9	salts	base, old rows	5	4760	4083fda287f83bdc	1	0	0	0
+MSG	10	paths	base, old rows	6	256	3fce44f2af0ebb5c	1	0	0	476
+CASE	iopp
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	BAT	iopp	1	0	0	bdf7ff24,bdf7ff17,2a371c37,c0ad559e,c0ad55a2,eae471e2@-355	1	0	1	0	0	0	0	1	0	0	0	0	3	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	FOLD epsilon	iopp, stage 1	2	0	0	bdf7ff24,bdf7ff17,2a371c37,c0ad559e,c0ad55a2,eae471e2@-356	1	0	1	0	56	1	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	FOLD round	iopp, stage 1	1	2	0	c96f6c71,a4ee930b,ddd74d67,50e091d5,6fb2f724,fffffffc@-224	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	3	FOLD round	iopp, stage 1	1	2	0	c96f6c5e,a4ee9305,ddd74d67,50e091d5,6fb2f724,fffffffc@-224	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	4	FOLD round	iopp, stage 1	1	2	0	c96f6c5e,a4ee9305,ddd74d67,50e091d5,6fb2f724,fffffffc@-224	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	5	SEND seed	iopp, stage 1	3	1	0	70d4f520,c7e2e9e3,98457ba6,2fb9039f,3b6be244,eb171b33@-324	1	0	1	0	32	1	0	7	1	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	6	CS	iopp, stage 1	4	3	0	9956f303,1f8b6f5b,19fa4c5c,fdff344a,1739391f,e4855017@-224	1	0	1	0	24	0	1	1	0	119	4	0	359	0	0	0	4	1	4	8	4	4	4	2	0	0	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	7	FOLD epsilon	iopp, stage 2	2	0	0	05446337,0544632f,e4b9dd23,a8e93442,a8e93445,8da3116d@-354	1	0	1	0	56	1	0	1	0	0	0	0	0	0	0	0	3	1	8	4	24	8	16	24	1	1	1	0	760626606	0	0	0	0	0	0	0	0	0	0	0
+ROUND	8	FOLD round	iopp, stage 2	1	2	0	b54879e0,72bd8233,4d137cf9,2d896713,4773739c,ffffffe8@-224	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	8	4	24	8	16	24	1	1	1	0	760626606	0	0	0	0	0	0	0	0	0	0	0
+ROUND	9	SEND seed	iopp, stage 2	3	1	0	e82a37ec,b8d837df,0dba7e2b,5d4742b1,d88342b5,dcb5c0e8@-323	1	0	1	0	32	1	0	9	1	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	10	CS	iopp, stage 2	4	3	0	38c1e9fa,8a9c6717,3dd2ccfa,c45ae940,58a9de49,abd42171@-224	1	0	1	0	24	0	1	1	0	24	8	0	74	0	0	0	4	1	8	4	24	8	16	24	0	0	1	0	760626606	0	0	0	0	0	0	0	0	0	0	0
+ROUND	11	BASE lambda	iopp, last stage	1	2	0	c979b7e7,d662af1d,107d4d49,9db9bb5b,a0bcc9d2,fffffff3@-224	1	0	1	0	56	1	0	1	0	0	0	0	0	0	0	0	3	1	12	4	14	12	128	14	0	0	1	0	321191373	0	0	0	0	0	0	0	0	0	0	0
+ROUND	12	BASE	iopp, last stage	4	3	0	fcfe2ec8,86c8c398,4309b1ea,6e6f2105,8a5a3af9,fbed344b@-226	1	0	1	0	3840	0	0	0	0	14	12	0	0	0	0	0	3	1	12	4	14	12	128	14	0	0	1	0	321191373	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	root	iopp, stage 1	2	32	4040000000000000	1	0	1	0
+MSG	1	hiding sum	iopp, stage 1	0	24	4038000000000000	1	0	1	0
+MSG	2	round polynomial	iopp, stage 1	0	48	4048000000000000	1	0	1	0
+MSG	3	round polynomial	iopp, stage 1	0	48	4048000000000000	1	0	1	0
+MSG	4	round polynomial	iopp, stage 1	0	48	4048000000000000	1	0	1	0
+MSG	5	root	iopp, stage 1	2	32	4040000000000000	1	0	1	0
+MSG	6	sample answers	iopp, stage 1	1	24	4038000000000000	1	0	1	0
+MSG	7	opened symbols	iopp, stage 1, first	4	7616	408ffc373ff392f9	1	0	0	119
+MSG	8	salts	iopp, stage 1, first	5	4760	4083fda287f83bdc	1	0	0	0
+MSG	9	paths	iopp, stage 1, first	6	256	3fce44f2af0ebb5c	1	0	0	476
+MSG	10	opened symbols	iopp, stage 1, fresh mask	4	5712	4087fd296ff6ae3b	1	0	0	119
+MSG	11	salts	iopp, stage 1, fresh mask	5	4760	4083fda287f83bdc	1	0	0	0
+MSG	12	paths	iopp, stage 1, fresh mask	6	256	3fce44f2af0ebb5c	1	0	0	476
+MSG	13	root	iopp, stage 2	2	32	4040000000000000	1	0	1	0
+MSG	14	hiding sum	iopp, stage 2	0	24	4038000000000000	1	0	1	0
+MSG	15	round polynomial	iopp, stage 2	0	48	4048000000000000	1	0	1	0
+MSG	16	root	iopp, stage 2	2	32	4040000000000000	1	0	1	0
+MSG	17	sample answers	iopp, stage 2	1	24	4038000000000000	1	0	1	0
+MSG	18	opened symbols	iopp, stage 2, switch oracle	4	2304	40a136cf597f9a9e	1	0	0	48
+MSG	19	salts	iopp, stage 2, switch oracle	5	960	408cb0aeea7f5708	1	0	0	0
+MSG	20	paths	iopp, stage 2, switch oracle	6	2560	40a01f56e1d8ab7f	1	0	0	192
+MSG	21	opened symbols	iopp, stage 2, fresh mask	4	1152	409136cf597f9a9e	1	0	0	24
+MSG	22	salts	iopp, stage 2, fresh mask	5	960	408cb0aeea7f5708	1	0	0	0
+MSG	23	paths	iopp, stage 2, fresh mask	6	2560	40a01f56e1d8ab7f	1	0	0	192
+MSG	24	root	iopp, last stage	2	32	4040000000000000	1	0	1	0
+MSG	25	masked target	iopp, last stage	0	24	4038000000000000	1	0	1	0
+MSG	26	masked message and randomness	iopp, last stage	0	3840	40ae000000000000	1	0	1	0
+MSG	27	opened symbols	iopp, last stage, switch oracle	4	672	4084f77a21a233bb	1	0	0	14
+MSG	28	salts	iopp, last stage, switch oracle	5	560	408178e5c6b1d5c6	1	0	0	0
+MSG	29	paths	iopp, last stage, switch oracle	6	3648	40a9c21ad2c75f60	1	0	0	168
+MSG	30	opened symbols	iopp, last stage, masking codeword	4	672	4084f77a21a233bb	1	0	0	14
+MSG	31	salts	iopp, last stage, masking codeword	5	560	408178e5c6b1d5c6	1	0	0	0
+MSG	32	paths	iopp, last stage, masking codeword	6	3648	40a9c21ad2c75f60	1	0	0	168
+CASE	iopp_ride
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	BAT	iopp	1	0	0	bdf7ff24,bdf7ff17,2a371c37,c0ad559e,c0ad55a2,eae471e2@-355	1	0	1	0	0	0	0	1	0	0	0	0	3	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	FOLD epsilon	iopp, stage 1	2	0	0	bdf7ff24,bdf7ff17,2a371c37,c0ad559e,c0ad55a2,eae471e2@-356	1	0	1	0	56	1	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	FOLD round	iopp, stage 1	1	2	0	c96f6c71,a4ee930b,ddd74d67,50e091d5,6fb2f724,fffffffc@-224	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	3	FOLD round	iopp, stage 1	1	2	0	c96f6c5e,a4ee9305,ddd74d67,50e091d5,6fb2f724,fffffffc@-224	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	4	FOLD round	iopp, stage 1	1	2	0	c96f6c5e,a4ee9305,ddd74d67,50e091d5,6fb2f724,fffffffc@-224	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	4	8	4	4	4	2	3	1	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	5	SEND seed	iopp, stage 1	3	1	0	70d4f520,c7e2e9e3,98457ba6,2fb9039f,3b6be244,eb171b33@-324	1	0	1	0	32	1	0	7	1	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	6	CS	iopp, stage 1	4	3	0	9956f303,1f8b6f5b,19fa4c5c,fdff344a,1739391f,e4855017@-224	1	0	1	0	24	0	1	1	0	119	4	0	359	0	0	0	4	1	4	8	4	4	4	2	0	0	1	0	2390759703	0	0	0	0	0	0	0	0	0	0	0
+ROUND	7	FOLD epsilon	iopp, stage 2	2	0	0	05446337,0544632f,e4b9dd23,a8e93442,a8e93445,8da3116d@-354	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	3	1	8	4	24	8	16	24	1	1	1	0	760626606	0	0	0	0	0	0	0	0	0	0	0
+ROUND	8	FOLD round	iopp, stage 2	1	2	0	b54879e0,72bd8233,4d137cf9,2d896713,4773739c,ffffffe8@-224	1	0	1	0	48	0	0	1	0	0	0	0	0	0	0	0	3	1	8	4	24	8	16	24	1	1	1	0	760626606	0	0	0	0	0	0	0	0	0	0	0
+ROUND	9	SEND seed	iopp, stage 2	3	1	0	e82a37ec,b8d837df,0dba7e2b,5d4742b1,d88342b5,dcb5c0e8@-323	1	0	1	0	32	1	0	9	1	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	10	CS	iopp, stage 2	4	3	0	38c1e9fa,8a9c6717,3dd2ccfa,c45ae940,58a9de49,abd42171@-224	1	0	1	0	24	0	1	1	0	24	8	0	74	0	0	0	4	1	8	4	24	8	16	24	0	0	1	0	760626606	0	0	0	0	0	0	0	0	0	0	0
+ROUND	11	BASE lambda	iopp, last stage	1	2	0	c979b7e7,d662af1d,107d4d49,9db9bb5b,a0bcc9d2,fffffff3@-224	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	3	1	12	4	14	12	128	14	0	0	1	0	321191373	0	0	0	0	0	0	0	0	0	0	0
+ROUND	12	BASE	iopp, last stage	4	3	0	fcfe2ec8,86c8c398,4309b1ea,6e6f2105,8a5a3af9,fbed344b@-226	1	0	1	0	3840	0	0	0	0	14	12	0	0	0	0	0	3	1	12	4	14	12	128	14	0	0	1	0	321191373	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	root	iopp, stage 1	2	32	4040000000000000	1	0	1	0
+MSG	1	hiding sum	iopp, stage 1	0	24	4038000000000000	1	0	1	0
+MSG	2	round polynomial	iopp, stage 1	0	48	4048000000000000	1	0	1	0
+MSG	3	round polynomial	iopp, stage 1	0	48	4048000000000000	1	0	1	0
+MSG	4	round polynomial	iopp, stage 1	0	48	4048000000000000	1	0	1	0
+MSG	5	root	iopp, stage 1	2	32	4040000000000000	1	0	1	0
+MSG	6	sample answers	iopp, stage 1	1	24	4038000000000000	1	0	1	0
+MSG	7	opened symbols	iopp, stage 1, first	4	7616	408ffc373ff392f9	1	0	0	119
+MSG	8	salts	iopp, stage 1, first	5	4760	4083fda287f83bdc	1	0	0	0
+MSG	9	paths	iopp, stage 1, first	6	256	3fce44f2af0ebb5c	1	0	0	476
+MSG	10	opened symbols	iopp, stage 1, fresh mask	4	5712	4087fd296ff6ae3b	1	0	0	119
+MSG	11	salts	iopp, stage 1, fresh mask	5	4760	4083fda287f83bdc	1	0	0	0
+MSG	12	paths	iopp, stage 1, fresh mask	6	256	3fce44f2af0ebb5c	1	0	0	476
+MSG	13	hiding sum	iopp, stage 2	0	24	4038000000000000	1	0	1	0
+MSG	14	round polynomial	iopp, stage 2	0	48	4048000000000000	1	0	1	0
+MSG	15	root	iopp, stage 2	2	32	4040000000000000	1	0	1	0
+MSG	16	sample answers	iopp, stage 2	1	24	4038000000000000	1	0	1	0
+MSG	17	opened symbols	iopp, stage 2, switch oracle	4	3456	40a9d237063f67ed	1	0	0	48
+MSG	18	salts	iopp, stage 2, switch oracle	5	960	408cb0aeea7f5708	1	0	0	0
+MSG	19	paths	iopp, stage 2, switch oracle	6	2560	40a01f56e1d8ab7f	1	0	0	192
+MSG	20	masked target	iopp, last stage	0	24	4038000000000000	1	0	1	0
+MSG	21	masked message and randomness	iopp, last stage	0	3840	40ae000000000000	1	0	1	0
+MSG	22	opened symbols	iopp, last stage, switch oracle	4	1344	4094f77a21a233bb	1	0	0	28
+MSG	23	salts	iopp, last stage, switch oracle	5	560	408178e5c6b1d5c6	1	0	0	0
+MSG	24	paths	iopp, last stage, switch oracle	6	3648	40a9c21ad2c75f60	1	0	0	168
+CASE	record
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	RECORD	record	7	1	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	0	0	0	3	1	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	SEAL	seal	6	5	0	0@0	1	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	record	record	1	192	4068000000000000	1	0	0	0
+CASE	record_zero
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	1	record zero: the table's distances are not admitted
+PART	0	proof
+CASE	lin
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	SEND seed	lin, W	3	1	0	6849a6be,4d558ea6,6982859f,32921dc0,836a24a3,8e9cb807@-323	1	0	1	0	64	2	0	6	1	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	SEND answer	lin, W	0	5	0	0@0	1	0	1	0	48	0	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	LIN point	lin	1	2	0	20000003,1ffffff8,3ffffff8,9ffffffe,a0000002,e0000002@-379	0	0	1	0	0	0	0	5	0	0	0	0	0	0	0	2	4	0	0	0	0	0	0	0	0	0	1	0	0	1	4	4	0	3	1	4	2	0	0	1
+ROUND	3	SEND seed	lin, folded row	3	1	0	35b788fd,671cbe33,e2035cd4,98c2d255,af3830d9,be264ab4@-324	1	0	1	0	32	1	0	7	1	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	4	SEND answer	lin, folded row	0	5	0	0@0	1	0	1	0	24	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	5	LOC	lin, columns	4	3	0	00000000,00000000,87f50790,4fd9829d,302bcbf9,c5afe6ff@-224	1	0	1	0	0	0	0	0	0	78	4	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	1	4	4	0	3	1	4	2	0	0	1
+ROUND	6	SEND seed	lin, Omega	3	1	0	9be83d93,092fae59,64831518,cc07eb79,f5f3821c,ae4dc47a@-323	1	0	1	0	64	2	0	8	1	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	7	SEND answer	lin, Omega	0	5	0	0@0	1	0	1	0	48	0	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	8	LIN zeta	lin	1	0	0	40000003,3ffffff9,7ffffff9,3ffffffe,40000002,c0000002@-382	1	0	1	0	0	0	0	3	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	9	SEAL	seal	6	5	0	0@0	1	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	root	lin, W	2	32	4040000000000000	1	0	1	0
+MSG	1	root	lin, W	2	32	4040000000000000	1	0	1	0
+MSG	2	sample answers	lin, W	1	48	4048000000000000	1	0	1	0
+MSG	3	root	lin, folded row	2	32	4040000000000000	1	0	1	0
+MSG	4	sample answers	lin, folded row	1	24	4038000000000000	1	0	1	0
+MSG	5	opened symbols	lin, lin table	4	4992	408fcaa5ed00814a	1	0	0	78
+MSG	6	salts	lin, lin table	5	3120	4083dea7b42050ce	1	0	0	0
+MSG	7	paths	lin, lin table	6	256	400a9d5386413245	1	0	0	312
+MSG	8	root	lin, Omega	2	32	4040000000000000	1	0	1	0
+MSG	9	root	lin, Omega	2	32	4040000000000000	1	0	1	0
+MSG	10	sample answers	lin, Omega	1	48	4048000000000000	1	0	1	0
+CASE	link
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	LINK point	link	1	2	0	5c000003,5bfffffb,f7fffffb,8bfffffe,8c000001,84000001@-378	0	0	1	0	0	0	0	3	0	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	1	4	4	0	3	1	4	2	0	0	2
+ROUND	1	SEND seed	link	3	1	0	0218f228,ab429e80,e702cd5b,ff4d049c,3caed35f,9e753e41@-323	1	0	1	0	32	1	0	6	1	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	SEND answer	link	0	5	0	0@0	1	0	1	0	48	0	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	3	LINK	link	4	3	0	34dd9432,9edb8d62,56c6e4c5,0c6e338f,4a49d976,e34576d6@-224	1	0	1	0	0	0	0	0	0	245	4	0	0	167	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	1	4	4	0	3	1	4	2	0	0	2
+ROUND	4	LINK phi	link	1	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-382	1	0	1	0	0	0	0	2	0	0	0	0	0	0	0	0	2	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	5	SEAL	seal	6	5	0	0@0	1	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	root	link	2	32	4040000000000000	1	0	1	0
+MSG	1	sample answers	link	1	48	4048000000000000	1	0	1	0
+MSG	2	opened symbols	link, first table, link table	4	10688	408fffd443bd0ed1	1	0	0	167
+MSG	3	salts	link, first table, link table	5	6680	4083ffe4aa562943	1	0	0	0
+MSG	4	paths	link, first table, link table	6	256	3f85de1a5e6bcf54	1	0	0	668
+MSG	5	opened symbols	link, further table, link table	4	4992	408fcaa5ed00814a	1	0	0	78
+MSG	6	salts	link, further table, link table	5	3120	4083dea7b42050ce	1	0	0	0
+MSG	7	paths	link, further table, link table	6	256	400a9d5386413245	1	0	0	312
+CASE	instances
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	3	2	1	8	4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	BAT	bat request	1	0	0	9b902851,9b902848,cd3c7ab6,cc2547e4,cc2547e7,9961c2a3@-351	1	8	1	0	0	0	0	1	0	0	0	0	5	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	BAT	bat shared	1	0	1	cf6ae06c,cf6ae060,66fb4e48,65870a86,65870a8a,cc8258da@-353	1	4	1	0	0	0	0	1	0	0	0	0	5	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	2	BAT	bat once	1	0	2	cf6ae06c,cf6ae060,66fb4e48,65870a86,65870a8a,cc8258da@-353	1	0	1	0	0	0	0	1	0	0	0	0	5	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	3	SEND seed	send	3	1	0	72d08046,1d6a82b2,470e5cf3,2419a4d7,79715b5c,bf747ff9@-513	1	0	1	0	32	1	0	12	2	0	0	0	0	0	0	0	4	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	4	SEND answer	send	0	5	0	0@0	1	0	1	0	48	0	2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+ROUND	5	RNG	rng	5	4	0	00000003@-34	1	0	1	0	0	0	0	0	0	0	0	102	0	0	34	0	3	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	nonce	bat request	3	8	4020000000000000	1	0	0	0
+MSG	1	nonce	bat shared	3	8	4020000000000000	1	0	0	0
+MSG	2	root	send	2	32	4040000000000000	1	0	1	0
+MSG	3	sample answers	send	1	48	4048000000000000	1	0	1	0
+CASE	at_rule
+SETTING	2^64 - 2^32 + 1	00000001,ffffffff	3	0	8	24	32	40	8	0	128	16	32	4	32	1	1	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+VERDICT	0	
+PART	0	proof
+ROUND	0	FOLD epsilon	fold at	2	0	0	80000002,7ffffffb,fffffffb,7ffffffe,80000001,80000001@-383	1	0	1	0	24	0	0	1	0	0	0	0	0	0	0	0	3	1	4	4	4	0	0	0	0	0	1	1	4	0	0	0	0	0	0	0	0	0	0	0
+ROUND	1	LOC	loc at	4	3	0	00000000,00000000,87f50790,4fd9829d,302bcbf9,c5afe6ff@-224	1	0	1	0	0	0	0	0	0	78	4	0	0	0	0	0	3	1	4	4	4	0	0	0	0	0	1	1	4	0	0	0	0	0	0	0	0	0	0	0
+MSG	0	hiding sum	fold at	0	24	4038000000000000	1	0	1	0

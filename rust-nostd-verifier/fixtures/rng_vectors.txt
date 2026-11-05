@@ -1,0 +1,78 @@
+FAULT good_a ok
+FAULT good_b ok
+FAULT lanes0 RNG: no lane, no combination or no matrix
+FAULT lanes65 RNG: a number of the shape is out of range
+FAULT log_radix64 RNG: a number of the shape is out of range
+FAULT bit0_zero RNG: the radix is too small for the window of the combinations, or a packed entry could wrap around in the field
+FAULT bit1_zero RNG: the radix is too small for the window of the combinations, or a packed entry could wrap around in the field
+FAULT window_too_big RNG: the radix is too small for the window of the combinations, or a packed entry could wrap around in the field
+FAULT wrap RNG: the radix is too small for the window of the combinations, or a packed entry could wrap around in the field
+FAULT combinations0 RNG: no lane, no combination or no matrix
+FAULT no_matrix RNG: no lane, no combination or no matrix
+FAULT rows0 RNG: an empty matrix, or one with too many rows or columns
+FAULT columns0 RNG: an empty matrix, or one with too many rows or columns
+FAULT rows_most RNG: an empty matrix, or one with too many rows or columns
+FAULT columns_most RNG: an empty matrix, or one with too many rows or columns
+FAULT combinations_most RNG: a number of the shape is out of range
+FAULT digit_columns_not_pow2 RNG: the digits' matrix has too few columns, or their number is no power of two
+FAULT digit_columns_small RNG: the digits' matrix has too few columns, or their number is no power of two
+FAULT packed_is_reads RNG: packed cells and reads in one oracle message are not served
+FAULT read_matrix RNG: a read of no matrix, or weights whose number does not divide the matrix's rows
+FAULT read_length RNG: a read of no matrix, or weights whose number does not divide the matrix's rows
+FAULT read_length0 RNG: a read of no matrix, or weights whose number does not divide the matrix's rows
+FAULT digits_none RNG: the digits' message has no number, or the look-up's masks come from no earlier message
+FAULT masks_none RNG: the digits' message has no number, or the look-up's masks come from no earlier message
+FAULT masks_after RNG: the digits' message has no number, or the look-up's masks come from no earlier message
+FAULT packed_after RNG: packed cells in a message that comes no earlier than the digits
+FAULT reads_after RNG: the reads in a message that comes no earlier than the digits
+FAULT good_no_reads ok
+FAULT good_no_reads_after ok
+PUBLIC_FAULT good_a ok
+LOOKUP a parts=3 d=2 mu=2 live=0 g=1 shifted=1 planes=4 all_keys=8 read_from=3,4
+KEY a first=0 log_trees=0 function=0 padding_row=0
+KEY a first=1 log_trees=0 function=1 padding_row=0
+TABLE a first=0 log_rows=1 function=0 rows=0
+TABLE a first=2 log_rows=1 function=1 rows=0
+PLACES a 16
+LOOKUP_FAULT a ok
+LOOKUP b parts=4 d=2 mu=3 live=5 g=1 shifted=1 planes=5 all_keys=16 read_from=3,4
+KEY b first=0 log_trees=0 function=0 padding_row=0
+KEY b first=1 log_trees=0 function=1 padding_row=0
+TABLE b first=0 log_rows=1 function=0 rows=0
+TABLE b first=2 log_rows=1 function=1 rows=0
+PADDING b part=0 first=12 log_step=1 length=2 row=0
+PADDING b part=0 first=13 log_step=1 length=2 row=2
+PLACES b 20
+LOOKUP_FAULT b ok
+PLANES_AT a entries=16 places=16 00001028e66aebb8,00000cd6f7ef2d3a,00000a2ed3b6ee9a ffffefd4904cfad1,fffff326d19e1fd1,fffff5cf33df9e63 ffffefd490dc6b93,fffff326d20f5b91,fffff5cf343a37e6 0000102bf891702a,00000cd964818c68,00000a30c445dd5c ffffefd4916b73d9,fffff326d28044d5,fffff5cf34948f6b 0000102bf8025a24,00000cd964109824,00000a30c3eb7d98 0000102bf772dba2,00000cd9639f5164,00000a30c390dbd6 ffffefd17ef99161,fffff32465b199e3,fffff5cd43d8722b ffffefd491fa1415,fffff326d2f0dbf7,fffff5cf34eea53a 0000102bf773ac32,00000cd9639ff60a,00000a30c3915f90 0000102bf6e42db5,00000cd9632eaf4e,00000a30c336bdd1 ffffefd17f884d05,fffff324662246f2,fffff5cd4432986a 0000102bf65517be,00000cd962bdbb16,00000a30c2dc5e16 ffffefd1801770bd,fffff3246693462b,fffff5cd448d0065 ffffefd180a6fcfb,fffff324670497e8,fffff5cd44e7aa64 0000102f0912424c,00000cdbcfc8a15a,00000a32b3c59ee1
+PLANES_AT b entries=32 places=20 ff54b814a79f119d,ff7812c1dcc39e9b,ff941c9b601d28f1 00ab582adacd6fcc,0087fa26dd625878,006beda1542ac372 00ab5824ed57b888,0087fa2227b3076a,006bed9d97f4b1f1 ff54979805455a53,ff77f8f1e6609b4f,ff940822ba4a2221 00ab58191f5ba04a,0087fa18c69b5dfe,006bed9627af28db ff5497a3d460bc6b,ff77f8fb485b0e99,ff94082a2b452023 ff5497a9c266189c,ff77f8fffe7bc496,ff94082de7d5ec1a 00ab7898d4f9c66e,008813eb2a727509,006c0210bec5b4f0 00ab58133ecbda1c,0087fa141b2b8ea0,006bed927399c5aa ff5497a9b57f8b05,ff77f8fff43bc759,ff94082ddfb4daf1 ff5497afa384b30b,ff77f904aa5c5427,ff9408319c4585f5 00ab7892f34c15d8,008813e67e20f11a,006c020d09fbbb3c ff5497bb729e73cb,ff77f90e0c557df9,ff9408390d3f7c5f 00ab78872312efc8,008813dd1b44e772,006c0205984c3f6e 00ab7881347e151a,008813d864b2eab9,006c0201db60d1b8 ff547738aa8e8697,ff77df393bafd1e9,ff93f3bc856ce37a 00ab581f04335ab4,0087fa1d7571f354,006bed99de772666 ff5497afac19b2bb,ff77f904b12deb01,ff940831a1adf005 ff5497b58d381925,ff77f9095d0e5181,ff940835561d6905 00ab787b4a3b6504,008813d3b18fd016,006c01fe212e6e12 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000
+KEY_ROW a row=the digits at the point target=0000000000000384,0000000000000385,0000000000000386
+KEY_ROW_MAIN a fffffffcb8098d89,fffffffd330689f5,fffffffd8f26a1ec 00000002482794ba,00000001cd20c4a6,0000000170f6d2be 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 0000000248277566,00000001cd20ab96,0000000170f6bff4 fffffffcb7a76539,fffffffd32b802af,fffffffd8eebc841 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 000000024827850b,00000001cd20b81a,0000000170f6c956 fffffffcb7a75593,fffffffd32b7f62a,fffffffd8eebbede 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 fffffffcb7a774e9,fffffffd32b80f3c,fffffffd8eebd1aa 000000024889b39c,00000001cd6f45a4,000000017131a947 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000
+KEY_ROW b row=the digits at the point target=0000000000000384,0000000000000385,0000000000000386
+KEY_ROW_MAIN b 00001b856049f750,000015ddde8d028a,0000115792656ed2 ffffe477558f9be1,ffffea1f52bf78e1,ffffeea5fb5f828b ffffe47757bf9639,ffffea1f5479876b,ffffeea5fcc1331a 0000000000000000,0000000000000000,0000000000000000 ffffe47757056479,ffffea1f53e68b35,ffffeea5fc4b98c3 00001b89f3523a44,000015e17af45484,0000115a760cf3f0 00001b89f1dcc935,000015e179cd86f6,0000115a75211601 0000000000000000,0000000000000000,0000000000000000 ffffe477564abbd7,ffffea1f53533125,ffffeea5fbd5b356 00001b89f40cf29a,000015e17b87bb24,0000115a7682e2c8 00001b89f297f8da,000015e17a614bc6,0000115a75975034 0000000000000000,0000000000000000,0000000000000000 00001b89f2970a9a,000015e17a608fb0,0000115a7596b9ba ffffe472c2e011e9,ffffea1bb69d25c3,ffffeea317f32ef7 ffffe472c39a62f9,ffffea1bb7303b06,ffffeea31868dc16 0000000000000000,0000000000000000,0000000000000000
+ROW a row=RNG target=fff748a679d9b41d,fff914f99a29b601,fffa82560e94a2e3
+ROW_NUMBERS a equations=6 step=2 cell_rows=2 all_columns=2 read_first=4
+ROW_PACKED a fffffffeffff2d48,fffffffeffff5ad1,fffffffeffff7a9c fffffffeffd42ca9,fffffffeffdd19cd,fffffffeffe45dce
+ROW_READS a fffffffef67ce6cc,fffffffef874332f,fffffffefa02a2d2 ffffff90df075dd0,ffffffa79734f69d,ffffffb99fc6c2b4 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000
+ROW_DIGITS a fffffffd43698e45,fffffffd9f1ce889,fffffffde7e6980e fffffffb86d31c89,fffffffc3e39d111,fffffffccfcd301b 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 ffffffa06ef81ad1,ffffffb3f1436827,ffffffc36d79c616 ffffff41ddf035a1,ffffff68e286d04d,ffffff87daf38c2b 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 ffffebe1eb4dbebe,fffff0082dc99b17,fffff3534761855d ffffd7c4d69b7d7b,ffffe0115b93362d,ffffe6a78ec30ab9 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000 fffbb8d01f3d723e,fffc9abf8eeaef3d,fffd4e12ea886df4 fff771a13e7ae47b,fff935801dd5de79,fffa9c26d510dbe7 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000
+ROW b row=RNG target=52f9f4ee1ec88705,4012012a7a8d343f,112502af89966ef0
+ROW_NUMBERS b equations=12 step=4 cell_rows=2 all_columns=2 read_first=4
+ROW_PACKED b 000000000982467c,00000000078b27a2,0000000005fcd7ca 000000000982467c,00000000078b27a2,0000000005fcd7ca
+ROW_READS b 0004fafd8087746c,0003f3f5fc155612,00032331901c7f52 ffb5aaa7677ef601,30e8b7dcb4c8acb0,d01b4711700c97f6 0000000000000000,0000000000000000,0000000000000000 0000000000000000,0000000000000000,0000000000000000
+ROW_DIGITS b ffffebe1eb5381cd,fffff0082dce1f67,fffff35347652b20 ffffd7c4d6a70399,ffffe0115b9c3ecd,ffffe6a78eca563f ff170f5c3f288d29,ff471d8ba819e19b,ff6d41cab84de87c 0000000000000000,0000000000000000,0000000000000000 fffbb8d02075fcb5,fffc9abf8fe3bef9,fffd4e12eb4d831c fff771a140ebf969,fff935801fc77df1,fffa9c26d69b0637 ff459700199f1ba1,69866c9a523198ae,243b1e302518f81c 0000000000000000,0000000000000000,0000000000000000 76454262b5b5aa58,a2cf8ad78e653833,5c8974e0e064d433 ec8a84c56b6b54b0,459f15b01cca7065,b912e9c1c0c9a866 fe2e1eb97e511a51,fe8e3b185033c335,feda8396709bd0f7 0000000000000000,0000000000000000,0000000000000000 34df6d01751d71e3,946f60cb76e40948,88636b11d44cd475 69beda02ea3ae3c6,28dec197edc8128f,10c6d624a899a8e9 fe8b2e01333e3741,d30cd934a463315c,48763c604a31f038 0000000000000000,0000000000000000,0000000000000000
+WEIGHTS a ok
+PLAN_FAULT matching ok
+PLAN_FAULT another_combinations RNG: the shape has another number of combinations than the plan prices the matrix's round with
+PLAN_FAULT no_rng_round RNG: the plan has no round in which a matrix is drawn
+PLAN holds=1 rounds=3
+SET salt=40 nonce=8 position=0 samples=1 saved=1 target=128
+ROUND i=0 name=RNG kind=5 work=0 msg=0 roots=0 answers=0 draw_e=0 nz=0 draw_pos=0 log_n=0 trits=4 rows=0 first_list=0 combos=2 sharing=0
+ROUND i=1 name=last kind=0 work=0 msg=0 roots=0 answers=0 draw_e=0 nz=0 draw_pos=0 log_n=0 trits=0 rows=0 first_list=0 combos=0 sharing=0
+ROUND i=2 name=seal kind=6 work=0 msg=0 roots=0 answers=0 draw_e=0 nz=0 draw_pos=0 log_n=0 trits=0 rows=0 first_list=0 combos=0 sharing=0
+BIND label=7 config=0000c0f100000000000000000000000000000000000000000000000000000000
+SALT 00005a1700000000000000000000000000000000000000000000000000000000
+THETA n=4 v=0,-1,-1,-1
+SEAL_PROVER ok=1
+PROOF 175a000000000000000000000000000000000000000000000000000000000000
+VTHETA n=4 v=0,-1,-1,-1
+SEAL_VERIFIER ok=1 finish=1

@@ -1,0 +1,13 @@
+[package]
+name = "host-exec"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+# Pinned with the guest and the toolchain (see docs/s5-cycle-report.md).
+sp1-sdk = { version = "=6.10.0", features = ["blocking"] }
+sp1-core-executor = "=6.10.0"
+# The configuration, input loader and fp-host reference.
+fp-hostlib = { path = "../hostlib" }
+fp-pv = { path = "../fp-pv" }

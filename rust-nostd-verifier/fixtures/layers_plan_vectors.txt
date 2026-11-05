@@ -1,0 +1,78 @@
+STAGE ngr=2 lam=4 lamM=2 ni=8 nn=2 ne=4 p3=1 muV=18 muH=18 muH2=16 wW=1000128 pow=20 stated_hb=128 lidb=24 tau=128 la=8 lt=6 ll=2 lkW=11
+READS tsc=R16a,R16b,R16c,FS af=Z,Z_V,Y,Z_a,Z_b qa=Z xi=Z,Z_V,Y xo=Z ad=zt,rt ar=zt,P_V,r_tV,rt qs=zt
+BORDER cmp=1
+LAYER g=0 nU=0,0,167328 ns=3204 used=3204 lamS=15 NCL=33 nLin=1549 nBatched=4347789
+LMAT g=0 mu=0 name=af0 m=8192 k=247 kind=0 foreign=-1 ttOff=0 aId=256 wp=0
+LMAT g=0 mu=1 name=af1 m=8192 k=247 kind=0 foreign=-1 ttOff=0 aId=257 wp=0
+LMAT g=0 mu=2 name=af2 m=8192 k=247 kind=0 foreign=-1 ttOff=0 aId=258 wp=0
+LMAT g=0 mu=3 name=ad0 m=4096 k=160 kind=0 foreign=-1 ttOff=0 aId=259 wp=0
+LMAT g=0 mu=4 name=ar m=4096 k=14 kind=0 foreign=-1 ttOff=0 aId=260 wp=0
+LMAT g=0 mu=5 name=b m=8192 k=2048 kind=0 foreign=-1 ttOff=0 aId=261 wp=0
+LMAT g=0 mu=6 name=qa m=8192 k=96 kind=0 foreign=-1 ttOff=0 aId=262 wp=0
+LMAT g=0 mu=7 name=xbO m=8192 k=20 kind=0 foreign=-1 ttOff=0 aId=263 wp=0
+LMAT g=0 mu=8 name=xbI m=8192 k=20 kind=0 foreign=-1 ttOff=0 aId=264 wp=0
+LT g=0 ti=0 name=U3 kind=N R=1 K=167328 owner=1 rows=1
+LT g=0 ti=1 name=PK0 kind=P R=2731 K=247 owner=1 rows=1
+LT g=0 ti=2 name=PK1 kind=P R=2731 K=247 owner=1 rows=1
+LT g=0 ti=3 name=PK2 kind=P R=2731 K=247 owner=1 rows=1
+LT g=0 ti=4 name=PK3 kind=P R=1366 K=160 owner=1 rows=1
+LT g=0 ti=5 name=PK4 kind=P R=1366 K=14 owner=1 rows=1
+LT g=0 ti=6 name=PK5 kind=P R=2731 K=2048 owner=1 rows=1
+LT g=0 ti=7 name=PK6 kind=P R=2731 K=20 owner=1 rows=1
+LT g=0 ti=8 name=PX0 kind=P R=2731 K=96 owner=1 rows=1
+LT g=0 ti=9 name=PX1 kind=P R=2731 K=20 owner=1 rows=1
+LT g=0 ti=10 name=ZZ kind=N R=128 K=131072 owner=1 rows=4
+LT g=0 ti=11 name=BZ kind=N R=32 K=2048 owner=1 rows=3
+LNT g=0 ti=0 ec=3 a=1 foreign=0 outside=0 P=0 m=0 k=0 mS=0 w=0 ln=0 cJ=0 aX=0 t=0 a=0 n=0 mk=0 p2=0 k1=0 kc=0 j=0 r=0 rd=0 rr=0
+LNT g=0 ti=1 ec=1 a=1 foreign=0 outside=0 P=1 m=8192 k=247 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=1 n=0 mk=0 p2=0 k1=247 kc=247 j=1 r=2731 rd=0 rr=2731
+LNT g=0 ti=2 ec=1 a=1 foreign=0 outside=0 P=1 m=8192 k=247 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=1 n=0 mk=0 p2=0 k1=247 kc=247 j=1 r=2731 rd=0 rr=2731
+LNT g=0 ti=3 ec=1 a=1 foreign=0 outside=0 P=1 m=8192 k=247 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=1 n=0 mk=0 p2=0 k1=247 kc=247 j=1 r=2731 rd=0 rr=2731
+LNT g=0 ti=4 ec=1 a=1 foreign=0 outside=0 P=1 m=4096 k=160 mS=1366 w=0 ln=0 cJ=0 aX=11 t=0 a=1 n=0 mk=0 p2=0 k1=160 kc=160 j=1 r=1366 rd=0 rr=1366
+LNT g=0 ti=5 ec=1 a=1 foreign=0 outside=0 P=1 m=4096 k=14 mS=1366 w=0 ln=0 cJ=0 aX=11 t=0 a=1 n=0 mk=0 p2=0 k1=14 kc=14 j=1 r=1366 rd=0 rr=1366
+LNT g=0 ti=6 ec=1 a=1 foreign=0 outside=0 P=1 m=8192 k=2048 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=1 n=0 mk=0 p2=0 k1=2048 kc=2048 j=1 r=2731 rd=0 rr=2731
+LNT g=0 ti=7 ec=1 a=1 foreign=0 outside=0 P=1 m=8192 k=20 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=1 n=0 mk=0 p2=0 k1=20 kc=20 j=1 r=2731 rd=0 rr=2731
+LNT g=0 ti=8 ec=1 a=2 foreign=0 outside=0 P=1 m=8192 k=96 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=96 kc=96 j=1 r=2731 rd=0 rr=2731
+LNT g=0 ti=9 ec=1 a=2 foreign=0 outside=0 P=1 m=8192 k=20 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=20 kc=20 j=1 r=2731 rd=0 rr=2731
+LNT g=0 ti=10 ec=1 a=1 foreign=0 outside=0 P=0 m=0 k=0 mS=0 w=0 ln=0 cJ=0 aX=0 t=0 a=0 n=0 mk=0 p2=0 k1=0 kc=0 j=0 r=0 rd=0 rr=0
+LNT g=0 ti=11 ec=1 a=1 foreign=0 outside=0 P=0 m=0 k=0 mS=0 w=0 ln=0 cJ=0 aX=0 t=0 a=0 n=0 mk=0 p2=0 k1=0 kc=0 j=0 r=0 rd=0 rr=0
+LIX g=0 u=-1,-1,0,-1 tt=-1 bt=-1 zz=10 yy=-1 kk=-1 bz=11 tx=8,9 ft= pk=1,2,3,4,5,6,7 count=12
+LPL g=0 own=0 owner=0 rootIndex=7 haveShape=1 col0=0 k=96 m=8192 haveMatrix=1 hb=108 mS=2731 lanes=3 padRows=2731 J=1 K=96 off=0 w=0 sh=m=8192 k=96 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=96 kc=96 j=1 r=2731 rd=0 rr=2731
+LPL g=0 own=1 owner=0 rootIndex=8 haveShape=1 col0=0 k=20 m=8192 haveMatrix=1 hb=108 mS=2731 lanes=3 padRows=2731 J=1 K=20 off=0 w=0 sh=m=8192 k=20 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=20 kc=20 j=1 r=2731 rd=0 rr=2731
+LAYER g=1 nU=0,0,166688 ns=3203 used=3203 lamS=15 NCL=32 nLin=1516 nBatched=4343660
+LMAT g=1 mu=0 name=af0 m=8192 k=247 kind=0 foreign=-1 ttOff=0 aId=512 wp=0
+LMAT g=1 mu=1 name=af1 m=8192 k=247 kind=0 foreign=-1 ttOff=0 aId=513 wp=0
+LMAT g=1 mu=2 name=af2 m=8192 k=247 kind=0 foreign=-1 ttOff=0 aId=514 wp=0
+LMAT g=1 mu=3 name=ad0 m=4096 k=160 kind=0 foreign=-1 ttOff=0 aId=515 wp=0
+LMAT g=1 mu=4 name=ar m=4096 k=14 kind=0 foreign=-1 ttOff=0 aId=516 wp=0
+LMAT g=1 mu=5 name=b m=8192 k=2048 kind=0 foreign=-1 ttOff=0 aId=517 wp=0
+LMAT g=1 mu=6 name=qa m=8192 k=96 kind=0 foreign=-1 ttOff=0 aId=518 wp=0
+LMAT g=1 mu=7 name=xbO m=8192 k=20 kind=0 foreign=-1 ttOff=0 aId=519 wp=0
+LMAT g=1 mu=8 name=xbI m=8192 k=20 kind=1 foreign=0 ttOff=0 aId=263 wp=0
+LT g=1 ti=0 name=U3 kind=N R=1 K=166688 owner=1 rows=1
+LT g=1 ti=1 name=PK0 kind=P R=2731 K=247 owner=1 rows=1
+LT g=1 ti=2 name=PK1 kind=P R=2731 K=247 owner=1 rows=1
+LT g=1 ti=3 name=PK2 kind=P R=2731 K=247 owner=1 rows=1
+LT g=1 ti=4 name=PK3 kind=P R=1366 K=160 owner=1 rows=1
+LT g=1 ti=5 name=PK4 kind=P R=1366 K=14 owner=1 rows=1
+LT g=1 ti=6 name=PK5 kind=P R=2731 K=2048 owner=1 rows=1
+LT g=1 ti=7 name=PX0 kind=P R=2731 K=96 owner=1 rows=1
+LT g=1 ti=8 name=PX1 kind=P R=2731 K=20 owner=1 rows=1
+LT g=1 ti=9 name=ZZ kind=N R=128 K=131072 owner=1 rows=4
+LT g=1 ti=10 name=BZ kind=N R=32 K=2048 owner=1 rows=3
+LT g=1 ti=11 name=PXf0 kind=P R=2731 K=20 owner=0 rows=1
+LNT g=1 ti=0 ec=3 a=1 foreign=0 outside=0 P=0 m=0 k=0 mS=0 w=0 ln=0 cJ=0 aX=0 t=0 a=0 n=0 mk=0 p2=0 k1=0 kc=0 j=0 r=0 rd=0 rr=0
+LNT g=1 ti=1 ec=1 a=1 foreign=0 outside=0 P=1 m=8192 k=247 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=1 n=0 mk=0 p2=0 k1=247 kc=247 j=1 r=2731 rd=0 rr=2731
+LNT g=1 ti=2 ec=1 a=1 foreign=0 outside=0 P=1 m=8192 k=247 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=1 n=0 mk=0 p2=0 k1=247 kc=247 j=1 r=2731 rd=0 rr=2731
+LNT g=1 ti=3 ec=1 a=1 foreign=0 outside=0 P=1 m=8192 k=247 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=1 n=0 mk=0 p2=0 k1=247 kc=247 j=1 r=2731 rd=0 rr=2731
+LNT g=1 ti=4 ec=1 a=1 foreign=0 outside=0 P=1 m=4096 k=160 mS=1366 w=0 ln=0 cJ=0 aX=11 t=0 a=1 n=0 mk=0 p2=0 k1=160 kc=160 j=1 r=1366 rd=0 rr=1366
+LNT g=1 ti=5 ec=1 a=1 foreign=0 outside=0 P=1 m=4096 k=14 mS=1366 w=0 ln=0 cJ=0 aX=11 t=0 a=1 n=0 mk=0 p2=0 k1=14 kc=14 j=1 r=1366 rd=0 rr=1366
+LNT g=1 ti=6 ec=1 a=1 foreign=0 outside=0 P=1 m=8192 k=2048 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=1 n=0 mk=0 p2=0 k1=2048 kc=2048 j=1 r=2731 rd=0 rr=2731
+LNT g=1 ti=7 ec=1 a=2 foreign=0 outside=0 P=1 m=8192 k=96 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=96 kc=96 j=1 r=2731 rd=0 rr=2731
+LNT g=1 ti=8 ec=1 a=2 foreign=0 outside=0 P=1 m=8192 k=20 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=20 kc=20 j=1 r=2731 rd=0 rr=2731
+LNT g=1 ti=9 ec=1 a=1 foreign=0 outside=0 P=0 m=0 k=0 mS=0 w=0 ln=0 cJ=0 aX=0 t=0 a=0 n=0 mk=0 p2=0 k1=0 kc=0 j=0 r=0 rd=0 rr=0
+LNT g=1 ti=10 ec=1 a=1 foreign=0 outside=0 P=0 m=0 k=0 mS=0 w=0 ln=0 cJ=0 aX=0 t=0 a=0 n=0 mk=0 p2=0 k1=0 kc=0 j=0 r=0 rd=0 rr=0
+LNT g=1 ti=11 ec=1 a=2 foreign=1 outside=0 P=1 m=8192 k=20 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=20 kc=20 j=1 r=2731 rd=0 rr=2731
+LIX g=1 u=-1,-1,0,-1 tt=-1 bt=-1 zz=9 yy=-1 kk=-1 bz=10 tx=7,8 ft=11 pk=1,2,3,4,5,6 count=12
+LPL g=1 own=0 owner=1 rootIndex=6 haveShape=1 col0=0 k=96 m=8192 haveMatrix=1 hb=108 mS=2731 lanes=3 padRows=2731 J=1 K=96 off=0 w=0 sh=m=8192 k=96 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=96 kc=96 j=1 r=2731 rd=0 rr=2731
+LPL g=1 own=1 owner=1 rootIndex=7 haveShape=1 col0=0 k=20 m=8192 haveMatrix=1 hb=108 mS=2731 lanes=3 padRows=2731 J=1 K=20 off=0 w=0 sh=m=8192 k=20 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=20 kc=20 j=1 r=2731 rd=0 rr=2731
+LPL g=1 for=0 owner=0 rootIndex=8 haveShape=1 col0=0 k=20 m=8192 haveMatrix=1 hb=108 mS=2731 lanes=3 padRows=2731 J=1 K=20 off=0 w=0 sh=m=8192 k=20 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=20 kc=20 j=1 r=2731 rd=0 rr=2731

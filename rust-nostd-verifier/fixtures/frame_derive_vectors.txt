@@ -1,0 +1,9 @@
+DERIVED refused=- target=128 samples=1 salt=40 work=0,0,0,0,0,0,0,0,0,20,28,32,0,0,0,0,0,0
+TEST name=link t=218 group=name=6c696e6b main=18,131072,218,0 mask=17,8192,218,1 k=8 h=0 slots=1 rule=0 m=517 stages=0
+TEST name=last t=218 group=name=6c617374 main=18,131072,218,1 mask=17,8192,218,1 k=1 h=0 slots=1 rule=0 m=517 stages=5
+STAGE test=last i=0 t=218 r_ood=0 group=name=6c617374 main=18,131072,218,1 mask=17,8192,218,1 k=1 h=0 slots=1 rule=0 m=517
+STAGE test=last i=1 t=55 r_ood=15730 group=name=6c6173742c2073746167652032 main=17,8192,55,1 mask=17,4096,55,1 k=4 h=3 slots=1 rule=0 m=319
+STAGE test=last i=2 t=44 r_ood=8027 group=name=6c6173742c2073746167652033 main=16,1024,44,1 mask=16,2048,44,1 k=3 h=3 slots=1 rule=0 m=260
+STAGE test=last i=3 t=44 r_ood=3964 group=name=6c6173742c2073746167652034 main=15,128,44,1 mask=15,1024,44,1 k=3 h=3 slots=1 rule=0 m=300
+STAGE test=last i=4 t=73 r_ood=1916 group=name=6c6173742c2073746167652035 main=15,128,73,1 mask=15,4096,73,1 k=0 h=0 slots=1 rule=0 m=520
+TABLE log_n=23 ell=524288 r=65535 v=8 answers=1 radius=0 later=0 m_once=82 m_later=82

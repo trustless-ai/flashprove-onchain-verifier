@@ -1,0 +1,21 @@
+{
+  "schema": "fp-sp1-config/v1",
+  "program": {
+    "name": "blake2b-bench (example only: not the production program)",
+    "elf": "zkvm/target/elf-compilation/riscv64im-succinct-zkvm-elf/release/bench",
+    "vkey_record": "zkvm/config/vkey.bench.json"
+  },
+  "inputs": {
+    "config_dir": "zkvm/fixtures/smoke/config",
+    "ivk_dir": "zkvm/fixtures/smoke/ivk",
+    "request": "zkvm/fixtures/smoke/example.req",
+    "y": "zkvm/fixtures/smoke/example.y",
+    "proof": "zkvm/fixtures/smoke/example.proof",
+    "id_file": "zkvm/fixtures/smoke/ID.txt"
+  },
+  "prover": {
+    "mode": "cpu",
+    "proof_mode": "core",
+    "output_dir": "out/zkvm/bench"
+  }
+}

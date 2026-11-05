@@ -1,0 +1,32 @@
+version H821
+sec 128
+reading 1
+rowcost 1
+slots 64
+answers 1
+record 1
+work field 0 0 0
+work sample 0 0 0
+work closeness 0 0 0
+work positions 20 28 32
+work smallness 0 0 0
+salt 40
+listed 0
+group link 1 23 22 17 13
+stages link 4 3 22 17 3 3 19 16 3 3 16 15 4 4 13 13 0 0 15 15
+group folded 1 24 22 13 6
+stages folded 5 2 21 12 4 2 17 12 4 2 13 12 0 0 14 14
+group omega 1 22 18 13 6
+stages omega 4 3 18 14 4 3 14 13 0 0 15 15
+group own 1 22 18 13 8
+stages own 4 3 18 15 3 3 15 14 3 3 13 13 0 0 15 15
+group once-folded 1 24 22 13 6
+stages once-folded 5 2 21 12 4 2 17 12 4 2 13 12 0 0 14 14
+group once-omega 1 22 18 13 6
+stages once-omega 4 3 18 14 4 3 14 13 0 0 15 15
+group once-own 1 22 18 13 8
+stages once-own 4 3 18 15 3 3 15 14 3 3 13 13 0 0 15 15
+group once-ranges 1 22 18 16 12
+stages once-ranges 4 3 19 17 3 3 17 17 0 0 20 20
+ranges-part 18
+table 11 32 402653184 44040191 0 18

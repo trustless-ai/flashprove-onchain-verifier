@@ -1,0 +1,13 @@
+[package]
+name = "fp-pv"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# The fixed public-values schema and the canonical input digest. This crate is a dependency of the
+# zkVM guest, so it has no dependencies of its own and is `#![no_std]` (it uses `alloc` only in
+# tests, never in the encoding paths the guest takes).
+
+[dev-dependencies]
+# Host-only cross-check in tests; never built for the zkVM target.
+sha2 = "=0.10.9"

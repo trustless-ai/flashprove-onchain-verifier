@@ -1,0 +1,12 @@
+[package]
+name = "fp-host"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[bin]]
+name = "fp-host"
+path = "src/main.rs"
+
+[dependencies]
+fp-core = { path = "../fp-core" }

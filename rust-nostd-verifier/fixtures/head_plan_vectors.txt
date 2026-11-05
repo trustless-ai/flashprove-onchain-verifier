@@ -1,0 +1,27 @@
+STAGE ngr=2 lam=4 lamM=2 ni=8 nn=2 ne=4 p3=1 muV=18 muH=18 muH2=16 wW=1000128 pow=20 stated_hb=128 lidb=24 tau=128 la=8 lt=6 ll=2 lkW=11
+READS tsc=R16a,R16b,R16c,FS af=Z,Z_V,Y,Z_a,Z_b qa=Z xi=Z,Z_V,Y xo=Z ad=zt,rt ar=zt,P_V,r_tV,rt qs=zt
+HEAD nU=0,0,11264 nMsg=2879 ns=2879 NCL=1 nLin=897 lamS=9
+HOWN lt=6 lPd=9 lkW=11 sums=9 products=7 row_values=4 rows=2712833
+HMAT i=0 name=hf0 m=16384 k=20 kind=0 foreign=-1 ttOff=0 aId=768 wp=0
+HMAT i=1 name=hd m=4096 k=16 kind=0 foreign=-1 ttOff=0 aId=769 wp=0
+HMAT i=2 name=hr m=4096 k=2 kind=0 foreign=-1 ttOff=0 aId=770 wp=0
+HMAT i=3 name=bH m=8192 k=1536 kind=0 foreign=-1 ttOff=0 aId=771 wp=0
+HMAT i=4 name=xbL m=8192 k=20 kind=1 foreign=0 ttOff=0 aId=519 wp=0
+HT ti=0 name=U3 kind=N R=1 K=11264 owner=1 rows=1
+HT ti=1 name=PK0 kind=P R=5462 K=20 owner=1 rows=1
+HT ti=2 name=PK1 kind=P R=1366 K=16 owner=1 rows=1
+HT ti=3 name=PK2 kind=P R=1366 K=2 owner=1 rows=1
+HT ti=4 name=PK3 kind=P R=2731 K=1536 owner=1 rows=1
+HT ti=5 name=ZZ kind=N R=128 K=81920 owner=1 rows=4
+HT ti=6 name=BZ kind=N R=32 K=2048 owner=1 rows=3
+HT ti=7 name=PXf0 kind=P R=2731 K=20 owner=0 rows=1
+HNT ti=0 ec=3 a=1 foreign=0 outside=0 P=0 m=0 k=0 mS=0 w=0 ln=0 cJ=0 aX=0 t=0 a=0 n=0 mk=0 p2=0 k1=0 kc=0 j=0 r=0 rd=0 rr=0
+HNT ti=1 ec=1 a=1 foreign=0 outside=0 P=1 m=16384 k=20 mS=5462 w=0 ln=0 cJ=0 aX=13 t=0 a=1 n=0 mk=0 p2=0 k1=20 kc=20 j=1 r=5462 rd=0 rr=5462
+HNT ti=2 ec=1 a=1 foreign=0 outside=0 P=1 m=4096 k=16 mS=1366 w=0 ln=0 cJ=0 aX=11 t=0 a=1 n=0 mk=0 p2=0 k1=16 kc=16 j=1 r=1366 rd=0 rr=1366
+HNT ti=3 ec=1 a=1 foreign=0 outside=0 P=1 m=4096 k=2 mS=1366 w=0 ln=0 cJ=0 aX=11 t=0 a=1 n=0 mk=0 p2=0 k1=2 kc=2 j=1 r=1366 rd=0 rr=1366
+HNT ti=4 ec=1 a=1 foreign=0 outside=0 P=1 m=8192 k=1536 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=1 n=0 mk=0 p2=0 k1=1536 kc=1536 j=1 r=2731 rd=0 rr=2731
+HNT ti=5 ec=1 a=1 foreign=0 outside=0 P=0 m=0 k=0 mS=0 w=0 ln=0 cJ=0 aX=0 t=0 a=0 n=0 mk=0 p2=0 k1=0 kc=0 j=0 r=0 rd=0 rr=0
+HNT ti=6 ec=1 a=1 foreign=0 outside=0 P=0 m=0 k=0 mS=0 w=0 ln=0 cJ=0 aX=0 t=0 a=0 n=0 mk=0 p2=0 k1=0 kc=0 j=0 r=0 rd=0 rr=0
+HNT ti=7 ec=1 a=2 foreign=1 outside=0 P=1 m=8192 k=20 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=20 kc=20 j=1 r=2731 rd=0 rr=2731
+HIX u=-1,-1,0,-1 tt=-1 bt=-1 zz=5 yy=-1 kk=-1 bz=6 tx= ft=7 pk=1,2,3,4 count=8
+LPL g=0 for=0 owner=1 rootIndex=7 haveShape=1 col0=0 k=20 m=8192 haveMatrix=1 hb=108 mS=2731 lanes=3 padRows=2731 J=1 K=20 off=0 w=0 sh=m=8192 k=20 mS=2731 w=0 ln=0 cJ=0 aX=12 t=0 a=2 n=0 mk=0 p2=0 k1=20 kc=20 j=1 r=2731 rd=0 rr=2731

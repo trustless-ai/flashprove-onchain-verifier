@@ -1,0 +1,21 @@
+[package]
+name = "fp-hostlib"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+# Host-side support shared by host-exec and the tools: the configuration file, the canonical input
+# loader, the fp-host reference call, the vkey record, and the ABI encoding of the proof bundle.
+# Nothing here is compiled into the guest.
+
+[features]
+# Enables SP1's CUDA prover (Linux + CUDA only). The default build is CPU/mock; the handoff
+# binary for the GPU machine is built with `--features cuda`.
+cuda = ["sp1-sdk/cuda"]
+
+[dependencies]
+fp-pv = { path = "../fp-pv" }
+sp1-sdk = { version = "=6.10.0", features = ["blocking"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"

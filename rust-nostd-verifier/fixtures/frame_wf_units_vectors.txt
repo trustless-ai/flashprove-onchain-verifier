@@ -1,0 +1,30 @@
+WFUNITS name=mixed fault=- k_col=11 matrix_rows=100 ranged_rows=100
+WFLOOKUPS name=mixed count=2
+LOOKUP name=bytes d=8 mu=0 live=0 weights=0000000000000001 offset=0000000000000080 padding=0000000000000000 first_bound=2,1,0,5,4,3,8,7,6 entries=0:0:40:40;0:96:2:2;0:80:4:4;0:88:4:4 log_rows_apart=1
+LOOKUP name=weights d=13 mu=0 live=0 weights=0000000000000001,0000000000000100 offset=0000000000001000 padding=0000000000000000 first_bound=2,1,0,5,4,3,8,7,6 entries=0:0:40:40;0:96:2:2 log_rows_apart=0
+WFUNITS name=mixed_k8 fault=- k_col=8 matrix_rows=100 ranged_rows=100
+WFLOOKUPS name=mixed_k8 count=2
+LOOKUP name=bytes d=8 mu=0 live=0 weights=0000000000000001 offset=0000000000000080 padding=0000000000000000 first_bound=- entries=0:0:40:40;0:96:2:2;0:80:4:4;0:88:4:4 log_rows_apart=1
+LOOKUP name=weights d=13 mu=0 live=0 weights=0000000000000001,0000000000000100 offset=0000000000001000 padding=0000000000000000 first_bound=- entries=0:0:40:40;0:96:2:2 log_rows_apart=0
+WFUNITS name=mixed_k9 fault=- k_col=9 matrix_rows=100 ranged_rows=100
+WFLOOKUPS name=mixed_k9 count=2
+LOOKUP name=bytes d=8 mu=0 live=0 weights=0000000000000001 offset=0000000000000080 padding=0000000000000000 first_bound=2,1,0,5,4,3,8,7,6 entries=0:0:40:40;0:96:2:2;0:80:4:4;0:88:4:4 log_rows_apart=1
+LOOKUP name=weights d=13 mu=0 live=0 weights=0000000000000001,0000000000000100 offset=0000000000001000 padding=0000000000000000 first_bound=2,1,0,5,4,3,8,7,6 entries=0:0:40:40;0:96:2:2 log_rows_apart=0
+WFUNITS name=tail_bytes fault=- k_col=11 matrix_rows=108 ranged_rows=108
+WFLOOKUPS name=tail_bytes count=2
+LOOKUP name=bytes d=8 mu=0 live=0 weights=0000000000000001 offset=0000000000000080 padding=0000000000000000 first_bound=2,1,0,5,4,3,8,7,6 entries=0:0:40:40;0:96:5:5;0:80:4:4;0:88:4:4;0:106:1:1 log_rows_apart=1
+LOOKUP name=weights d=13 mu=0 live=0 weights=0000000000000001,0000000000000100 offset=0000000000001000 padding=0000000000000000 first_bound=2,1,0,5,4,3,8,7,6 entries=0:0:40:40;0:96:5:5 log_rows_apart=0
+WFUNITS name=four_digits_only fault=- k_col=11 matrix_rows=40 ranged_rows=40
+WFLOOKUPS name=four_digits_only count=2
+LOOKUP name=bytes d=8 mu=0 live=0 weights=0000000000000001 offset=0000000000000080 padding=0000000000000000 first_bound=2,1,0,5,4,3,8,7,6 entries=0:0:10:10;0:20:10:10 log_rows_apart=1
+LOOKUP name=weights d=13 mu=0 live=0 weights=0000000000000001,0000000000000100 offset=0000000000001000 padding=0000000000000000 first_bound=2,1,0,5,4,3,8,7,6 entries= log_rows_apart=0
+WFUNITS name=empty fault=no unit, or the ranged rows are an odd number or more than the matrix has k_col=11 matrix_rows=100 ranged_rows=100
+WFUNITS name=odd_ranged fault=no unit, or the ranged rows are an odd number or more than the matrix has k_col=11 matrix_rows=100 ranged_rows=99
+WFUNITS name=ranged_more fault=no unit, or the ranged rows are an odd number or more than the matrix has k_col=11 matrix_rows=90 ranged_rows=100
+WFUNITS name=matrix_big fault=no unit, or the ranged rows are an odd number or more than the matrix has k_col=11 matrix_rows=1099511627776 ranged_rows=1099511627776
+WFUNITS name=digit_three fault=a unit has not two or four digits, or not the same number of rows for each k_col=11 matrix_rows=100 ranged_rows=100
+WFUNITS name=rows_zero fault=a unit has not two or four digits, or not the same number of rows for each k_col=11 matrix_rows=100 ranged_rows=100
+WFUNITS name=rows_odd fault=a unit has not two or four digits, or not the same number of rows for each k_col=11 matrix_rows=100 ranged_rows=100
+WFUNITS name=gap fault=rows between two units belong to no entry k_col=11 matrix_rows=100 ranged_rows=100
+WFUNITS name=overlap fault=the units do not follow one another within the ranged rows k_col=11 matrix_rows=100 ranged_rows=100
+WFUNITS name=beyond fault=the units do not follow one another within the ranged rows k_col=11 matrix_rows=100 ranged_rows=100

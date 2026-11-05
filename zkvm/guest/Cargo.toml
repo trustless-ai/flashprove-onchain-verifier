@@ -1,0 +1,17 @@
+[package]
+name = "guest"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[[bin]]
+name = "guest"
+path = "src/main.rs"
+
+[dependencies]
+# Pinned with the toolchain that `cargo prove install-toolchain` installs (see docs/s5-cycle-report.md).
+sp1-zkvm = "=6.10.0"
+# The S3 verifier, reused read-only. It is #![no_std] and allocates only through `alloc`.
+fp-core = { path = "../../rust-nostd-verifier/fp-core" }
+# The FPV1 public-values block and the canonical input digest; shared with the host tools.
+fp-pv = { path = "../fp-pv" }

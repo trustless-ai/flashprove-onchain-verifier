@@ -1,0 +1,98 @@
+usage: cp_verify <config folder> <ivk folder> <request file> <y file> <proof file> -id <64 hex> [-bits <asked>]
+    [-no-proof-of-work] [-j <threads>] [-q] [-show-stages] [-next-token]
+    [-policy <kind>,<C>,<theta>,<cap>,<s>,<sh>]
+  one call checks ivk's key.bin, the entry ivk/leaf/<k>.bin that the proof names, and the proof
+  -id: the commitment's ID, which names the key's table and the three files of the config folder together. Take it
+    from where the commitment is published, or from whoever vouches for the model, before you send your request,
+    and never from the files that you were sent. Each stage forms the ID of the files, once it has planned from the
+    config folder, and compares it before it looks at anything else of key, entry, request or proof; files with
+    another ID end NO: model-statement, and their own ID is not printed.
+    Without -id every stage runs its other checks and the call ends at best with NOT-A-VERIFICATION: a YES about a
+    key that nobody has named would say nothing. Such a call prints not-shown-without-id in place of the files' ID
+  <config folder>: your copy of policy.txt, KL.bin and layout.txt, which in practice the provider writes and -id
+    names; without layout.txt every call ends NO: plan-layout, except one that lists the arrays (-plan arrays,
+    -plan request -arrays)
+  <request file>: exactly T = 2^lt token ids, then r and e (r < e <= T); <y file>: one token id; 32-bit
+    little-endian words. The proof covers positions r to e - 1, and position t is about token t + 1. It states
+    that tokens r + 1 to min(e, T - 1) meet the acceptance policy set by C, theta and cap in the parameter file
+    and, if e = T, that y is the argmax of the last position. If e < T, y must be 0. The answer is about these
+    positions alone: it says nothing of any other token and, if e < T, nothing of y. The line "covered:" near the
+    end repeats r and e: see that they are the ones you mean
+  -next-token: the request must have r = T - 1 and e = T (the proof is about y alone); with other r, e the call
+    ends at best with NOT-A-VERIFICATION
+  -policy: the acceptance policy that you expect. <kind> is exact-match (C = theta = 2^sh, cap = 0, sT = sh - 4:
+    every covered token is the model's first choice) or clipped-gap (sT = sh - 4, other values); the five
+    numbers are the lines C, theta, cap, s and sh, in decimal. The last line is NO: policy
+    if your parameter file sets another policy than the named one or a kind other than these two (sT is not
+    sh - 4), if none is named and a token of the request is covered under a policy other than exact-match, or if
+    arithmetic on the named numbers and the request's T, r and e shows that a result would mean nothing; the line
+    before the last says why. Under clipped-gap an answer can say less, down to nothing, and the last line of a
+    passing call that covers a token of the request is "WITHIN LIMITS: ..", not YES. A covered token has a cost:
+    its gap plus 2^sh. The gap is the largest, over all token ids v, of v's logit minus the token's, plus 1 if v is
+    the lower id: a token that ties for the largest logit with a lower id has the gap 1, not 0. The answer says that
+    the costs, each counted as at most C, have a mean of at most theta, and that at most cap of them lie above C.
+    The line "covered:" repeats the five numbers, names the kind that the file sets (policy=) and says how many
+    of the covered tokens may cost more than C (above-clip=). Such a token may be any token, and so may others,
+    where the model's logits lie close together: the number is no limit on them
+  -bits: the requested bits, 0 to 1000000; without it 128. Every round's error must be at most 2^-asked, proof of work
+    counted (the line "proof of work: .." says how much); half a digest's bits are 128, so a call above 128 is refused.
+    Below 128 every stage runs its checks and the call ends at best with NOT-A-VERIFICATION
+  -no-proof-of-work: if some round meets the parameter file's target only with its proof of work counted, every stage
+    runs its checks and the call ends at best with NOT-A-VERIFICATION. Work that the file declares and no round needs
+    changes nothing. The option changes no number of that file: it holds under whatever parameter file
+    is given
+  -j: 1 to 256 threads for the request's stage; the two shorter stages take an eighth of that each beside it
+  -q: leave out most progress lines
+  -show-stages: print the stages' output also if the call does not pass. After a rejection it holds values read from
+    the rejected files: use it to find out which check failed, and trust or copy nothing in it
+  last line and status:
+    YES, 0
+    WITHIN LIMITS: <the policy>, 0: as YES, with a token of the request checked under the policy that you named,
+      other than exact-match. It is no YES; the status is the same, so tell the two apart by the last line
+    NO: <name>, 1
+    NOT-A-VERIFICATION, 14
+    a bad command line (this text, whose last line says what was not accepted, or a sentence on -id or -policy), or a
+      line that begins input-unreadable- (a file could not be read), 2
+    no last line, 15: the answer could not be written to standard output
+    NOT CHECKED: internal-<..> or <sub-proof>:internal-<..>, 5: a call that ends so has verified nothing. Under
+      internal-stage and internal-exception-parFor the machine may be the cause (a want of memory, for one): run it
+      again. If it ends so again, the cause may be the program: a guard of the library's ends a stage by a signal,
+      which goes under internal-stage, and leaves its line on standard error.
+      Under any other name a guard of the verifier's own spoke, and on the same files the call ends so again
+    Before YES, WITHIN LIMITS, PART PASSED and NOT-A-VERIFICATION stands the line "proof of work: ..", which says
+    whether some round holds at the parameter file's target (sec) only with its proof of work: in how many rounds, the
+    most bits of work that the file declares, and the bits of the round with the largest error, once with the work
+    counted and once with it left out (not always the same round). Each is a single round's figure, and neither is a
+    security level. If you want the checks alone to carry the target, pass -no-proof-of-work
+    In a whole call the line "commitment: .." stands right before the line on proof of work: how many closeness rounds
+    of the commitment's own files, key and entry, rest on another source than the bound within a third of the distance
+    In a whole call one line for programs, which begins "result-v1 ", stands between the line on proof of work and the
+    last line. It says what the answer is about, as named fields in a fixed order. Exit status 0 alone is no reason to
+    accept an answer: compare the fields with your own values (the verifier's README lists them and what to compare)
+    If a stage rejects, the call prints only a heading, that stage's name with the check that failed, and
+    NO: <name>, not the stages' output (-show-stages prints it); under another ID, two lines "id:" and the NO
+parts, for the committer's own test; they never say YES (PART PASSED: key or leaf, status 3):
+  cp_verify -key <config folder> <key.bin> [-id <64 hex>] [-bits <asked>] [-no-proof-of-work] [-j <threads>]
+    [-q] [-show-stages]
+  cp_verify -leaf <config folder> <key.bin> <entry file> [-id <64 hex>] [-bits <asked>] [-no-proof-of-work]
+    [-j <threads>] [-q] [-show-stages]
+    -leaf takes the key's table from key.bin's first bytes, on its form alone, and looks at none of the key's
+    proofs: its pass counts only beside a -key that passed on the same key.bin, config folder, bits and build
+plans, which check nothing (PLAN ONLY, status 4):
+  cp_verify -plan id <config folder> <key.bin>
+    prints, for the publisher, the line "commitment ID: .." for these files, and h_par=, the digest of the
+    three files of the config folder alone (-plan request prints h_par= too). If the files were sent to you, do
+    not pass that ID as -id
+  cp_verify -plan request <policy.txt> <KL.bin> <asked> [-layout <layout.txt>]
+    -prompt <request file> -reply <y file> [-shapes] [-fields] [-arrays] [-j <threads>] [-q]
+  cp_verify -plan accounting <config folder> <asked>
+    prints the accounting of a whole call under these files (lines "accounting:") and the greatest lengths of key,
+    entry and proof; the provers print it through this call
+  a plan of request or accounting prints a line "work: <bits> + <work> (..)" if all rounds hold at the parameter
+    file's target (sec) and some round only with its proof of work, whatever <asked> is: a checking call under
+    these files will count proof of work
+  cp_verify -plan arrays <config folder> <asked>
+    lists the arrays that a request's sub-proofs commit to (lines "array:"), from policy.txt and KL.bin alone, for
+    the tool that makes layout.txt (prover/tools/pack_layout.py --arrays)
+research code: nothing is proved about it and no security level is claimed
+cp_verify: this command line was not accepted: after -j comes a whole number from 1 to 256, in digits alone, without a leading zero

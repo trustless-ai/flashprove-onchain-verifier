@@ -1,0 +1,22 @@
+APLAN nMsg=2416 nLin=274 NC=4 NP=2 nKRp=2 nKFp=2 nW=14944 ns=2416
+APLAN own lt=4 lgk=2 pairs=2 Lam=1 plane_messages=2 e=6 value_m=7 value_d=6 attained=8 bits=10 rows=314642
+APLAN score=7:2;6:2
+ASEAM nU=0,0,14944 tabFirst=0,0 tabLen=0,14944 NM=6 pkMat=5 pxMat=0
+ASEAM ix U=-1,-1,0,-1 PK=1,2,3,4,5 TX= ZZ=6 BZ=7 FT=8 count=9
+ASEAM f9 dT=20 kT=10 NT=2 rK=1 NC=2 cK=1 pub=674816,674816 padding=1349632 elems=1051 lins=74
+AMAT mu=0 name=as0 m=16 k=240 kind=0 foreign=-1 ttOff=0 aId=256 wp=0 mS=6 J=1 R=6 Rr=6 Kc=240
+AMAT mu=1 name=as1 m=16 k=240 kind=0 foreign=-1 ttOff=0 aId=257 wp=0 mS=6 J=1 R=6 Rr=6 Kc=240
+AMAT mu=2 name=ah m=64 k=24 kind=0 foreign=-1 ttOff=0 aId=258 wp=0 mS=22 J=1 R=22 Rr=22 Kc=24
+AMAT mu=3 name=ao m=64 k=16 kind=0 foreign=-1 ttOff=0 aId=259 wp=0 mS=22 J=1 R=22 Rr=22 Kc=16
+AMAT mu=4 name=bA m=2048 k=4096 kind=0 foreign=-1 ttOff=0 aId=260 wp=0 mS=683 J=1 R=683 Rr=683 Kc=4096
+AMAT mu=5 name=qa m=128 k=24 kind=1 foreign=0 ttOff=0 aId=777 wp=0 mS=43 J=1 R=43 Rr=43 Kc=24
+ATREE i=0 name=U3 kind=N R=1 K=14944 rows=1 owner=1
+ATREE i=1 name=PK0 kind=P R=6 K=240 rows=1 owner=1
+ATREE i=2 name=PK1 kind=P R=6 K=240 rows=1 owner=1
+ATREE i=3 name=PK2 kind=P R=22 K=24 rows=1 owner=1
+ATREE i=4 name=PK3 kind=P R=22 K=16 rows=1 owner=1
+ATREE i=5 name=PK4 kind=P R=683 K=4096 rows=1 owner=1
+ATREE i=6 name=ZZ kind=N R=160 K=4672 rows=6 owner=1
+ATREE i=7 name=BZ kind=N R=32 K=2048 rows=3 owner=1
+ATREE i=8 name=PXo kind=P R=43 K=24 rows=1 owner=0
+APLAN equations=317952 lins0=74

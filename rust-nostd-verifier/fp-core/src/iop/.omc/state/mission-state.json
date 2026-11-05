@@ -1,0 +1,91 @@
+{
+  "updatedAt": "2026-11-04T18:12:07.022Z",
+  "missions": [
+    {
+      "id": "session:e03eb89a-2f93-40cd-8d87-4676963347ac:none",
+      "source": "session",
+      "name": "none",
+      "objective": "Session mission",
+      "createdAt": "2026-11-04T17:59:27.709Z",
+      "updatedAt": "2026-11-04T18:12:07.022Z",
+      "status": "running",
+      "workerCount": 4,
+      "taskCounts": {
+        "total": 4,
+        "pending": 0,
+        "blocked": 0,
+        "inProgress": 2,
+        "completed": 2,
+        "failed": 0
+      },
+      "agents": [
+        {
+          "name": "fork:aa40e94",
+          "role": "fork",
+          "ownership": "aa40e94f728e7594d",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-11-04T18:05:16.090Z"
+        },
+        {
+          "name": "fork:af863fb",
+          "role": "fork",
+          "ownership": "af863fbd54d9d4350",
+          "status": "done",
+          "currentStep": null,
+          "latestUpdate": "completed",
+          "completedSummary": null,
+          "updatedAt": "2026-11-04T18:05:16.835Z"
+        },
+        {
+          "name": "foldeq-port:afoldeq",
+          "role": "foldeq-port",
+          "ownership": "afoldeq-port-7b26f7c76ce37c12",
+          "status": "running",
+          "currentStep": null,
+          "latestUpdate": null,
+          "completedSummary": null,
+          "updatedAt": "2026-11-04T18:12:01.950Z"
+        },
+        {
+          "name": "lkp-port:alkp-po",
+          "role": "lkp-port",
+          "ownership": "alkp-port-7f4a4402ece3802b",
+          "status": "running",
+          "currentStep": null,
+          "latestUpdate": null,
+          "completedSummary": null,
+          "updatedAt": "2026-11-04T18:12:07.022Z"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "session-stop:af863fbd54d9d4350:2026-11-04T18:05:16.835Z",
+          "at": "2026-11-04T18:05:16.835Z",
+          "kind": "completion",
+          "agent": "fork:af863fb",
+          "detail": "completed",
+          "sourceKey": "session-stop:af863fbd54d9d4350"
+        },
+        {
+          "id": "session-start:afoldeq-port-7b26f7c76ce37c12:2026-11-04T18:12:01.950Z",
+          "at": "2026-11-04T18:12:01.950Z",
+          "kind": "update",
+          "agent": "foldeq-port:afoldeq",
+          "detail": "started foldeq-port:afoldeq",
+          "sourceKey": "session-start:afoldeq-port-7b26f7c76ce37c12"
+        },
+        {
+          "id": "session-start:alkp-port-7f4a4402ece3802b:2026-11-04T18:12:07.022Z",
+          "at": "2026-11-04T18:12:07.022Z",
+          "kind": "update",
+          "agent": "lkp-port:alkp-po",
+          "detail": "started lkp-port:alkp-po",
+          "sourceKey": "session-start:alkp-port-7f4a4402ece3802b"
+        }
+      ]
+    }
+  ]
+}

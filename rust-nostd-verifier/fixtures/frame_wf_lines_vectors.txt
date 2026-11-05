@@ -1,0 +1,45 @@
+CUT name=two parts_of=1 parts=1 planes=18
+PART name=two i=0 log_places=6 runs=0:0:40:40;40:96:2:2
+CUT name=two_apart parts_of=2 parts=2 planes=19
+PART name=two_apart i=0 log_places=6 runs=0:0:32:0;32:40:32:0
+PART name=two_apart i=1 log_places=6 runs=0:32:8:0;8:96:2:0;32:72:8:0;40:98:2:0
+CUT name=small_part parts_of=11 parts=11 planes=17
+PART name=small_part i=0 log_places=2 runs=0:0:4:40
+PART name=small_part i=1 log_places=2 runs=0:4:4:40
+PART name=small_part i=2 log_places=2 runs=0:8:4:40
+PART name=small_part i=3 log_places=2 runs=0:12:4:40
+PART name=small_part i=4 log_places=2 runs=0:16:4:40
+PART name=small_part i=5 log_places=2 runs=0:20:4:40
+PART name=small_part i=6 log_places=2 runs=0:24:4:40
+PART name=small_part i=7 log_places=2 runs=0:28:4:40
+PART name=small_part i=8 log_places=2 runs=0:32:4:40
+PART name=small_part i=9 log_places=2 runs=0:36:4:40
+PART name=small_part i=10 log_places=2 runs=0:96:2:2
+CUT name=exact_part parts_of=2 parts=2 planes=18
+PART name=exact_part i=0 log_places=5 runs=0:0:32:40
+PART name=exact_part i=1 log_places=5 runs=0:32:8:40;8:96:2:2
+LINES part_log=11 fault=a part would read more rows than the matrix has: the line ranges-part is too large for this matrix lookups=1
+LINE lookup=0 name=look mu=1 live=0 parts=0
+LINES part_log=9 fault=a part would read more rows than the matrix has: the line ranges-part is too large for this matrix lookups=1
+LINE lookup=0 name=look mu=1 live=0 parts=0
+LINES part_log=6 fault=- lookups=1
+LINE lookup=0 name=look mu=5 live=19 parts=2
+LPART lookup=0 i=0 log_places=6 runs=0:0:32:0;32:40:32:0
+LPART lookup=0 i=1 log_places=6 runs=0:32:8:0;8:96:2:0;32:72:8:0;40:98:2:0
+LINES part_log=5 fault=- lookups=1
+LINE lookup=0 name=look mu=5 live=18 parts=3
+LPART lookup=0 i=0 log_places=5 runs=0:0:16:0;16:40:16:0
+LPART lookup=0 i=1 log_places=5 runs=0:16:16:0;16:56:16:0
+LPART lookup=0 i=2 log_places=5 runs=0:32:8:0;8:96:2:0;16:72:8:0;24:98:2:0
+LINES part_log=4 fault=- lookups=1
+LINE lookup=0 name=look mu=5 live=18 parts=6
+LPART lookup=0 i=0 log_places=4 runs=0:0:8:0;8:40:8:0
+LPART lookup=0 i=1 log_places=4 runs=0:8:8:0;8:48:8:0
+LPART lookup=0 i=2 log_places=4 runs=0:16:8:0;8:56:8:0
+LPART lookup=0 i=3 log_places=4 runs=0:24:8:0;8:64:8:0
+LPART lookup=0 i=4 log_places=4 runs=0:32:8:0;8:72:8:0
+LPART lookup=0 i=5 log_places=4 runs=0:96:2:0;8:98:2:0
+LINES part_log=20 fault=a part would read more rows than the matrix has: the line ranges-part is too large for this matrix lookups=1
+LINE lookup=0 name=look mu=1 live=0 parts=0
+LINES part_log=63 fault=a part would read more rows than the matrix has: the line ranges-part is too large for this matrix lookups=1
+LINE lookup=0 name=look mu=1 live=0 parts=0

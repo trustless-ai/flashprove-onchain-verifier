@@ -1,0 +1,17 @@
+TREES name=single count=1
+TREE name=single log_n=8 leaf_bytes=512 one_list=0 number=0 where=tree of a
+TREES name=two_share count=1
+TREE name=two_share log_n=8 leaf_bytes=768 one_list=0 number=0 where=tree of a; b
+TREES name=two_classes count=2
+TREE name=two_classes log_n=8 leaf_bytes=512 one_list=0 number=0 where=tree of a
+TREE name=two_classes log_n=8 leaf_bytes=256 one_list=0 number=0 where=tree of b
+TREES name=mask_only count=1
+TREE name=mask_only log_n=6 leaf_bytes=192 one_list=0 number=0 where=tree of a
+TREES name=mixed count=1
+TREE name=mixed log_n=8 leaf_bytes=704 one_list=0 number=0 where=tree of a; b
+TREES name=one_list_first count=1
+TREE name=one_list_first log_n=8 leaf_bytes=768 one_list=1 number=1 where=tree of a; b
+TREES name=one_list_twice count=1
+TREE name=one_list_twice log_n=8 leaf_bytes=768 one_list=1 number=2 where=tree of a; b
+TREES name=mask_one_list count=1
+TREE name=mask_one_list log_n=6 leaf_bytes=192 one_list=1 number=3 where=tree of a

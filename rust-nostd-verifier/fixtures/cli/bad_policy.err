@@ -1,0 +1,1 @@
+-policy requires <kind>,<C>,<theta>,<cap>,<s>,<sh>: exact-match or clipped-gap and five whole numbers of at most ten digits without leading zeros, with commas and no blanks between them

@@ -1,0 +1,567 @@
+CONST ce=3 wpe=6 le=192 lbz=17 lbzw=20 work_bits_most=32 stage_passed_with_work=12 not_a_verification_status=14 withinstatus=0 field_p=ffffffff00000001 field_w=2
+TEXT idline=commitment ID: 
+TEXT stageidline=computed commitment ID: 
+TEXT workline=proof of work: 
+TEXT resultword=result-v1
+TEXT commitmentline=commitment: 
+TEXT one_time_line_start=accounting: one-time files: 
+TEXT recordclause=; the table has a record: the binding of the weights rests on the theorem on codes (ePrint 2025/2055, Theorem 4.6), taken as given
+TEXT idhidden=not-shown-without-id
+TEXT not_a_verification_text=NOT-A-VERIFICATION
+TEXT within=WITHIN LIMITS: 
+TEXT served_layout=placement-table
+TEXT served_two_codes=two-codes (group folded and group omega or group once-folded and group once-omega have the same code length and message length. The test on the committed table then runs without its split step and the bounds argued on paper for this protocol do not cover that form. See verifier/docs/parameter-file.md)
+TEXT served_exact=exact-match (the request covers tokens of its own under another policy than C = theta = 2^sh with cap = 0 and sT = sh - 4 and a pass could say little. See -policy)
+TEXT served_named=policy-named (the option -policy names another kind of policy or another C or theta or cap or s or sh than the parameter file sets. The line covered shows what the file sets)
+ORDERDEFAULT mu=0 o=
+ORDERDEFAULT mu=1 o=0
+ORDERDEFAULT mu=2 o=1,0
+ORDERDEFAULT mu=5 o=4,3,2,1,0
+ORDERDEFAULT mu=9 o=8,7,6,5,4,3,2,1,0
+ORDERRANGE mu=9 o=2,1,0,5,4,3,8,7,6
+ORDERRANGE mu=10 o=2,1,0,5,4,3,8,7,6,9
+ORDERRANGE mu=12 o=2,1,0,5,4,3,8,7,6,11,10,9
+MIX64 z=0000000000000000 m=e220a8397b1dcdaf
+MIX64 z=0000000000000001 m=910a2dec89025cc1
+MIX64 z=0000000000000002 m=975835de1c9756ce
+MIX64 z=9e3779b97f4a7c15 m=6e789e6aa1b965f4
+MIX64 z=ffffffffffffffff m=e4d971771b652c20
+MIX64 z=0123456789abcdef m=157a3807a48faa9d
+MIX64 z=000000000000002a m=bdd732262feb6e95
+TAU tau=0 ok=0
+TAU tau=1 ok=0
+TAU tau=2 ok=0
+TAU tau=3 ok=0
+TAU tau=4 ok=0
+TAU tau=5 ok=0
+TAU tau=6 ok=0
+TAU tau=7 ok=0
+TAU tau=8 ok=0
+TAU tau=9 ok=0
+TAU tau=10 ok=0
+TAU tau=11 ok=0
+TAU tau=12 ok=0
+TAU tau=13 ok=0
+TAU tau=14 ok=0
+TAU tau=15 ok=0
+TAU tau=16 ok=0
+TAU tau=17 ok=0
+TAU tau=18 ok=0
+TAU tau=19 ok=0
+TAU tau=20 ok=0
+TAU tau=21 ok=0
+TAU tau=22 ok=0
+TAU tau=23 ok=0
+TAU tau=24 ok=0
+TAU tau=25 ok=0
+TAU tau=26 ok=0
+TAU tau=27 ok=0
+TAU tau=28 ok=0
+TAU tau=29 ok=0
+TAU tau=30 ok=0
+TAU tau=31 ok=0
+TAU tau=32 ok=1
+TAU tau=33 ok=0
+TAU tau=34 ok=0
+TAU tau=35 ok=0
+TAU tau=36 ok=0
+TAU tau=37 ok=0
+TAU tau=38 ok=0
+TAU tau=39 ok=0
+TAU tau=40 ok=0
+TAU tau=41 ok=0
+TAU tau=42 ok=0
+TAU tau=43 ok=0
+TAU tau=44 ok=0
+TAU tau=45 ok=0
+TAU tau=46 ok=0
+TAU tau=47 ok=0
+TAU tau=48 ok=0
+TAU tau=49 ok=0
+TAU tau=50 ok=0
+TAU tau=51 ok=0
+TAU tau=52 ok=0
+TAU tau=53 ok=0
+TAU tau=54 ok=0
+TAU tau=55 ok=0
+TAU tau=56 ok=0
+TAU tau=57 ok=0
+TAU tau=58 ok=0
+TAU tau=59 ok=0
+TAU tau=60 ok=0
+TAU tau=61 ok=0
+TAU tau=62 ok=0
+TAU tau=63 ok=0
+TAU tau=64 ok=1
+TAU tau=65 ok=0
+TAU tau=66 ok=0
+TAU tau=67 ok=0
+TAU tau=68 ok=0
+TAU tau=69 ok=0
+TAU tau=70 ok=0
+TAU tau=71 ok=0
+TAU tau=72 ok=0
+TAU tau=73 ok=0
+TAU tau=74 ok=0
+TAU tau=75 ok=0
+TAU tau=76 ok=0
+TAU tau=77 ok=0
+TAU tau=78 ok=0
+TAU tau=79 ok=0
+TAU tau=80 ok=0
+TAU tau=81 ok=0
+TAU tau=82 ok=0
+TAU tau=83 ok=0
+TAU tau=84 ok=0
+TAU tau=85 ok=0
+TAU tau=86 ok=0
+TAU tau=87 ok=0
+TAU tau=88 ok=0
+TAU tau=89 ok=0
+TAU tau=90 ok=0
+TAU tau=91 ok=0
+TAU tau=92 ok=0
+TAU tau=93 ok=0
+TAU tau=94 ok=0
+TAU tau=95 ok=0
+TAU tau=96 ok=1
+TAU tau=97 ok=0
+TAU tau=98 ok=0
+TAU tau=99 ok=0
+TAU tau=100 ok=0
+TAU tau=101 ok=0
+TAU tau=102 ok=0
+TAU tau=103 ok=0
+TAU tau=104 ok=0
+TAU tau=105 ok=0
+TAU tau=106 ok=0
+TAU tau=107 ok=0
+TAU tau=108 ok=0
+TAU tau=109 ok=0
+TAU tau=110 ok=0
+TAU tau=111 ok=0
+TAU tau=112 ok=0
+TAU tau=113 ok=0
+TAU tau=114 ok=0
+TAU tau=115 ok=0
+TAU tau=116 ok=0
+TAU tau=117 ok=0
+TAU tau=118 ok=0
+TAU tau=119 ok=0
+TAU tau=120 ok=0
+TAU tau=121 ok=0
+TAU tau=122 ok=0
+TAU tau=123 ok=0
+TAU tau=124 ok=0
+TAU tau=125 ok=0
+TAU tau=126 ok=0
+TAU tau=127 ok=0
+TAU tau=128 ok=1
+TAU tau=129 ok=0
+TAU tau=130 ok=0
+TAU tau=131 ok=0
+TAU tau=132 ok=0
+TAU tau=133 ok=0
+TAU tau=134 ok=0
+TAU tau=135 ok=0
+TAU tau=136 ok=0
+TAU tau=137 ok=0
+TAU tau=138 ok=0
+TAU tau=139 ok=0
+TAU tau=140 ok=0
+TAU tau=141 ok=0
+TAU tau=142 ok=0
+TAU tau=143 ok=0
+TAU tau=144 ok=0
+TAU tau=145 ok=0
+TAU tau=146 ok=0
+TAU tau=147 ok=0
+TAU tau=148 ok=0
+TAU tau=149 ok=0
+TAU tau=150 ok=0
+TAU tau=151 ok=0
+TAU tau=152 ok=0
+TAU tau=153 ok=0
+TAU tau=154 ok=0
+TAU tau=155 ok=0
+TAU tau=156 ok=0
+TAU tau=157 ok=0
+TAU tau=158 ok=0
+TAU tau=159 ok=0
+TAU tau=160 ok=1
+TAU tau=161 ok=0
+TAU tau=162 ok=0
+TAU tau=163 ok=0
+TAU tau=164 ok=0
+TAU tau=165 ok=0
+TAU tau=166 ok=0
+TAU tau=167 ok=0
+TAU tau=168 ok=0
+TAU tau=169 ok=0
+TAU tau=170 ok=0
+TAU tau=171 ok=0
+TAU tau=172 ok=0
+TAU tau=173 ok=0
+TAU tau=174 ok=0
+TAU tau=175 ok=0
+TAU tau=176 ok=0
+TAU tau=177 ok=0
+TAU tau=178 ok=0
+TAU tau=179 ok=0
+TAU tau=180 ok=0
+TAU tau=181 ok=0
+TAU tau=182 ok=0
+TAU tau=183 ok=0
+TAU tau=184 ok=0
+TAU tau=185 ok=0
+TAU tau=186 ok=0
+TAU tau=187 ok=0
+TAU tau=188 ok=0
+TAU tau=189 ok=0
+TAU tau=190 ok=0
+TAU tau=191 ok=0
+TAU tau=192 ok=1
+TAU tau=193 ok=0
+TAU tau=194 ok=0
+TAU tau=195 ok=0
+TAU tau=196 ok=0
+TAU tau=197 ok=0
+TAU tau=198 ok=0
+TAU tau=199 ok=0
+TAU tau=200 ok=0
+TAU tau=201 ok=0
+TAU tau=202 ok=0
+TAU tau=203 ok=0
+TAU tau=204 ok=0
+TAU tau=205 ok=0
+TAU tau=206 ok=0
+TAU tau=207 ok=0
+TAU tau=208 ok=0
+TAU tau=209 ok=0
+TAU tau=210 ok=0
+TAU tau=211 ok=0
+TAU tau=212 ok=0
+TAU tau=213 ok=0
+TAU tau=214 ok=0
+TAU tau=215 ok=0
+TAU tau=216 ok=0
+TAU tau=217 ok=0
+TAU tau=218 ok=0
+TAU tau=219 ok=0
+TAU tau=220 ok=0
+TAU tau=221 ok=0
+TAU tau=222 ok=0
+TAU tau=223 ok=0
+TAU tau=224 ok=0
+TAU tau=225 ok=0
+TAU tau=226 ok=0
+TAU tau=227 ok=0
+TAU tau=228 ok=0
+TAU tau=229 ok=0
+TAU tau=230 ok=0
+TAU tau=231 ok=0
+TAU tau=232 ok=0
+TAU tau=233 ok=0
+TAU tau=234 ok=0
+TAU tau=235 ok=0
+TAU tau=236 ok=0
+TAU tau=237 ok=0
+TAU tau=238 ok=0
+TAU tau=239 ok=0
+TAU tau=240 ok=0
+TAU tau=241 ok=0
+TAU tau=242 ok=0
+TAU tau=243 ok=0
+TAU tau=244 ok=0
+TAU tau=245 ok=0
+TAU tau=246 ok=0
+TAU tau=247 ok=0
+TAU tau=248 ok=0
+TAU tau=249 ok=0
+TAU tau=250 ok=0
+TAU tau=251 ok=0
+TAU tau=252 ok=0
+TAU tau=253 ok=0
+TAU tau=254 ok=0
+TAU tau=255 ok=0
+TAU tau=256 ok=1
+TAU tau=257 ok=0
+TAU tau=258 ok=0
+TAU tau=259 ok=0
+TAU tau=260 ok=0
+TAU tau=261 ok=0
+TAU tau=262 ok=0
+TAU tau=263 ok=0
+TAU tau=264 ok=0
+TAU tau=265 ok=0
+TAU tau=266 ok=0
+TAU tau=267 ok=0
+TAU tau=268 ok=0
+TAU tau=269 ok=0
+TAU tau=270 ok=0
+TAU tau=271 ok=0
+TAU tau=272 ok=0
+TAU tau=273 ok=0
+TAU tau=274 ok=0
+TAU tau=275 ok=0
+TAU tau=276 ok=0
+TAU tau=277 ok=0
+TAU tau=278 ok=0
+TAU tau=279 ok=0
+TAU tau=280 ok=0
+TAU tau=281 ok=0
+TAU tau=282 ok=0
+TAU tau=283 ok=0
+TAU tau=284 ok=0
+TAU tau=285 ok=0
+TAU tau=286 ok=0
+TAU tau=287 ok=0
+TAU tau=288 ok=0
+TAU tau=289 ok=0
+TAU tau=290 ok=0
+TAU tau=291 ok=0
+TAU tau=292 ok=0
+TAU tau=293 ok=0
+TAU tau=294 ok=0
+TAU tau=295 ok=0
+TAU tau=296 ok=0
+TAU tau=297 ok=0
+TAU tau=298 ok=0
+TAU tau=299 ok=0
+TAU tau=300 ok=0
+TAU tau=320 ok=0
+TAU tau=512 ok=0
+TAU tau=1024 ok=0
+TAU tau=18446744073709551615 ok=0
+EXACT c=256 theta=256 cap=0 sh=8 st=4 ok=1
+EXACT c=256 theta=256 cap=0 sh=8 st=3 ok=0
+EXACT c=257 theta=256 cap=0 sh=8 st=4 ok=0
+EXACT c=256 theta=257 cap=0 sh=8 st=4 ok=0
+EXACT c=256 theta=256 cap=1 sh=8 st=4 ok=0
+EXACT c=256 theta=256 cap=0 sh=63 st=59 ok=0
+EXACT c=256 theta=256 cap=0 sh=62 st=58 ok=0
+EXACT c=1 theta=1 cap=0 sh=0 st=18446744073709551615 ok=0
+EXACT c=0 theta=0 cap=0 sh=0 st=0 ok=0
+EXACT c=1 theta=1 cap=0 sh=0 st=18446744073709551612 ok=1
+EXACT c=4611686018427387904 theta=4611686018427387904 cap=0 sh=62 st=58 ok=1
+KIND c=256 theta=256 cap=0 s=5 sh=8 st=4 kind=exact-match
+KIND c=256 theta=256 cap=0 s=2 sh=8 st=3 kind=another-table
+KIND c=257 theta=256 cap=0 s=5 sh=8 st=4 kind=clipped-gap
+KIND c=256 theta=257 cap=0 s=5 sh=8 st=4 kind=clipped-gap
+KIND c=256 theta=256 cap=1 s=5 sh=8 st=4 kind=clipped-gap
+KIND c=256 theta=256 cap=0 s=58 sh=63 st=59 kind=clipped-gap
+KIND c=256 theta=256 cap=0 s=59 sh=62 st=58 kind=clipped-gap
+KIND c=1 theta=1 cap=0 s=18446744073709551614 sh=0 st=18446744073709551615 kind=another-table
+KIND c=0 theta=0 cap=0 s=1 sh=0 st=0 kind=another-table
+KIND c=1 theta=1 cap=0 s=18446744073709551613 sh=0 st=18446744073709551612 kind=exact-match
+KIND c=4611686018427387904 theta=4611686018427387904 cap=0 s=59 sh=62 st=58 kind=exact-match
+KIND c=257 theta=256 cap=0 s=8 sh=8 st=4 kind=clipped-gap
+KIND c=256 theta=256 cap=1 s=8 sh=8 st=4 kind=clipped-gap
+KIND c=300 theta=299 cap=0 s=15 sh=15 st=15 kind=log-probability
+KIND c=300 theta=299 cap=0 s=15 sh=15 st=14 kind=another-table
+KIND c=300 theta=299 cap=0 s=4 sh=4 st=4 kind=log-probability
+CLIP n=32 c=256 theta=256 cap=0 sh=8 k=0
+CLIP n=32 c=256 theta=256 cap=64 sh=8 k=32
+CLIP n=32 c=256 theta=256 cap=31 sh=8 k=31
+CLIP n=0 c=256 theta=256 cap=64 sh=8 k=0
+CLIP n=32 c=100000 theta=40000 cap=64 sh=8 k=12
+CLIP n=3 c=100000 theta=40000 cap=64 sh=8 k=1
+CLIP n=2 c=100000 theta=40000 cap=64 sh=8 k=0
+CLIP n=32 c=100000 theta=40000 cap=3 sh=8 k=3
+CLIP n=32 c=100000000 theta=4000000 cap=0 sh=8 k=0
+CLIP n=10 c=300 theta=299 cap=10 sh=8 k=9
+CLIP n=10 c=300 theta=200 cap=10 sh=8 k=0
+CLIP n=10 c=200 theta=200 cap=4 sh=8 k=4
+CLIP n=32 c=256 theta=256 cap=0 sh=63 k=0
+CLIP n=7 c=256 theta=256 cap=100 sh=62 k=7
+EMPTY n=1 c=256 theta=256 cap=0 sh=8 e=0
+EMPTY n=0 c=255 theta=255 cap=0 sh=8 e=1
+EMPTY n=0 c=300 theta=255 cap=0 sh=8 e=2
+EMPTY n=0 c=256 theta=257 cap=0 sh=8 e=3
+EMPTY n=3 c=256 theta=256 cap=3 sh=8 e=4
+EMPTY n=4 c=256 theta=256 cap=3 sh=8 e=0
+EMPTY n=0 c=256 theta=256 cap=3 sh=8 e=0
+EMPTY n=500 c=4096 theta=300 cap=10 sh=8 e=0
+EMPTY n=1 c=128 theta=128 cap=0 sh=7 e=0
+EMPTY n=1 c=128 theta=128 cap=0 sh=8 e=1
+EMPTY n=1 c=1 theta=1 cap=0 sh=63 e=1
+EMPTY n=9 c=4096 theta=4096 cap=0 sh=12 e=0
+ROTARY theta0=10000 dh=128 lt=10 ok=1
+ROTARY theta0=500000 dh=128 lt=10 ok=1
+ROTARY theta0=10001 dh=128 lt=10 ok=0
+ROTARY theta0=10000 dh=129 lt=10 ok=0
+ROTARY theta0=10000 dh=128 lt=11 ok=0
+ROTARY theta0=10000 dh=0 lt=0 ok=1
+ROTARY theta0=500000 dh=127 lt=9 ok=1
+GOOD below=0 notserved=0 ok=1
+GOOD below=0 notserved=1 ok=0
+GOOD below=1 notserved=0 ok=0
+GOOD below=1 notserved=1 ok=0
+VERSION v=484d3031 ok=0
+VERSION v=484d3032 ok=0
+VERSION v=48434335 ok=0
+VERSION v=48434338 ok=0
+VERSION v=48463031 ok=0
+VERSION v=48463032 ok=0
+VERSION v=7fffc902 ok=0
+VERSION v=7fffb902 ok=0
+VERSION v=7fffa902 ok=0
+VERSION v=7fff9902 ok=0
+VERSION v=7f4cb902 ok=0
+VERSION v=7fffd902 ok=0
+VERSION v=48433031 ok=0
+VERSION v=48434331 ok=0
+VERSION v=7ffed902 ok=0
+VERSION v=7ffcd902 ok=0
+VERSION v=7fecd902 ok=0
+VERSION v=7fccd902 ok=0
+VERSION v=7f4cd902 ok=0
+VERSION v=7e4cd902 ok=0
+VERSION v=3e4cd902 ok=0
+VERSION v=1e4cd902 ok=0
+VERSION v=0e4cd902 ok=0
+VERSION v=064cd902 ok=0
+VERSION v=024cd902 ok=0
+VERSION v=00001902 ok=0
+VERSION v=31323848 ok=1
+VERSION v=00000000 ok=0
+VERSION v=ffffffff ok=0
+ADMIT i=0 v=484d3031 ok=0 fixed=0 run=00000000
+ADMIT i=1 v=31323848 ok=1 fixed=1 run=31323848
+ADMIT i=2 v=31323848 ok=1 fixed=1 run=31323848
+ADMIT i=3 v=484d3031 ok=0 fixed=1 run=31323848
+ADMIT i=4 v=00000000 ok=0 fixed=1 run=31323848
+ADMIT i=5 v=31323848 ok=1 fixed=1 run=31323848
+LONGFILE bytes=0 result=ok
+LONGFILE bytes=4294967295 result=ok
+LONGFILE bytes=4294967296 result=close-list-long
+LONGFILE bytes=8589934591 result=close-list-long
+INTERNAL name=internal-x ok=1
+INTERNAL name=internal- ok=1
+INTERNAL name=G0:internal-y ok=1
+INTERNAL name=G0:foo ok=0
+INTERNAL name=G0: ok=0
+INTERNAL name= ok=0
+INTERNAL name=a:b:internal-c ok=0
+INTERNAL name=0internal-x ok=0
+INTERNAL name=internal-x: ok=1
+INTERNAL name=G:internal- ok=1
+INTERNAL name=G0: internal-x ok=0
+INTERNAL name=g0:internal-x ok=1
+HEX64 in=00000000,00000001,deadbeef,ffffffff,00000000,12345678,9abcdef0,0badf00d out=0000000000000001deadbeefffffffff00000000123456789abcdef00badf00d
+FINT v=0 r=0000000000000000
+FINT v=1 r=0000000000000001
+FINT v=-1 r=ffffffff00000000
+FINT v=7 r=0000000000000007
+FINT v=-7 r=fffffffefffffffa
+FINT v=9223372036854775807 r=7fffffffffffffff
+FINT v=-9223372036854775808 r=7fffffff00000001
+FINT v=-9223372036854775807 r=7fffffff00000002
+FINT v=-4294967295 r=fffffffe00000002
+FINT v=4294967295 r=00000000ffffffff
+FMAD1 a=3 x=5 y=7 r=0000000000000026
+FMAD2 a=3 x1=5 y1=7 x2=11 y2=13 r=00000000000000b5
+FMAD3 a=3 x1=5 y1=7 x2=11 y2=13 x3=17 y3=19 r=00000000000001f8
+FMAD1 a=18446744073709551615 x=18446744073709551615 y=9223372036854775808 r=7fffffff7fffffff
+FMAD2 a=18446744073709551615 x1=18446744073709551615 y1=9223372036854775808 x2=81985529216486895 y2=18446744073709551614 r=0765431fe1d950ca
+FMAD3 a=18446744073709551615 x1=18446744073709551615 y1=9223372036854775808 x2=81985529216486895 y2=18446744073709551614 x3=16045690984503098046 y3=9223372036854775807 r=0e36e18dc2045936
+FMAD1 a=0 x=0 y=0 r=0000000000000000
+FMAD2 a=0 x1=0 y1=0 x2=0 y2=0 r=0000000000000000
+FMAD3 a=0 x1=0 y1=0 x2=0 y2=0 x3=0 y3=0 r=0000000000000000
+DEC arg=0 ok=1 v=0
+DEC arg=1 ok=1 v=1
+DEC arg=7 ok=1 v=7
+DEC arg=1234567 ok=0 v=0
+DEC arg=0123 ok=0 v=0
+DEC arg=12345678 ok=0 v=0
+DEC arg=123456789 ok=0 v=0
+DEC arg=-1 ok=0 v=0
+DEC arg=12a ok=0 v=0
+DEC arg= ok=0 v=0
+DEC arg=0000001 ok=0 v=0
+DEC arg=9999999 ok=0 v=0
+DEC arg=0000000 ok=0 v=0
+PARSEBITS arg=0 ok=1 v=0
+PARSEBITS arg=1 ok=1 v=1
+PARSEBITS arg=7 ok=1 v=7
+PARSEBITS arg=1234567 ok=0 v=0
+PARSEBITS arg=0123 ok=0 v=0
+PARSEBITS arg=12345678 ok=0 v=0
+PARSEBITS arg=123456789 ok=0 v=0
+PARSEBITS arg=-1 ok=0 v=0
+PARSEBITS arg=12a ok=0 v=0
+PARSEBITS arg= ok=0 v=0
+PARSEBITS arg=0000001 ok=0 v=0
+PARSEBITS arg=9999999 ok=0 v=0
+PARSEBITS arg=0000000 ok=0 v=0
+EQTAB len=3 off=0 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 count=8
+EQTABV i=0 v=fffffffefffffa99,fffffffefffffbff,fffffffefffffc59
+EQTABV i=1 v=000000000000059e,000000000000042c,00000000000003bb
+EQTABV i=2 v=00000000000005bc,0000000000000444,00000000000003ca
+EQTABV i=3 v=fffffffefffffa0f,fffffffefffffb91,fffffffefffffc21
+EQTABV i=4 v=0000000000000634,00000000000004a4,000000000000040f
+EQTABV i=5 v=fffffffefffff994,fffffffefffffb2e,fffffffefffffbd9
+EQTABV i=6 v=fffffffefffff973,fffffffefffffb13,fffffffefffffbc7
+EQTABV i=7 v=00000000000006c8,000000000000051f,0000000000000456
+EQTAB len=2 off=1 z=0000000000000005,0000000000000000,0000000000000000;0000000000000000,0000000000000001,0000000000000000;0000000000000000,0000000000000000,0000000000000001;ffffffffffffffff,0000000000000002,0000000000000003 count=4
+EQTABV i=0 v=0000000000000003,ffffffff00000000,ffffffff00000000
+EQTABV i=1 v=fffffffeffffffff,0000000000000000,0000000000000001
+EQTABV i=2 v=fffffffeffffffff,0000000000000001,0000000000000000
+EQTABV i=3 v=0000000000000002,0000000000000000,0000000000000000
+EQTAB len=0 off=0 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 count=1
+EQTABV i=0 v=0000000000000001,0000000000000000,0000000000000000
+EQTAB len=1 off=2 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 count=2
+EQTABV i=0 v=fffffffefffffffb,fffffffefffffff9,fffffffefffffff8
+EQTABV i=1 v=0000000000000007,0000000000000008,0000000000000009
+EQONE len=3 off=0 c=0 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 v=fffffffefffffa99,fffffffefffffbff,fffffffefffffc59
+EQONE len=3 off=0 c=1 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 v=000000000000059e,000000000000042c,00000000000003bb
+EQONE len=3 off=0 c=2 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 v=00000000000005bc,0000000000000444,00000000000003ca
+EQONE len=3 off=0 c=3 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 v=fffffffefffffa0f,fffffffefffffb91,fffffffefffffc21
+EQONE len=3 off=0 c=4 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 v=0000000000000634,00000000000004a4,000000000000040f
+EQONE len=3 off=0 c=5 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 v=fffffffefffff994,fffffffefffffb2e,fffffffefffffbd9
+EQONE len=3 off=0 c=6 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 v=fffffffefffff973,fffffffefffffb13,fffffffefffffbc7
+EQONE len=3 off=0 c=7 z=0000000000000001,0000000000000002,0000000000000003;0000000000000004,0000000000000005,0000000000000006;0000000000000007,0000000000000008,0000000000000009 v=00000000000006c8,000000000000051f,0000000000000456
+EQONE len=2 off=1 c=0 z=0000000000000005,0000000000000000,0000000000000000;0000000000000000,0000000000000001,0000000000000000;0000000000000000,0000000000000000,0000000000000001;ffffffffffffffff,0000000000000002,0000000000000003 v=0000000000000003,ffffffff00000000,ffffffff00000000
+EQONE len=2 off=1 c=1 z=0000000000000005,0000000000000000,0000000000000000;0000000000000000,0000000000000001,0000000000000000;0000000000000000,0000000000000000,0000000000000001;ffffffffffffffff,0000000000000002,0000000000000003 v=fffffffeffffffff,0000000000000000,0000000000000001
+EQONE len=2 off=1 c=2 z=0000000000000005,0000000000000000,0000000000000000;0000000000000000,0000000000000001,0000000000000000;0000000000000000,0000000000000000,0000000000000001;ffffffffffffffff,0000000000000002,0000000000000003 v=fffffffeffffffff,0000000000000001,0000000000000000
+EQONE len=2 off=1 c=3 z=0000000000000005,0000000000000000,0000000000000000;0000000000000000,0000000000000001,0000000000000000;0000000000000000,0000000000000000,0000000000000001;ffffffffffffffff,0000000000000002,0000000000000003 v=0000000000000002,0000000000000000,0000000000000000
+EQONEERR len=-1 c=0 result=internal-eq-index
+EQONEERR len=64 c=0 result=internal-eq-index
+EQONEERR len=3 c=8 result=internal-eq-index
+EQONEERR len=63 c=9223372036854775808 result=internal-eq-index
+POLICYREAD text=exact-match,256,256,0,15,8 ok=1 kind=exact-match c=256 theta=256 cap=0 s=15 sh=8
+POLICYREAD text=clipped-gap,300,299,0,15,15 ok=1 kind=clipped-gap c=300 theta=299 cap=0 s=15 sh=15
+POLICYREAD text=exact-match,256,256,0,15,8, ok=0
+POLICYREAD text=other,1,2,3,4,5 ok=0
+POLICYREAD text=exact-match,0256,256,0,15,8 ok=0
+POLICYREAD text=exact-match,12345678901,1,2,3,4 ok=0
+POLICYREAD text=exact-match,1,2,3,4 ok=0
+POLICYREAD text=exact-match,1,2,3,4,5x ok=0
+POLICYREAD text=exact-match,1,2,3,4,5,6 ok=0
+POLICYREAD text=exact-match,1,2,3,4,5 ok=1 kind=exact-match c=1 theta=2 cap=3 s=4 sh=5
+POLICYREAD text=exact-match,0,0,0,0,0 ok=1 kind=exact-match c=0 theta=0 cap=0 s=0 sh=0
+POLICYREAD text=exact-match,00,0,0,0,0 ok=0
+POLICYREAD text=,1,2,3,4,5 ok=0
+POLICYREAD text=clipped-gap,10000000000,1,2,3,4 ok=0
+POLICYREAD text=exact-match,9999999999,9999999999,9999999999,9999999999,9999999999 ok=1 kind=exact-match c=9999999999 theta=9999999999 cap=9999999999 s=9999999999 sh=9999999999
+POLICYREAD text=exact-match, ok=0
+SERVED mask=00000 form=routed-experts, five-limbs, both-clamps, prompt-source, placement-table, table-digests, no-range-words, three-bytes, ring-degree, one-shift, one-placement, softmax-table, rotary-table, norm-shifts (in KL.bin or in the lines MF and KF a norm's shift K is above its scale M and its output may be 0 for every input), two-codes (group folded and group omega or group once-folded and group once-omega have the same code length and message length. The test on the committed table then runs without its split step and the bounds argued on paper for this protocol do not cover that form. See verifier/docs/parameter-file.md), next-token (under -next-token the request must have r = T - 1 and e = T), exact-match (the request covers tokens of its own under another policy than C = theta = 2^sh with cap = 0 and sT = sh - 4 and a pass could say little. See -policy), policy-named (the option -policy names another kind of policy or another C or theta or cap or s or sh than the parameter file sets. The line covered shows what the file sets)
+SERVED mask=3ffff form=
+SERVED mask=00001 form=five-limbs, both-clamps, prompt-source, placement-table, table-digests, no-range-words, three-bytes, ring-degree, one-shift, one-placement, softmax-table, rotary-table, norm-shifts (in KL.bin or in the lines MF and KF a norm's shift K is above its scale M and its output may be 0 for every input), two-codes (group folded and group omega or group once-folded and group once-omega have the same code length and message length. The test on the committed table then runs without its split step and the bounds argued on paper for this protocol do not cover that form. See verifier/docs/parameter-file.md), next-token (under -next-token the request must have r = T - 1 and e = T), exact-match (the request covers tokens of its own under another policy than C = theta = 2^sh with cap = 0 and sT = sh - 4 and a pass could say little. See -policy), policy-named (the option -policy names another kind of policy or another C or theta or cap or s or sh than the parameter file sets. The line covered shows what the file sets)
+SERVED mask=20000 form=routed-experts, five-limbs, both-clamps, prompt-source, placement-table, table-digests, no-range-words, three-bytes, ring-degree, one-shift, one-placement, softmax-table, rotary-table, norm-shifts (in KL.bin or in the lines MF and KF a norm's shift K is above its scale M and its output may be 0 for every input), two-codes (group folded and group omega or group once-folded and group once-omega have the same code length and message length. The test on the committed table then runs without its split step and the bounds argued on paper for this protocol do not cover that form. See verifier/docs/parameter-file.md), next-token (under -next-token the request must have r = T - 1 and e = T), exact-match (the request covers tokens of its own under another policy than C = theta = 2^sh with cap = 0 and sT = sh - 4 and a pass could say little. See -policy)
+SERVED mask=002a5 form=five-limbs, prompt-source, placement-table, no-range-words, ring-degree, one-placement, softmax-table, rotary-table, norm-shifts (in KL.bin or in the lines MF and KF a norm's shift K is above its scale M and its output may be 0 for every input), two-codes (group folded and group omega or group once-folded and group once-omega have the same code length and message length. The test on the committed table then runs without its split step and the bounds argued on paper for this protocol do not cover that form. See verifier/docs/parameter-file.md), next-token (under -next-token the request must have r = T - 1 and e = T), exact-match (the request covers tokens of its own under another policy than C = theta = 2^sh with cap = 0 and sT = sh - 4 and a pass could say little. See -policy), policy-named (the option -policy names another kind of policy or another C or theta or cap or s or sh than the parameter file sets. The line covered shows what the file sets)
+SERVED mask=15555 form=five-limbs, prompt-source, table-digests, three-bytes, one-shift, softmax-table, norm-shifts (in KL.bin or in the lines MF and KF a norm's shift K is above its scale M and its output may be 0 for every input), next-token (under -next-token the request must have r = T - 1 and e = T), policy-named (the option -policy names another kind of policy or another C or theta or cap or s or sh than the parameter file sets. The line covered shows what the file sets)
+SERVED mask=2aaaa form=routed-experts, both-clamps, placement-table, no-range-words, ring-degree, one-placement, rotary-table, two-codes (group folded and group omega or group once-folded and group once-omega have the same code length and message length. The test on the committed table then runs without its split step and the bounds argued on paper for this protocol do not cover that form. See verifier/docs/parameter-file.md), exact-match (the request covers tokens of its own under another policy than C = theta = 2^sh with cap = 0 and sT = sh - 4 and a pass could say little. See -policy)
+SERVED mask=04000 form=routed-experts, five-limbs, both-clamps, prompt-source, placement-table, table-digests, no-range-words, three-bytes, ring-degree, one-shift, one-placement, softmax-table, rotary-table, norm-shifts (in KL.bin or in the lines MF and KF a norm's shift K is above its scale M and its output may be 0 for every input), next-token (under -next-token the request must have r = T - 1 and e = T), exact-match (the request covers tokens of its own under another policy than C = theta = 2^sh with cap = 0 and sT = sh - 4 and a pass could say little. See -policy), policy-named (the option -policy names another kind of policy or another C or theta or cap or s or sh than the parameter file sets. The line covered shows what the file sets)
+ROUNDNAME i=0 name=PSC epsilon
+ROUNDNAME i=1 name=PSC round
+ROUNDNAME i=2 name=PSC Y
+ROUNDNAME i=3 name=LINE
+ROUNDNAME i=4 name=ZERO
+ROUNDNAME i=5 name=BAT-sigma
+ROUNDNAME i=6 name=LKP
+ROUNDNAME i=7 name=LKP shift
+ROUNDNAME i=8 name=JOIN
+ROUNDNAME i=9 name=JOIN
+ROUNDNAME i=10 name=JOIN
+ROUNDNAME i=11 name=PSC values

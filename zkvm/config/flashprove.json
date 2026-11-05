@@ -1,0 +1,33 @@
+{
+  "schema": "fp-sp1-config/v1",
+  "program": {
+    "name": "flashprove-verifier",
+    "elf": "zkvm/target/elf-compilation/riscv64im-succinct-zkvm-elf/release/guest",
+    "vkey_record": "zkvm/config/vkey.json"
+  },
+  "inputs": {
+    "config_dir": "rust-nostd-verifier/fixtures/config",
+    "ivk_dir": "rust-nostd-verifier/fixtures/ivk",
+    "request": "rust-nostd-verifier/fixtures/example.req",
+    "y": "rust-nostd-verifier/fixtures/example.y",
+    "proof": "rust-nostd-verifier/fixtures/example.proof",
+    "id_file": "rust-nostd-verifier/fixtures/ID.txt"
+  },
+  "fp_host": "rust-nostd-verifier/target/debug/fp-host",
+  "prover": {
+    "mode": "cuda",
+    "proof_mode": "groth16",
+    "output_dir": "out/zkvm/example"
+  },
+  "chain": {
+    "rpc_url": "http://127.0.0.1:8545",
+    "sp1_verifier": null,
+    "program_vkey": null,
+    "commitment_id": "0x79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183",
+    "accepted_verdicts": ["YES", "WITHIN_LIMITS"],
+    "require_status_zero": true,
+    "authorized_agents": [
+      "0x00000000000000000000000070997970c51812dc3a010c7d01b50e0d17dc79c8"
+    ]
+  }
+}

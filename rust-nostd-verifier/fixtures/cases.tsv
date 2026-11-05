@@ -1,0 +1,27 @@
+no_args	
+bad_option	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-bogus
+bad_bits	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-bits	0128
+bad_j	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-j	0
+bad_id	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-id	xyz
+bad_policy	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-policy	clipped-gap,1,2
+bits_above	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-bits	129
+missing_key	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/no-such-ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_policy	rust-nostd-verifier/fixtures/no-such-config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+bad_key_head	-key	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/bad-key.bin	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+short_key	-key	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/short-key.bin	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+bad_proof_head	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/bad-proof.bin	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+short_proof	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/short-proof.bin	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_proof	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/no-such.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_leaf	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk-no-leaf	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+policy_version	rust-nostd-verifier/fixtures/config-badversion	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+kl_length	rust-nostd-verifier/fixtures/config-shortkl	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_request	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/no-such.req	rust-nostd-verifier/fixtures/example.y	rust-nostd-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_y	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk	rust-nostd-verifier/fixtures/example.req	rust-nostd-verifier/fixtures/no-such.y	rust-nostd-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_entry_part	-leaf	rust-nostd-verifier/fixtures/config	rust-nostd-verifier/fixtures/ivk/key.bin	rust-nostd-verifier/fixtures/no-such-entry	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+plan_no_sub	-plan
+plan_id_argc	-plan	id
+plan_accounting_asked	-plan	accounting	x	1000001
+plan_request_short	-plan	request
+plan_request_no_prompt	-plan	request	a	b	128
+plan_request_bad_option	-plan	request	a	b	128	-bogus
+plan_bogus	-plan	bogus
