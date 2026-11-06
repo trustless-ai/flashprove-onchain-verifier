@@ -54,7 +54,7 @@ Both implementations answer the same three calls; only the reported backend diff
 | Call | `FlashProveZKVerifier` | `FlashProveAttestVerifier` |
 |---|---|---|
 | `proofSystem()` | `"zk/sp1"` | `"attestation/multisig"` |
-| `proofProfile()` | `keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash))` | same construction |
+| `proofProfile()` | `keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash))` | `keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash, committeeDigest))`, where `committeeDigest = keccak256(abi.encode(signers, threshold))`: the signer list lives in storage, outside the codehash |
 | `supportsInterface` | `IProofVerifier` and `IERC165` | same |
 
 The contract name carries the product; the backend is reported, not implied. A different proof
@@ -175,7 +175,9 @@ committee members; it answers `true` once the count reaches `threshold`. Order i
 does not matter. A signature is ignored — never counted, never a revert — when it is not 65 bytes,
 has `v` outside {27, 28}, has `s` above secp256k1 n/2 (the malleable twin of a valid signature),
 recovers to `address(0)` or to a non-member, or repeats a member already counted. A bundle that
-does not decode answers `false`.
+does not decode answers `false`, and so does a bundle longer than one signature per committee member
+(`0x40 + 0xA0 * committee size` bytes), refused before decoding because the caller pays for every entry.
+An outer `IAgentVerifier` may cap proof length further.
 
 ### What an attestation does not prove
 
@@ -183,8 +185,8 @@ A committee signature proves *which* input and output the members signed, under 
 configuration, for which deployment and chain. It does not prove *when* it was signed: the earliest
 time it can be shown to exist is the block of the `IAgentVerifier` call that recorded it. An
 application that needs freshness or ordering commits to it inside what is signed — a deadline or
-nonce in the task that `inputHash` commits to, or a configuration epoch in `metadata` — rather than
-relying on the signature itself.
+nonce in the task that `inputHash` commits to, or a configuration epoch in `metadata` — and its own
+policy must then check it: this contract only verifies that it was signed, never that it is current.
 
 `test/attestation/FlashProveAttestVerifier.t.sol` covers the threshold (accepted at `threshold`,
 rejected one short, 1/1 and 3/3), duplicates counted once, outsiders ignored, binding to input,

@@ -32,6 +32,11 @@ contract FlashProveAttestVerifier is IProofVerifier, IERC165 {
     /// @notice Number of distinct valid signatures a bundle must carry to be accepted.
     uint256 public immutable threshold;
 
+    /// @notice keccak256(abi.encode(signers in deployment order, threshold)): the committee identity. It enters
+    ///         proofProfile(), because the signer list lives in storage and is not part of the codehash, so two
+    ///         deployments with the same threshold and different committees would otherwise share a profile.
+    bytes32 public immutable committeeDigest;
+
     /// @notice EIP-712 domain and struct type hashes of the attestation a committee member signs.
     bytes32 public constant DOMAIN_TYPEHASH = keccak256(
         "EIP712Domain(string name,string version,uint256 chainId,address verifyingContract)"
@@ -74,6 +79,7 @@ contract FlashProveAttestVerifier is IProofVerifier, IERC165 {
             _position[signer] = _signers.length;
         }
         threshold = threshold_;
+        committeeDigest = keccak256(abi.encode(signers_, threshold_));
     }
 
     /// @notice The committee, in deployment order.
@@ -118,7 +124,10 @@ contract FlashProveAttestVerifier is IProofVerifier, IERC165 {
         bytes calldata metadata,
         bytes calldata proof
     ) external view returns (bool) {
-        if (metadata.length != 32 || proof.length < 0x80) {
+        // The bundle is caller-supplied: every entry costs the caller gas (decoding copies it into memory, each signature
+        // is recovered). No useful bundle holds more signatures than the committee has members, so anything longer than
+        // the largest such encoding is refused before decoding. An outer IAgentVerifier may cap proof length further.
+        if (metadata.length != 32 || proof.length < 0x80 || proof.length > _maxBundleBytes()) {
             return false;
         }
         bytes32 digest = attestationDigest(inputHash, outputHash, keccak256(metadata));
@@ -187,8 +196,14 @@ contract FlashProveAttestVerifier is IProofVerifier, IERC165 {
     }
 
     /// @inheritdoc IProofVerifier
+    /// @dev Binds the committee identity as well as the code: keccak256(abi.encode(PROOF_SYSTEM, codehash, committeeDigest)).
     function proofProfile() external view returns (bytes32) {
-        return keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash));
+        return keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash, committeeDigest));
+    }
+
+    /// @dev abi.encode(bytes[]) of n 65-byte signatures: 0x40 (offset + length) + n * (0x20 offset + 0x20 length + 0x60 data).
+    function _maxBundleBytes() private view returns (uint256) {
+        return 0x40 + _signers.length * 0xA0;
     }
 
     function supportsInterface(bytes4 interfaceId) external pure returns (bool) {

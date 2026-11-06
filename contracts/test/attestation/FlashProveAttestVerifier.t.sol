@@ -76,9 +76,34 @@ contract FlashProveAttestVerifierTest is TestBase {
             keccak256(bytes("attestation/multisig")),
             "proof system"
         );
-        bytes32 expected = keccak256(abi.encode("attestation/multisig", address(att).codehash));
+        bytes32 expected = keccak256(abi.encode("attestation/multisig", address(att).codehash, keccak256(abi.encode(committee(), uint256(2)))));
         assertEq(att.proofProfile(), expected, "proof profile");
         assertNotZero(att.proofProfile(), "empty profile");
+    }
+
+    /// @dev Same code, same threshold, different committee: different profile (the committee is in storage, not in the
+    ///      codehash, so it has to be bound explicitly).
+    function test_profile_distinguishes_committees_with_the_same_threshold() public {
+        address[] memory other = new address[](3);
+        other[0] = vm.addr(K1);
+        other[1] = vm.addr(K2);
+        other[2] = vm.addr(OUTSIDER);
+        FlashProveAttestVerifier b = new FlashProveAttestVerifier(other, 2);
+        assertTrue(att.proofProfile() != b.proofProfile(), "two committees share a profile");
+        FlashProveAttestVerifier same = new FlashProveAttestVerifier(committee(), 2);
+        assertEq(att.proofProfile(), same.proofProfile(), "same committee, different profile");
+    }
+
+    /// @dev A bundle longer than one signature per committee member is refused before decoding.
+    function test_oversized_bundle_refused() public view {
+        bytes memory s1 = sig(att, K1, INPUT, RESULT);
+        bytes memory s2 = sig(att, K2, INPUT, RESULT);
+        bytes[] memory four = new bytes[](4);
+        four[0] = s1;
+        four[1] = s2;
+        four[2] = s1;
+        four[3] = s2;
+        assertFalse(att.verify(INPUT, RESULT, metadata(), abi.encode(four)), "4 signatures on a 3-member committee accepted");
     }
 
     function test_supports_interfaces() public view {
