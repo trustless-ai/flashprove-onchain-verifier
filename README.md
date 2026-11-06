@@ -101,7 +101,7 @@ recomputation rather than by trust.
 **The one rule:** nothing goes in that a third party can't independently verify from public data.
 That is why the top of this README is a set of commands, not a claim.
 
-- **Say hi on [Telegram](https://t.me/trustless_ai)** — brainstorm, share ideas and meet like-minded
+- **Say hi on Telegram** — brainstorm, share ideas and meet like-minded
   builders. No commitment needed; just come and chat.
 - **Grow with this project** — follow it, learn as it evolves, and step in whenever you are ready:
   open an issue, point out a bug, send a PR. Every contribution counts, and we review and respond as
