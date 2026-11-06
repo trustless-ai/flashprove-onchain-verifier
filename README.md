@@ -63,7 +63,8 @@ verify(bytes32 inputHash, bytes32 outputHash, bytes calldata metadata, bytes cal
 The zk path answers true only when SP1 accepts the proof for `programVKey` and the public values'
 two digests equal the caller's hashes. The attestation path answers true once enough distinct
 committee members signed the same input/output pair — a guarantee that rests on the committee, not
-on a proof system. Its preimage and bundle encoding are still TODO for the committee owner.
+on a proof system. Its EIP-712 preimage and `bytes[]` signature bundle are documented in
+[contracts/README.md](contracts/README.md#the-attestation-path).
 
 Neither reverts on bad evidence: both return `false`.
 
