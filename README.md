@@ -36,7 +36,7 @@ that — the contracts that accept that evidence, and the toolchain that produce
    │   zk/FlashProveZKVerifier                │
    │     SP1 proof in, verdict out            │
    │                                          │
-   │   attestation/AttestationVerifier        │ ◀── committee signatures arrive from
+   │   attestation/FlashProveAttestVerifier   │ ◀── committee signatures arrive from
    │     committee signatures in, verdict out │      outside this repository
    │                                          │
    │   stateless · deploy once · anyone calls │
@@ -62,7 +62,7 @@ can point at either one without changing anything else.
 | Path | Contract | `proofSystem()` | Evidence it accepts |
 |---|---|---|---|
 | `zk/` | `FlashProveZKVerifier` | `"zk/sp1"` | an SP1 proof over FPV1 public values |
-| `attestation/` | `AttestationVerifier` | `"attestation/multisig"` | signatures from a pre-approved committee |
+| `attestation/` | `FlashProveAttestVerifier` | `"attestation/multisig"` | signatures from a pre-approved committee |
 
 Both take the same four arguments:
 
@@ -78,7 +78,7 @@ verify(
 `FlashProveZKVerifier` returns `true` only when the SP1 verifier accepts the proof for
 `programVKey`, and the public-values block's two digests equal the caller's two hashes.
 
-`AttestationVerifier` is the committee path: a set of pre-approved signers attests that a given
+`FlashProveAttestVerifier` is the committee path: a set of pre-approved signers attests that a given
 input produced a given output, and the contract accepts the inference once enough distinct signers
 signed the same attestation. It is a skeleton today — the deployment configuration, the interface
 conformance and the guards are final, while the signature check carries a TODO in the source.
@@ -209,7 +209,7 @@ grep -rn "use std\|extern crate std\|static mut" rust-verifier/fp-core/src/ \
 
 | Path | What it is |
 |---|---|
-| `contracts/` | **The deployment.** Two stateless `IProofVerifier` paths — `zk/FlashProveZKVerifier` and `attestation/AttestationVerifier` — plus the FPV1 decoder, the interfaces, one example `IAgentVerifier`, the deploy and smoke scripts |
+| `contracts/` | **The deployment.** Two stateless `IProofVerifier` paths — `zk/FlashProveZKVerifier` and `attestation/FlashProveAttestVerifier` — plus the FPV1 decoder, the interfaces, one example `IAgentVerifier`, the deploy and smoke scripts |
 | `zkvm-prover/` | Where the proof comes from: the SP1 guest, the host driver, the benchmark guest, the `FPV1` definition |
 | `rust-verifier/` | Where the verdict comes from: `fp-core` (`no_std`), the CLI host, fixtures, the parity gates |
 | `config/` | The parameter set, the input manifest, the frozen verification key |

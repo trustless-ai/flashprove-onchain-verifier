@@ -4,14 +4,14 @@ pragma solidity ^0.8.24;
 import {TestBase} from "../utils/TestBase.sol";
 import {IERC165} from "../../src/interfaces/IERC165.sol";
 import {IProofVerifier} from "../../src/interfaces/IProofVerifier.sol";
-import {AttestationVerifier} from "../../src/attestation/AttestationVerifier.sol";
+import {FlashProveAttestVerifier} from "../../src/attestation/FlashProveAttestVerifier.sol";
 
 /// @notice Interface-level contract tests for the attestation path. They pin what is already
 ///         final — identifier, profile, ERC-165, guards, constructor validation. The
 ///         threshold check itself is still a placeholder, and the test that documents that
 ///         is marked so it gets replaced rather than silently kept once signatures land.
-contract AttestationVerifierTest is TestBase {
-    AttestationVerifier private att;
+contract FlashProveAttestVerifierTest is TestBase {
+    FlashProveAttestVerifier private att;
 
     bytes32 private constant INPUT = keccak256("input");
     bytes32 private constant RESULT = keccak256("result");
@@ -28,7 +28,7 @@ contract AttestationVerifierTest is TestBase {
     }
 
     function setUp() public {
-        att = new AttestationVerifier(committee(), 2);
+        att = new FlashProveAttestVerifier(committee(), 2);
     }
 
     function test_proof_system_and_profile() public view {
@@ -91,7 +91,7 @@ contract AttestationVerifierTest is TestBase {
     function test_threshold_one_of_one_placeholder_semantics() public {
         address[] memory one = new address[](1);
         one[0] = address(0x2001);
-        AttestationVerifier solo = new AttestationVerifier(one, 1);
+        FlashProveAttestVerifier solo = new FlashProveAttestVerifier(one, 1);
         assertFalse(
             solo.verify(INPUT, RESULT, metadata(), abi.encode(INPUT, RESULT, new bytes(65))),
             "skeleton accepted a 1/1 bundle"
@@ -101,7 +101,7 @@ contract AttestationVerifierTest is TestBase {
     /// @dev Threshold boundary, skeleton state: a 3/3 committee at threshold 3 still answers
     ///      false for the same placeholder reason. Replace with the real 3/3 assertion later.
     function test_threshold_three_of_three_placeholder_semantics() public {
-        AttestationVerifier all = new AttestationVerifier(committee(), 3);
+        FlashProveAttestVerifier all = new FlashProveAttestVerifier(committee(), 3);
         assertFalse(
             all.verify(INPUT, RESULT, metadata(), abi.encode(INPUT, RESULT, new bytes(65))),
             "skeleton accepted a 3/3 bundle"
@@ -109,34 +109,34 @@ contract AttestationVerifierTest is TestBase {
     }
 
     function test_reverts_on_empty_committee() public {
-        vm.expectRevert(abi.encodeWithSelector(AttestationVerifier.InvalidConfiguration.selector));
+        vm.expectRevert(abi.encodeWithSelector(FlashProveAttestVerifier.InvalidConfiguration.selector));
         address[] memory empty = new address[](0);
-        new AttestationVerifier(empty, 1);
+        new FlashProveAttestVerifier(empty, 1);
     }
 
     function test_reverts_on_zero_threshold() public {
-        vm.expectRevert(abi.encodeWithSelector(AttestationVerifier.InvalidConfiguration.selector));
-        new AttestationVerifier(committee(), 0);
+        vm.expectRevert(abi.encodeWithSelector(FlashProveAttestVerifier.InvalidConfiguration.selector));
+        new FlashProveAttestVerifier(committee(), 0);
     }
 
     function test_reverts_on_threshold_above_committee() public {
-        vm.expectRevert(abi.encodeWithSelector(AttestationVerifier.InvalidConfiguration.selector));
-        new AttestationVerifier(committee(), 4);
+        vm.expectRevert(abi.encodeWithSelector(FlashProveAttestVerifier.InvalidConfiguration.selector));
+        new FlashProveAttestVerifier(committee(), 4);
     }
 
     function test_reverts_on_duplicate_signer() public {
         address[] memory dup = new address[](2);
         dup[0] = address(0x1001);
         dup[1] = address(0x1001);
-        vm.expectRevert(abi.encodeWithSelector(AttestationVerifier.InvalidConfiguration.selector));
-        new AttestationVerifier(dup, 1);
+        vm.expectRevert(abi.encodeWithSelector(FlashProveAttestVerifier.InvalidConfiguration.selector));
+        new FlashProveAttestVerifier(dup, 1);
     }
 
     function test_reverts_on_zero_signer() public {
         address[] memory zeroed = new address[](2);
         zeroed[0] = address(0x1001);
         zeroed[1] = address(0);
-        vm.expectRevert(abi.encodeWithSelector(AttestationVerifier.InvalidConfiguration.selector));
-        new AttestationVerifier(zeroed, 1);
+        vm.expectRevert(abi.encodeWithSelector(FlashProveAttestVerifier.InvalidConfiguration.selector));
+        new FlashProveAttestVerifier(zeroed, 1);
     }
 }

@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 import {IERC165} from "../interfaces/IERC165.sol";
 import {IProofVerifier} from "../interfaces/IProofVerifier.sol";
 
-/// @title AttestationVerifier — ERC-8274 IProofVerifier backed by a signer committee
+/// @title FlashProveAttestVerifier — ERC-8274 IProofVerifier backed by a signer committee
 /// @notice The second verification path in this repository. Instead of a zk proof, a set of
 ///         pre-approved signers attests that a given input produced a given output, and the
 ///         contract accepts the inference once enough distinct signers signed the same
@@ -25,7 +25,7 @@ import {IProofVerifier} from "../interfaces/IProofVerifier.sol";
 ///      that interface says all deployment configuration arrives through `metadata`, while here
 ///      the committee and the threshold are constructor arguments and `metadata` carries a
 ///      32-byte configuration hash. A later maintainer should not read that as a violation.
-contract AttestationVerifier is IProofVerifier, IERC165 {
+contract FlashProveAttestVerifier is IProofVerifier, IERC165 {
     /// @notice Proof system identifier, in the "{paradigm}/{variant}" form ERC-8274 asks for.
     string public constant PROOF_SYSTEM = "attestation/multisig";
 

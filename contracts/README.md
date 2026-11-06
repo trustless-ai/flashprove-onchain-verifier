@@ -8,7 +8,7 @@ it trusts, not of what the interface looks like.
 | Directory | Contract | `proofSystem()` | Accepts |
 |---|---|---|---|
 | `src/zk` | `FlashProveZKVerifier` | `"zk/sp1"` | an SP1 proof over FPV1 public values |
-| `src/attestation` | `AttestationVerifier` | `"attestation/multisig"` | signatures from a pre-approved committee |
+| `src/attestation` | `FlashProveAttestVerifier` | `"attestation/multisig"` | signatures from a pre-approved committee |
 
 One instance serves every application. Neither path stores an agent, a task, a commitment ID or a
 verdict policy; deployment-time configuration arrives with each call inside `metadata`.
@@ -18,8 +18,8 @@ IAgentVerifiable  ──►  IAgentVerifier  ──┬─►  FlashProveZKVerifi
  (settlement)          (application,     │    (stateless)              (the chain's
                         stateful,        │                             SP1 verifier)
                         per app)         │
-                                         └─►  AttestationVerifier  ──►  (nothing else:
-                                              (stateless)               it checks signatures)
+                                         └─►  FlashProveAttestVerifier  ──►  (nothing else:
+                                              (stateless)                    it checks signatures)
 ```
 
 ## The call they share
@@ -51,7 +51,7 @@ attempt either way, and a revert there would throw the record away.
 
 Both implementations answer the same three calls; only the reported backend differs.
 
-| Call | `FlashProveZKVerifier` | `AttestationVerifier` |
+| Call | `FlashProveZKVerifier` | `FlashProveAttestVerifier` |
 |---|---|---|
 | `proofSystem()` | `"zk/sp1"` | `"attestation/multisig"` |
 | `proofProfile()` | `keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash))` | same construction |
@@ -113,7 +113,7 @@ Fixed offsets and zeroed reserved bytes mean a verdict has exactly one encoding.
 
 ```
 src/zk/FlashProveZKVerifier.sol             the zk IProofVerifier implementation
-src/attestation/AttestationVerifier.sol    the committee IProofVerifier implementation
+src/attestation/FlashProveAttestVerifier.sol the committee IProofVerifier implementation
 src/libraries/FlashProvePublicValues.sol  FPV1 decoder (shared: the example reads verdicts from it)
 src/interfaces/                           IProofVerifier, IAgentVerifier, IAgentVerifiable,
                                           IERC165, ISP1Verifier
@@ -130,7 +130,7 @@ scripts/                                  deploy.sh, anvil-smoke.sh
 
 ## The attestation path
 
-`AttestationVerifier` is the committee-backed path: instead of a zk proof, a set of pre-approved
+`FlashProveAttestVerifier` is the committee-backed path: instead of a zk proof, a set of pre-approved
 signers attests that a given input produced a given output, and the contract accepts the inference
 once `threshold` distinct signers signed the same attestation.
 
@@ -151,7 +151,7 @@ Still open, and marked TODO in the source:
 - the bundle encoding and the signature recovery in `_countValidSignatures`.
 
 Until those land the placeholder reports zero valid signatures, so every call answers `false`.
-`test/attestation/AttestationVerifier.t.sol` pins that state in
+`test/attestation/FlashProveAttestVerifier.t.sol` pins that state in
 `test_accepts_nothing_until_the_signature_check_lands`, so the test has to be replaced — not
 quietly kept — when the real check arrives.
 
@@ -196,7 +196,7 @@ gateway, or a circuit-specific verifier). The example form reads the remaining p
 vkey, commitment ID, accepted verdicts, status rule, authorized agents — from the configuration
 file. The program vkey falls back to `program.vkey_record` when `chain.program_vkey` is absent.
 
-`AttestationVerifier` takes `(address[] signers, uint256 threshold)` and has no script entry yet:
+`FlashProveAttestVerifier` takes `(address[] signers, uint256 threshold)` and has no script entry yet:
 the committee layout is still being settled, so it is deployed by hand for now.
 
 ## Writing your own agent verifier
