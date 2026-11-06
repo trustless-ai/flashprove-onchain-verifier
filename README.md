@@ -1,6 +1,6 @@
 <img width="3277" height="1279" alt="trustless-ai" src="https://github.com/user-attachments/assets/76710d7f-4207-45ff-bca4-74fc88610932" />
 
-# flashprove-rust-verifier
+# flashprove-onchain-verifier
 
 **The FlashProve verifier in Rust — `no_std`, and runnable inside a zkVM.**
 
