@@ -10,26 +10,30 @@ FlashProve checks a model's inference without re-running the model: a proof is v
 commitment, and the answer is recomputed from public data. This repository is the on-chain half of
 that — the contracts that accept that evidence, and the toolchain that produces it.
 
-```mermaid
-flowchart TD
-    AV["IAgentVerifier<br/>stateful · task · policy<br/>holds the IProofVerifier address"]
-
-    subgraph onchain["on chain — stateless, deploy once"]
-        ZK["FlashProveZKVerifier<br/>proofSystem() = zk/sp1"]
-        AT["FlashProveAttestVerifier<br/>proofSystem() = attestation/multisig"]
-    end
-
-    subgraph offchain["off chain"]
-        RV["rust-verifier<br/>fp-core, no_std, no state"]
-        ZP["zkvm-prover<br/>guest + host"]
-        CM["committee<br/>signatures from outside this repository"]
-    end
-
-    AV -->|"verify(inputHash, outputHash, metadata, proof)"| ZK
-    AV -->|"very same call"| AT
-    RV -->|"compiled into the guest"| ZP
-    ZP -->|"SP1 proof"| ZK
-    CM -->|"signature bundle"| AT
+```text
+┌──────────────────────────────────────────────────────────┐
+│  IAgentVerifier — stateful, written by the application   │
+│   task · policy · authority · holds the IProofVerifier   │
+│  verify(inputHash, outputHash, metadata, proof) → bool   │
+└────────────┬───────────────────────────────┬─────────────┘
+             │                               │
+             ▼                               ▼
+┌─────────────────────────┐    ┌───────────────────────────┐
+│  FlashProveZKVerifier   │    │ FlashProveAttestVerifier  │
+│      proofSystem()      │    │       proofSystem()       │
+│       = "zk/sp1"        │    │ = "attestation/multisig"  │
+│   SP1 proof over FPV1   │    │   committee signatures    │
+└────────────▲────────────┘    └─────────────▲─────────────┘
+             │ SP1 proof                     │ signatures
+┌────────────┬────────────┐    ┌─────────────┬─────────────┐
+│       zkvm-prover       │    │         committee         │
+│     guest, compiled     │    │   pre-approved signers    │
+└────────────▲────────────┘    └───────────────────────────┘
+             │ compiled into the guest
+┌────────────┬────────────┐
+│      rust-verifier      │
+│    fp-core (no_std)     │
+└─────────────────────────┘
 ```
 
 Once, from the top: your `IAgentVerifier` holds the address of one of the two on-chain verifiers
