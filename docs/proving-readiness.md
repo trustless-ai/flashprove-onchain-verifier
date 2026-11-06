@@ -19,7 +19,7 @@ baseline run consistency gate.
 |---|---|---|
 | B1 | `zkvm-prover/fp-pv` (schema), `zkvm-prover/hostlib/src/bin/gen-vkey.rs`, `config/vkey.json` | `client.setup(elf)` → `SP1VerifyingKey::bytes32`; the record holds the ELF path, size and SHA-256, the SP1 SDK and circuit versions, the on-chain vkey and the Poseidon2 digest. `--update`, `--check` (full re-derivation) and `--check-elf` (hash only). |
 | B2 | `zkvm-prover/fp-pv/src/{pv,inputs,sha256}.rs`, `zkvm-prover/guest/src/main.rs`, `zkvm-prover/host-exec/src/main.rs`, `config/input-manifest.json` | The `FPV1` block and the canonical input digest; the guest commits the block first with `commit_slice` (offset 0), then the unchanged report text, then the status; `host-exec` rebuilds the same block from `fp-host`'s stdout, requires byte equality, and requires the committed call status to equal `fp-host`'s exit status. `fp-pv manifest` freezes the nine input files and `--check` verifies them on another machine. |
-| B3 | `contracts/` | ERC-8274 `IProofVerifier` (`FlashProveVerifier`) and `IAgentVerifier` (`ExampleAgentVerifier`), the vendored SP1 verifier interface, the `FPV1` decoder, a mock SP1 verifier, tests, a production deploy script and an anvil smoke script. |
+| B3 | `contracts/` | ERC-8274 `IProofVerifier` (`FlashProveZKVerifier`) and `IAgentVerifier` (`ExampleAgentVerifier`), the vendored SP1 verifier interface, the `FPV1` decoder, a mock SP1 verifier, tests, a production deploy script and an anvil smoke script. |
 | B4 | `zkvm-prover/hostlib/src/bin/fp-prover.rs` | CPU / CUDA / mock backends behind one config; `cuda` is the config default; `--plan` validates without `setup`; proofs are verified locally and written with public values, `pv.bin` and an ABI-ready bundle. |
 | B5 | `docs/handoff.md` | The no-names handoff: frozen hashes, requirements, build/prove/verify steps, outputs, resource estimates and limits. |
 | support | `zkvm-prover/hostlib`, `config/flashprove.json`, `config/flashprove.smoke.json`, `config/flashprove.bench.json`, `zkvm-prover/scripts/{anvil-smoke,deploy,s6-check}.sh` | One configuration-driven loader for the ELF, the ten inputs, the fp-host reference and the chain parameters; scripts for the local deployment, the production deployment and the gates. |
@@ -72,7 +72,7 @@ The Rust ABI encoder (`fp-pv bundle`) was checked byte-for-byte against
 Settlement (IAgentVerifiable)
   └── ExampleAgentVerifier   binds: commitment ID, accepted-verdict mask, status rule,
         │                              authorized agents, program vkey metadata
-        └── FlashProveVerifier    calls the SP1 verifier on abi.encode(publicValues, proof),
+        └── FlashProveZKVerifier    calls the SP1 verifier on abi.encode(publicValues, proof),
               │                 then requires the block's input/result digests to equal the
               │                 caller's inputHash/outputHash
               └── ISP1Verifier  (the deployed SP1 verifier; MockSP1Verifier in local tests)
@@ -176,7 +176,7 @@ Ran 3 test suites: 32 tests passed, 0 failed, 0 skipped (32 total tests)
 
 - 9 decoder tests (magic, version, reserved bytes, verdict range, trailing bytes, big-endian
   status fields);
-- 10 `FlashProveVerifier` tests (valid bundle, wrong input/output, wrong vkey, inner rejection,
+- 10 `FlashProveZKVerifier` tests (valid bundle, wrong input/output, wrong vkey, inner rejection,
   malformed metadata/bundle/block, profile, ERC-165);
 - 13 wrapper tests (acceptance, single-use task, unauthorized agent, wrong commitment ID,
   unaccepted verdict, configured mask, nonzero status, wrong digests, inner rejection, malformed
@@ -299,7 +299,7 @@ source tree is identical before and after the switch.
 
 - **No real proving.** B4's proof is a mock; the GPU member runs `fp-prover` with
   `prover.mode = "cuda"` and `prover.proof_mode = "groth16"` using `docs/handoff.md`.
-- **No on-chain SP1 verifier.** The anvil deployment points `FlashProveVerifier` at a mock that
+- **No on-chain SP1 verifier.** The anvil deployment points `FlashProveZKVerifier` at a mock that
   accepts a placeholder proof. A real deployment sets `chain.sp1_verifier` to the deployed SP1
   verifier (the Succinct gateway or a circuit-specific verifier) and uses a Groth16 proof.
 - **The vkey is tied to this ELF.** The optimization round 3 cycle work changes the guest; when it lands, rebuild

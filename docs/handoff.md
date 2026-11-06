@@ -247,7 +247,7 @@ These numbers are order-of-magnitude. The cycle count is exact and does not depe
 - The wrapper binds a claim to the configured commitment ID, verdict and digests. It does not
   prove that the weights are hidden (`guide/weight-hiding.md`), nor that the input is legitimate.
 - The placeholder proof used by `zkvm-prover/scripts/anvil-smoke.sh` is not a proof. Never deploy
-  `MockSP1Verifier` on a real chain; point `FlashProveVerifier` at the deployed SP1 verifier.
+  `MockSP1Verifier` on a real chain; point `FlashProveZKVerifier` at the deployed SP1 verifier.
 - A proof is only valid for the exact ELF whose vkey is configured. Rebuilding the guest is a
   program change: regenerate `vkey.json`, redeploy or reconfigure the wrapper, then prove.
 - The public values are public: the report text includes the accounting and the `result-v1` line.

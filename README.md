@@ -2,67 +2,90 @@
 
 # flashprove-onchain-verifier
 
-**A stateless ERC-8274 `IProofVerifier` for FlashProve inference proofs. Deploy it once; every
-agent verifier on the chain can call it.**
+**Two stateless ERC-8274 `IProofVerifier` implementations for FlashProve inference proofs — one
+backed by a zk proof, one backed by a committee attestation. Deploy either once; every agent
+verifier on the chain can call it.**
 
 FlashProve checks a model's inference without re-running the model: a proof is verified against a
 commitment, and the answer is recomputed from public data. This repository is the on-chain half of
-that — one contract that accepts those proofs, and the toolchain that produces them.
+that — the contracts that accept that evidence, and the toolchain that produces it.
 
 ```
    off chain                                                  on chain
    ────────                                                   ────────
 
-   ┌────────────────────────────────┐
-   │ rust-verifier/                 │  the verdict itself
-   │   fp-core    no_std, no state  │  same bytes in, same answer out
-   │   fp-host    CLI entry         │  as the C++ reference, byte for byte
-   │   fixtures   byte-identical    │
-   └───────────────┬────────────────┘
-                   │ compiled into the guest
-                   ▼
-   ┌────────────────────────────────┐
-   │ zkvm-prover/                   │  where the proof comes from
-   │   guest    FPV1 public values  │
-   │   fp-pv    the block layout    │
-   │   host     execute / prove     │
-   └───────────────┬────────────────┘
-                   │ proof = abi.encode(publicValues, sp1Proof)
-                   ▼
-                                  ┌──────────────────────────────────┐
-                                  │ contracts/                       │
-                                  │   FlashProveVerifier             │
-                                  │   stateless · IProofVerifier     │
-                                  │   deploy once, everyone calls it │
-                                  └────────────▲─────────────────────┘
-                                               │ verify(inputHash, outputHash,
-                                               │        metadata, proof) → bool
-                                  ┌────────────┴─────────────────────┐
-                                  │ your IAgentVerifier              │
-                                  │ stateful · task · policy         │
-                                  └──────────────────────────────────┘
+   ┌──────────────────────────────────────────┐
+   │ rust-verifier/                           │
+   │   fp-core    no_std, no state            │
+   │   fp-host    CLI entry                   │
+   │   fixtures   byte-identical              │
+   └─────────────────────┬────────────────────┘
+                         │ compiled into the guest
+                         ▼
+   ┌─────────────────────┬────────────────────┐
+   │ zkvm-prover/                             │
+   │   guest    FPV1 public values            │
+   │   fp-pv    the block layout              │
+   │   host     execute / prove               │
+   └─────────────────────┬────────────────────┘
+                         │ zk proof → zk/FlashProveZKVerifier
+                         ▼
+   ┌─────────────────────┬────────────────────┐
+   │ contracts/                               │
+   │                                          │
+   │   zk/FlashProveZKVerifier                │
+   │     SP1 proof in, verdict out            │
+   │                                          │
+   │   attestation/AttestationVerifier        │ ◀── committee signatures arrive from
+   │     committee signatures in, verdict out │      outside this repository
+   │                                          │
+   │   stateless · deploy once · anyone calls │
+   └─────────────────────┴────────────────────┘
+                         ▲
+                         │ verify(inputHash, outputHash,
+                         │        metadata, proof) → bool
+   ┌─────────────────────┬────────────────────┐
+   │ your IAgentVerifier                      │
+   │   stateful · task · policy               │
+   └──────────────────────────────────────────┘
 ```
 
-Three components, one direction of flow: `rust-verifier` decides, `zkvm-prover` proves, `contracts`
-accepts. Only the last one is deployed, and it is deployed once.
+Four components, one direction of flow: `rust-verifier` decides, `zkvm-prover` produces the
+evidence, and `contracts` accepts it — through either of its two verification paths. Only
+`contracts` is deployed, and it is deployed once.
 
-## The contract
+## The contracts
 
-`FlashProveVerifier` implements ERC-8274's inner layer. It takes four arguments:
+Both live under `contracts/src/` and both implement the same inner layer, so an `IAgentVerifier`
+can point at either one without changing anything else.
+
+| Path | Contract | `proofSystem()` | Evidence it accepts |
+|---|---|---|---|
+| `zk/` | `FlashProveZKVerifier` | `"zk/sp1"` | an SP1 proof over FPV1 public values |
+| `attestation/` | `AttestationVerifier` | `"attestation/multisig"` | signatures from a pre-approved committee |
+
+Both take the same four arguments:
 
 ```solidity
 verify(
-    bytes32 inputHash,       // FPV1 input digest
-    bytes32 outputHash,      // FPV1 result-v1 digest
-    bytes calldata metadata, // abi.encode(bytes32 programVKey)
-    bytes calldata proof     // abi.encode(bytes publicValues, bytes sp1Proof)
+    bytes32 inputHash,       // commitment to the model input
+    bytes32 outputHash,      // commitment to the model output
+    bytes calldata metadata, // deployment-time configuration, held by the IAgentVerifier
+    bytes calldata proof     // per-inference evidence
 ) external view returns (bool);
 ```
 
-and returns `true` only when the SP1 verifier accepts the proof for `programVKey`, and the
-public-values block's two digests equal the caller's two hashes. A bad proof returns `false` rather
-than reverting, so the layer above can record a failed attempt as well as a successful one.
-`contracts/README.md` has the full layout, the FPV1 table and the exact hash scheme.
+`FlashProveZKVerifier` returns `true` only when the SP1 verifier accepts the proof for
+`programVKey`, and the public-values block's two digests equal the caller's two hashes.
+
+`AttestationVerifier` is the committee path: a set of pre-approved signers attests that a given
+input produced a given output, and the contract accepts the inference once enough distinct signers
+signed the same attestation. It is a skeleton today — the deployment configuration, the interface
+conformance and the guards are final, while the signature check carries a TODO in the source.
+
+Neither path reverts on a bad proof: both return `false`, so the layer above can record a failed
+attempt as well as a successful one. `contracts/README.md` has the full layout, the FPV1 table, and
+the hash scheme for both.
 
 ## Why one deployment serves everyone
 
@@ -72,11 +95,12 @@ provider. The outer layer — `IAgentVerifier` — is stateful, is written by ea
 all of the configuration: which program vkey, which commitment ID, which verdicts count, who is
 authorized.
 
-That split is what makes a single deployment useful. The program vkey arrives per call inside
-`metadata`, so one `FlashProveVerifier` serves any number of agent verifiers, each with a different
-circuit, without redeployment. Deploy it once, and applications point at it. ERC-8274 goes further
-and says settlement contracts must not call `IProofVerifier` directly — they call an
-`IAgentVerifier`, which calls this.
+That split is what makes a single deployment useful. The zk path takes its program vkey per call
+inside `metadata`; the attestation path fixes its committee at construction. Either way, one
+instance serves any number of agent verifiers without redeployment — instances differ by backend,
+not by application. Deploy it once, and applications point at it. ERC-8274 goes further and says
+settlement contracts must not call `IProofVerifier` directly — they call an `IAgentVerifier`, which
+calls this.
 
 ## The name is the product; the backend is reported
 
@@ -114,7 +138,7 @@ must agree. Implementation: `zkvm-prover/fp-pv/src/inputs.rs`.
 ## Bringing your own agent verifier
 
 `contracts/src/examples/ExampleAgentVerifier.sol` is one complete outer layer: it binds a
-`FlashProveVerifier`, a program vkey, a commitment ID and an accepted-verdict mask, authorizes a set
+`FlashProveZKVerifier`, a program vkey, a commitment ID and an accepted-verdict mask, authorizes a set
 of agents, consumes the task on success, and emits a digest on every call — success or failure.
 
 It is a sample, not part of the shared deployment. Write your own with the same shape: the
@@ -124,10 +148,14 @@ submit — is policy, and policy belongs to you.
 
 ## What it proves, and what it does not
 
-It proves that a proof, bound to a specific program vkey, verified under the SP1 verifier this
-chain trusts, and that the block's digests equal the two hashes the caller supplied.
+On the zk path, it proves that a proof, bound to a specific program vkey, verified under the SP1
+verifier this chain trusts, and that the block's digests equal the two hashes the caller supplied.
 
-It does not prove that the model is the one you wanted, that the inputs are honest, that the
+On the attestation path, `threshold` distinct committee members asserted the same relation instead.
+The guarantee is different in kind: it rests on the committee being honest and independent, not on
+a proof system, and it is worth exactly as much as that assumption.
+
+Neither path proves that the model is the one you wanted, that the inputs are honest, that the
 commitment ID belongs to your circuit, or that the task was authorized and paid for. Those are
 claims about configuration and context — they belong to the `IAgentVerifier` above, or to whoever
 signed the input.
@@ -139,6 +167,11 @@ from the C++ reference and held to it byte for byte by the parity gates. `zkvm-p
 compiles that same core into an SP1 guest, which commits a 128-byte `FPV1` block before anything
 else; `zkvm-prover/host-exec` executes or proves it — CPU and GPU backends, GPU by default. No
 real proving runs here: proving is expected to run where a GPU cluster is available.
+
+That toolchain feeds the `zk/` path only. The `attestation/` path has no guest and no proof: the
+evidence is a signature bundle from the committee that ran the inference, which arrives from
+outside this repository. `zkvm-prover/` and `rust-verifier/` are what a zk deployment needs, not
+what a committee deployment needs.
 
 The upstream C++ reference is a submodule at `upstream/FlashProve`, pinned to
 `9e2bdd8ff5bf9c62f18263d7dac189b0400b260c` (FlashProve 0.16.0, Apache-2.0). Two things come from
@@ -176,7 +209,7 @@ grep -rn "use std\|extern crate std\|static mut" rust-verifier/fp-core/src/ \
 
 | Path | What it is |
 |---|---|
-| `contracts/` | **The deployment.** `FlashProveVerifier` (stateless, `IProofVerifier`), the FPV1 decoder, the interfaces, one example `IAgentVerifier`, the deploy and smoke scripts |
+| `contracts/` | **The deployment.** Two stateless `IProofVerifier` paths — `zk/FlashProveZKVerifier` and `attestation/AttestationVerifier` — plus the FPV1 decoder, the interfaces, one example `IAgentVerifier`, the deploy and smoke scripts |
 | `zkvm-prover/` | Where the proof comes from: the SP1 guest, the host driver, the benchmark guest, the `FPV1` definition |
 | `rust-verifier/` | Where the verdict comes from: `fp-core` (`no_std`), the CLI host, fixtures, the parity gates |
 | `config/` | The parameter set, the input manifest, the frozen verification key |

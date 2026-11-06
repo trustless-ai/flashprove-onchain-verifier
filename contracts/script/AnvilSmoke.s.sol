@@ -6,7 +6,7 @@ import {ExampleAgentVerifier} from "../src/examples/ExampleAgentVerifier.sol";
 import {FlashProvePublicValues} from "../src/libraries/FlashProvePublicValues.sol";
 import {IProofVerifier} from "../src/interfaces/IProofVerifier.sol";
 import {MockSP1Verifier} from "../src/mocks/MockSP1Verifier.sol";
-import {FlashProveVerifier} from "../src/FlashProveVerifier.sol";
+import {FlashProveZKVerifier} from "../src/zk/FlashProveZKVerifier.sol";
 
 /// @title AnvilSmoke — deploy the stack to a local anvil and walk the ERC-8274 call path
 /// @notice The proof is a placeholder: the bundle's public values are the real FPV1 block from
@@ -50,7 +50,7 @@ contract AnvilSmoke {
         vm.startBroadcast(deployerKey);
         MockSP1Verifier mock = new MockSP1Verifier(true);
         mock.setExpectedProgramVKey(programVKey);
-        FlashProveVerifier sp1 = new FlashProveVerifier(address(mock));
+        FlashProveZKVerifier sp1 = new FlashProveZKVerifier(address(mock));
         ExampleAgentVerifier agentVerifier = new ExampleAgentVerifier(
             IProofVerifier(address(sp1)),
             abi.encode(programVKey),

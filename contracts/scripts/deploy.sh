@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Deploy the on-chain side.
 #
-#   ./contracts/scripts/deploy.sh                  deploy only FlashProveVerifier
+#   ./contracts/scripts/deploy.sh                  deploy only FlashProveZKVerifier
 #                                                  (the shared, stateless IProofVerifier)
-#   ./contracts/scripts/deploy.sh --with-example   deploy FlashProveVerifier plus one
+#   ./contracts/scripts/deploy.sh --with-example   deploy FlashProveZKVerifier plus one
 #                                                  ExampleAgentVerifier, to walk the full path
 #
 # Required in the environment: DEPLOYER_PRIVATE_KEY.
@@ -33,7 +33,7 @@ RPC_URL="${RPC_URL:-$(jq -r '.chain.rpc_url' "$CONFIG")}"
 cd "$ROOT/contracts"
 
 if [ "$MODE" = "verifier" ]; then
-  echo "deploy: FlashProveVerifier only (IProofVerifier, stateless, zk/sp1)"
+  echo "deploy: FlashProveZKVerifier only (IProofVerifier, stateless, zk/sp1)"
   echo "  rpc            $RPC_URL"
   echo "  sp1 verifier   $SP1_VERIFIER"
   DEPLOYER_PRIVATE_KEY="$DEPLOYER_PRIVATE_KEY" \
@@ -63,7 +63,7 @@ while IFS= read -r verdict; do
   MASK=$(( MASK | (1 << code) ))
 done < <(jq -r '.chain.accepted_verdicts[]' "$CONFIG")
 
-echo "deploy: FlashProveVerifier + ExampleAgentVerifier"
+echo "deploy: FlashProveZKVerifier + ExampleAgentVerifier"
 echo "  rpc            $RPC_URL"
 echo "  sp1 verifier   $SP1_VERIFIER"
 echo "  program vkey   $PROGRAM_VKEY"

@@ -7,7 +7,7 @@ import {ISP1Verifier} from "../interfaces/ISP1Verifier.sol";
 /// @notice NOT FOR PRODUCTION. It accepts a placeholder proof whose first four bytes are
 ///         "FP-P" (0x46502d50) after the other shape checks pass. The anvil smoke test uses it to
 ///         walk the whole ERC-8274 call path without a real proof; a real deployment points
-///         FlashProveVerifier at the deployed Succinct verifier instead.
+///         FlashProveZKVerifier at the deployed Succinct verifier instead.
 contract MockSP1Verifier is ISP1Verifier {
     /// @dev First four bytes of the placeholder proof: "FP-P".
     bytes4 public constant PLACEHOLDER_HEAD = 0x46502d50;

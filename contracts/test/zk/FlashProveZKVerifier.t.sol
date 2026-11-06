@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {TestBase} from "./utils/TestBase.sol";
-import {IERC165} from "../src/interfaces/IERC165.sol";
-import {IProofVerifier} from "../src/interfaces/IProofVerifier.sol";
-import {MockSP1Verifier} from "../src/mocks/MockSP1Verifier.sol";
-import {FlashProveVerifier} from "../src/FlashProveVerifier.sol";
+import {TestBase} from "../utils/TestBase.sol";
+import {IERC165} from "../../src/interfaces/IERC165.sol";
+import {IProofVerifier} from "../../src/interfaces/IProofVerifier.sol";
+import {MockSP1Verifier} from "../../src/mocks/MockSP1Verifier.sol";
+import {FlashProveZKVerifier} from "../../src/zk/FlashProveZKVerifier.sol";
 
-contract FlashProveVerifierTest is TestBase {
+contract FlashProveZKVerifierTest is TestBase {
     MockSP1Verifier private mock;
-    FlashProveVerifier private sp1;
+    FlashProveZKVerifier private sp1;
 
     bytes32 private constant VKEY = keccak256("program-vkey");
     bytes32 private constant INPUT = keccak256("input");
@@ -19,7 +19,7 @@ contract FlashProveVerifierTest is TestBase {
     function setUp() public {
         mock = new MockSP1Verifier(true);
         mock.setExpectedProgramVKey(VKEY);
-        sp1 = new FlashProveVerifier(address(mock));
+        sp1 = new FlashProveZKVerifier(address(mock));
     }
 
     function bundle(bytes memory pv) private pure returns (bytes memory) {

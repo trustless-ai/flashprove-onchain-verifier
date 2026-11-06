@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import {IERC165} from "./interfaces/IERC165.sol";
-import {IProofVerifier} from "./interfaces/IProofVerifier.sol";
-import {ISP1Verifier} from "./interfaces/ISP1Verifier.sol";
-import {FlashProvePublicValues} from "./libraries/FlashProvePublicValues.sol";
+import {IERC165} from "../interfaces/IERC165.sol";
+import {IProofVerifier} from "../interfaces/IProofVerifier.sol";
+import {ISP1Verifier} from "../interfaces/ISP1Verifier.sol";
+import {FlashProvePublicValues} from "../libraries/FlashProvePublicValues.sol";
 
-/// @title FlashProveVerifier — ERC-8274 IProofVerifier for FlashProve's SP1 circuit
+/// @title FlashProveZKVerifier — ERC-8274 IProofVerifier for FlashProve's SP1 circuit
 /// @notice The inner, stateless layer. `metadata` is `abi.encode(bytes32 programVKey)`; `proof`
 ///         is `abi.encode(bytes publicValues, bytes sp1Proof)` — the bundle `fp-prover` writes.
 ///         The SP1 verifier checks the proof against the first 128 bytes-plus-prefix public
@@ -14,7 +14,7 @@ import {FlashProvePublicValues} from "./libraries/FlashProvePublicValues.sol";
 ///         `inputHash` and `outputHash`.
 /// @dev The application checks — commitment ID, accepted verdicts, call status — belong to the
 ///      outer IAgentVerifier, not here.
-contract FlashProveVerifier is IProofVerifier, IERC165 {
+contract FlashProveZKVerifier is IProofVerifier, IERC165 {
     /// @notice The deployed SP1 verifier (the Succinct gateway or a circuit-specific verifier).
     address public immutable sp1Verifier;
 

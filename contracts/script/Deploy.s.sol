@@ -4,7 +4,7 @@ pragma solidity ^0.8.24;
 import {Vm} from "../test/utils/TestBase.sol";
 import {ExampleAgentVerifier} from "../src/examples/ExampleAgentVerifier.sol";
 import {IProofVerifier} from "../src/interfaces/IProofVerifier.sol";
-import {FlashProveVerifier} from "../src/FlashProveVerifier.sol";
+import {FlashProveZKVerifier} from "../src/zk/FlashProveZKVerifier.sol";
 
 /// @title Deploy — the production deployment, configured entirely by environment parameters
 /// @notice Required parameters (the deploy script `contracts/scripts/deploy.sh` fills them from the
@@ -37,7 +37,7 @@ contract Deploy {
         bytes32[] memory agents = parseAgents(vm.envString("AUTHORIZED_AGENTS"));
 
         vm.startBroadcast(deployerKey);
-        FlashProveVerifier sp1 = new FlashProveVerifier(sp1Verifier);
+        FlashProveZKVerifier sp1 = new FlashProveZKVerifier(sp1Verifier);
         ExampleAgentVerifier agentVerifier = new ExampleAgentVerifier(
             IProofVerifier(address(sp1)),
             abi.encode(programVKey),

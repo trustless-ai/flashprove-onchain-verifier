@@ -2,7 +2,7 @@
 pragma solidity ^0.8.24;
 
 import {Vm} from "../test/utils/TestBase.sol";
-import {FlashProveVerifier} from "../src/FlashProveVerifier.sol";
+import {FlashProveZKVerifier} from "../src/zk/FlashProveZKVerifier.sol";
 
 /// @title DeployVerifier — deploy the stateless `IProofVerifier`, and nothing else
 /// @notice This is the deployment every application shares. It has one constructor parameter and
@@ -21,7 +21,7 @@ contract DeployVerifier {
         address sp1Verifier = vm.envAddress("SP1_VERIFIER");
 
         vm.startBroadcast(deployerKey);
-        FlashProveVerifier verifier = new FlashProveVerifier(sp1Verifier);
+        FlashProveZKVerifier verifier = new FlashProveZKVerifier(sp1Verifier);
         vm.stopBroadcast();
 
         emit VerifierDeployed(address(verifier), sp1Verifier);

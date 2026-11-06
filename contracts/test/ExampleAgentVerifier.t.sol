@@ -7,11 +7,11 @@ import {IERC165} from "../src/interfaces/IERC165.sol";
 import {IAgentProofProfile, IAgentVerifier} from "../src/interfaces/IAgentVerifier.sol";
 import {IProofVerifier} from "../src/interfaces/IProofVerifier.sol";
 import {MockSP1Verifier} from "../src/mocks/MockSP1Verifier.sol";
-import {FlashProveVerifier} from "../src/FlashProveVerifier.sol";
+import {FlashProveZKVerifier} from "../src/zk/FlashProveZKVerifier.sol";
 
 contract ExampleAgentVerifierTest is TestBase {
     MockSP1Verifier private mock;
-    FlashProveVerifier private sp1;
+    FlashProveZKVerifier private sp1;
     ExampleAgentVerifier private agentVerifier;
 
     bytes32 private constant VKEY = keccak256("program-vkey");
@@ -29,7 +29,7 @@ contract ExampleAgentVerifierTest is TestBase {
     function setUp() public {
         mock = new MockSP1Verifier(true);
         mock.setExpectedProgramVKey(VKEY);
-        sp1 = new FlashProveVerifier(address(mock));
+        sp1 = new FlashProveZKVerifier(address(mock));
         agentVerifier = deployAgentVerifier(ACCEPT_YES_AND_WITHIN_LIMITS, true);
     }
 

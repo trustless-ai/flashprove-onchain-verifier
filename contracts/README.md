@@ -1,47 +1,61 @@
-# The on-chain verifier
+# The on-chain verifiers
 
-`FlashProveVerifier` is the deployment. It is a stateless `IProofVerifier` — ERC-8274's inner,
-algorithm-specific layer — for FlashProve inference proofs, carried by SP1 (`zk/sp1`).
+This directory holds two stateless `IProofVerifier` implementations — ERC-8274's inner,
+algorithm-specific layer. An `IAgentVerifier` wraps either of them, keeps the state, and decides
+which verdicts count as an answer. Which one an application picks is a question of what evidence
+it trusts, not of what the interface looks like.
 
-One instance serves every application. It stores no agent, no task, no commitment ID and no
-verdict policy; the program vkey arrives with each call, inside `metadata`. An `IAgentVerifier`
-wraps it, keeps the state, and decides which verdicts count as an answer.
+| Directory | Contract | `proofSystem()` | Accepts |
+|---|---|---|---|
+| `src/zk` | `FlashProveZKVerifier` | `"zk/sp1"` | an SP1 proof over FPV1 public values |
+| `src/attestation` | `AttestationVerifier` | `"attestation/multisig"` | signatures from a pre-approved committee |
+
+One instance serves every application. Neither path stores an agent, a task, a commitment ID or a
+verdict policy; deployment-time configuration arrives with each call inside `metadata`.
 
 ```
-IAgentVerifiable  ──►  IAgentVerifier  ──►  FlashProveVerifier  ──►  ISP1Verifier
- (settlement)          (application,        (this contract,         (the chain's
-                        stateful,           stateless)              SP1 verifier)
-                        per app)
+IAgentVerifiable  ──►  IAgentVerifier  ──┬─►  FlashProveZKVerifier  ──►  ISP1Verifier
+ (settlement)          (application,     │    (stateless)              (the chain's
+                        stateful,        │                             SP1 verifier)
+                        per app)         │
+                                         └─►  AttestationVerifier  ──►  (nothing else:
+                                              (stateless)               it checks signatures)
 ```
 
-## The call
+## The call they share
 
 ```solidity
 function verify(
-    bytes32 inputHash,       // FPV1 input digest
-    bytes32 outputHash,      // FPV1 result-v1 digest
-    bytes calldata metadata, // abi.encode(bytes32 programVKey)
-    bytes calldata proof     // abi.encode(bytes publicValues, bytes sp1Proof)
+    bytes32 inputHash,       // commitment to the model input
+    bytes32 outputHash,      // commitment to the model output
+    bytes calldata metadata, // deployment-time configuration, held by the IAgentVerifier
+    bytes calldata proof     // per-inference evidence
 ) external view returns (bool);
 ```
 
-`true` requires all three:
+What `metadata` and `proof` carry is each backend's business, and both are documented below. In
+the zk path, `true` requires all three:
 
 1. the SP1 verifier on this chain accepts `sp1Proof` for `programVKey` over `publicValues`;
 2. the FPV1 block's `input_digest` equals `inputHash`;
 3. the FPV1 block's `result_v1_digest` equals `outputHash`.
 
-A malformed bundle (`metadata` not 32 bytes, `proof` shorter than `0x40`) or any failing step
-returns `false`. The contract does not revert on a bad proof: the outer layer is expected to
-record the attempt either way, and a revert there would throw the record away.
+In the attestation path, `true` will require `threshold` distinct committee signatures over the
+same attestation — see [The attestation path](#the-attestation-path), which also lists what is
+still TODO.
+
+Neither path reverts on a bad proof: both return `false`, so the outer layer can record the
+attempt either way, and a revert there would throw the record away.
 
 ## What it says about itself
 
-| Call | Value |
-|---|---|
-| `proofSystem()` | `"zk/sp1"` — the paradigm and variant, per ERC-8274 |
-| `proofProfile()` | `keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash))` |
-| `supportsInterface` | `IProofVerifier` and `IERC165` |
+Both implementations answer the same three calls; only the reported backend differs.
+
+| Call | `FlashProveZKVerifier` | `AttestationVerifier` |
+|---|---|---|
+| `proofSystem()` | `"zk/sp1"` | `"attestation/multisig"` |
+| `proofProfile()` | `keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash))` | same construction |
+| `supportsInterface` | `IProofVerifier` and `IERC165` | same |
 
 The contract name carries the product; the backend is reported, not implied. A different proof
 system is a different deployment, with a different `proofSystem()` string and therefore a
@@ -98,18 +112,51 @@ Fixed offsets and zeroed reserved bytes mean a verdict has exactly one encoding.
 ## Layout
 
 ```
-src/FlashProveVerifier.sol                 the IProofVerifier implementation
-src/libraries/FlashProvePublicValues.sol  FPV1 decoder
+src/zk/FlashProveZKVerifier.sol             the zk IProofVerifier implementation
+src/attestation/AttestationVerifier.sol    the committee IProofVerifier implementation
+src/libraries/FlashProvePublicValues.sol  FPV1 decoder (shared: the example reads verdicts from it)
 src/interfaces/                           IProofVerifier, IAgentVerifier, IAgentVerifiable,
                                           IERC165, ISP1Verifier
 src/examples/ExampleAgentVerifier.sol     one complete IAgentVerifier, for reference
 src/mocks/MockSP1Verifier.sol             accepts a placeholder proof; local chains only
-test/                                     unit and path tests, including the negative controls
-script/DeployVerifier.s.sol               deploys FlashProveVerifier alone
+test/zk/                                  the zk contract's tests, including the negative controls
+test/attestation/                         the committee contract's interface-level tests
+test/FlashProvePublicValues.t.sol         FPV1 decoder vectors
+script/DeployVerifier.s.sol               deploys FlashProveZKVerifier alone
 script/Deploy.s.sol                       deploys it plus one ExampleAgentVerifier
-script/AnvilSmoke.s.sol                   the whole path against a local anvil
+script/AnvilSmoke.s.sol                   the whole zk path against a local anvil
 scripts/                                  deploy.sh, anvil-smoke.sh
 ```
+
+## The attestation path
+
+`AttestationVerifier` is the committee-backed path: instead of a zk proof, a set of pre-approved
+signers attests that a given input produced a given output, and the contract accepts the inference
+once `threshold` distinct signers signed the same attestation.
+
+It is a skeleton on purpose. What is already final:
+
+- the interface — the same `verify(inputHash, outputHash, metadata, proof)` as the zk path, the
+  same `proofSystem()` / `proofProfile()` shape, the same ERC-165 answer;
+- deployment configuration — the committee and the threshold are constructor arguments, validated
+  (empty committee, zero threshold, threshold above the committee, duplicate or zero signer all
+  revert with `InvalidConfiguration()`), and never written again, so the instance stays stateless;
+- the failure mode — unparseable input returns `false`, never reverts;
+- the guards — `metadata` must be 32 bytes, `proof` must be at least `0x80`.
+
+Still open, and marked TODO in the source:
+
+- the attestation preimage (`attestationDigest`) — whether the domain is EIP-712, whether
+  `metadata` enters as a hash, whether the chain id belongs in it;
+- the bundle encoding and the signature recovery in `_countValidSignatures`.
+
+Until those land the placeholder reports zero valid signatures, so every call answers `false`.
+`test/attestation/AttestationVerifier.t.sol` pins that state in
+`test_accepts_nothing_until_the_signature_check_lands`, so the test has to be replaced — not
+quietly kept — when the real check arrives.
+
+Whatever preimage **and bundle encoding** are chosen must be documented in this file the way the zk
+path's hash scheme is: ERC-8274 requires a verifier's commitment scheme to be written down.
 
 ## Build and test
 
@@ -128,7 +175,7 @@ they need in `test/utils/TestBase.sol`.
 ```
 
 It reads `config/flashprove.json`, computes the real `FPV1` block with `fp-pv bundle`, deploys the
-mock SP1 verifier, `FlashProveVerifier` and one `ExampleAgentVerifier`, and calls `verify()` with a
+mock SP1 verifier, `FlashProveZKVerifier` and one `ExampleAgentVerifier`, and calls `verify()` with a
 placeholder proof. The proof is not a proof; the call path, the decoding, the commitment / verdict
 / status checks and the digest comparison are all exercised.
 
@@ -136,7 +183,7 @@ placeholder proof. The proof is not a proof; the call path, the decoding, the co
 
 ```bash
 export DEPLOYER_PRIVATE_KEY=...
-./scripts/deploy.sh               # only FlashProveVerifier
+./scripts/deploy.sh               # only FlashProveZKVerifier
 ./scripts/deploy.sh --with-example
 ```
 
@@ -148,6 +195,9 @@ walked end to end — that contract is a sample, not part of the shared deployme
 gateway, or a circuit-specific verifier). The example form reads the remaining parameters — program
 vkey, commitment ID, accepted verdicts, status rule, authorized agents — from the configuration
 file. The program vkey falls back to `program.vkey_record` when `chain.program_vkey` is absent.
+
+`AttestationVerifier` takes `(address[] signers, uint256 threshold)` and has no script entry yet:
+the committee layout is still being settled, so it is deployed by hand for now.
 
 ## Writing your own agent verifier
 
