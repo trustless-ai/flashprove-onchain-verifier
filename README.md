@@ -2,7 +2,7 @@
 
 # flashprove-onchain-verifier
 
-**Two stateless [ERC-8274] `IProofVerifier` implementations for FlashProve inference proofs — one
+**Two stateless [ERC-8274] `IProofVerifier` implementations for [FlashProve] inference proofs — one
 backed by a zk proof, one backed by a committee attestation. Deploy either once; every agent
 verifier on the chain can call it.**
 
@@ -129,3 +129,4 @@ Apache License 2.0 — the same license as the FlashProve reference implementati
 See `LICENSE`, and `NOTICE` / `THIRD_PARTY.md` for the third-party notices.
 
 [ERC-8274]: https://ethereum-magicians.org/t/erc-8274-ai-inference-proof-verification/28083
+[FlashProve]: https://github.com/anthropics/FlashProve
