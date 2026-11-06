@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies]
-# Pinned with the guest and the toolchain (see docs/s5-cycle-report.md).
+# Pinned with the guest and the toolchain (see ../docs/cycle-baseline.md).
 sp1-sdk = { version = "=6.10.0", features = ["blocking"] }
 sp1-core-executor = "=6.10.0"
 # The configuration, input loader and fp-host reference.

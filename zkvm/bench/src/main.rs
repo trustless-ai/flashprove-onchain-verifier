@@ -1,4 +1,4 @@
-//! S5a-2's microbenchmark guest: `n` BLAKE2b compressions of one 128-byte block in one of four
+//! The microbenchmark guest: `n` BLAKE2b compressions of one 128-byte block in one of four
 //! implementations.
 //!
 //!   mode 0: fp-core's current `blake2b::f` (the verifier's implementation)

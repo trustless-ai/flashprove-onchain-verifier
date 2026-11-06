@@ -2,7 +2,7 @@
 //! link list's shape checks (`vf_segments.inc:86-99`, `184-185`) and one sub-proof's pending claim
 //! (`pendingRowH`, `vf_segments.inc:275-278`). The runners that read a layer's, an attention's or
 //! the head's proof inside a segment, and `buildLinksH`'s construction of the list from their
-//! plans, belong to S3 with the sub-proofs themselves.
+//! plans, belong to the sub-proof layer with the sub-proofs themselves.
 
 use alloc::string::String;
 use alloc::vec::Vec;
@@ -34,7 +34,7 @@ impl Default for LinkKind {
 }
 
 /// One segment of the request's chain (`LinkH`, vf_segments.inc:17-30), with what the driver
-/// needs. The sub-proof's own objects (`tl`, `Fp`, `Tp`, `rounds`) stay with its runner in S3;
+/// needs. The sub-proof's own objects (`tl`, `Fp`, `Tp`, `rounds`) stay with its runner in the sub-proof layer;
 /// `has_rounds` records that the plan gave it rounds (the C++ `rounds` pointer is not null and the
 /// function it names is not empty).
 #[derive(Clone, Debug)]

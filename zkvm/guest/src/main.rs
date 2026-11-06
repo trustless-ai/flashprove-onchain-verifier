@@ -1,4 +1,4 @@
-//! S5: the FlashProve verifier inside SP1.
+//! The FlashProve verifier inside SP1.
 //!
 //! Private input, in this order. Each byte string uses `sp1_zkvm::io::read`'s standard
 //! serialization (a length, then the bytes):
@@ -18,7 +18,7 @@
 //!      line. Committed with `commit_slice`, so it starts at offset 0; this is what the ERC-8274
 //!      contract decodes.
 //!   2. the call's accounting, the `result-v1` line and `YES` — the same lines that `fp-host`
-//!      prints on the accepted example (the S5 consistency gate).
+//!      prints on the accepted example (the consistency gate).
 //!   3. the call's status (`i32`).
 
 #![no_std]

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# S1 parity gate for the no_std verifier port.
+# CLI parity gate for the no_std verifier port.
 #
 # It checks three things:
 #   1. the stored C++ goldens still match a C++ reference built from this checkout;
-#   2. the Rust host matches C++ byte for byte (stdout, stderr, exit status) on the S1 cases:
+#   2. the Rust host matches C++ byte for byte (stdout, stderr, exit status) on the CLI cases:
 #      command-line errors, unreadable inputs and file/header rejections;
 #   3. the Rust host matches the accepted example's 105-line golden.
 #
 # The C++ side of the accepted example and of the two negative controls is checked here against
-# the stored goldens; the Rust side of all three is S3's gate, scripts/parity_e2e.sh.
+# the stored goldens; the Rust side of all three is the end-to-end gate, scripts/parity_e2e.sh.
 #
 # Usage: scripts/parity.sh            (from anywhere)
 #        CPP_BIN=/path/to/cp_verify scripts/parity.sh
@@ -50,7 +50,7 @@ fail=0
 ok() { pass=$((pass + 1)); }
 bad() { fail=$((fail + 1)); echo "FAIL: $*"; }
 
-# One S1 case: C++ against its stored golden, then Rust against C++.
+# One CLI case: C++ against its stored golden, then Rust against C++.
 run_case() {
   name=$1
   shift
@@ -101,7 +101,7 @@ REQ=rust-nostd-verifier/fixtures/example.req
 Y=rust-nostd-verifier/fixtures/example.y
 PROOF=rust-nostd-verifier/fixtures/example.proof
 
-# 1. S1 cases from the manifest.
+# 1. CLI cases from the manifest.
 while IFS=$'\t' read -r -a parts; do
   [ "${#parts[@]}" -eq 0 ] && continue
   name=${parts[0]}

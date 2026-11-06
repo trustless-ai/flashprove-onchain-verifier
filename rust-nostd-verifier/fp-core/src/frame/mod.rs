@@ -1,6 +1,6 @@
 //! The format's frame, ported from `blocks/frame/`.
 //!
-//! S2b-4 begins with the strict parameter parser; the derived sizes, plans and checks follow.
+//! The frame layer begins with the strict parameter parser; the derived sizes, plans and checks follow.
 
 pub mod check;
 pub mod check_entry;

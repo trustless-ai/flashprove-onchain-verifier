@@ -1,5 +1,5 @@
-//! S5/S6 host: execute the guest in SP1 (execution only, no proving) and check its public output
-//! against `fp-host`, the S3 reference.
+//! zkVM host: execute the guest in SP1 (execution only, no proving) and check its public output
+//! against `fp-host`, the reference.
 //!
 //! The guest's private input is what a `cp_verify` call reads from its five paths: the
 //! configuration folder's `policy.txt`, `layout.txt` and `KL.bin`, the ivk folder's `key.bin` and
@@ -31,7 +31,7 @@ struct Args {
     config: PathBuf,
     root: PathBuf,
     elf: Option<PathBuf>,
-    /// S5a-3: `--part <0|1|2|3>` runs one stage only (0 is the whole call).
+    ///  `--part <0|1|2|3>` runs one stage only (0 is the whole call).
     part: u32,
 }
 
@@ -78,7 +78,7 @@ fn load_elf(root: &Path, config: &Config, override_path: Option<PathBuf>) -> (Pa
     (path, bytes)
 }
 
-/// S5a-3: the execute report's opcode counts, most frequent first.
+///  the execute report's opcode counts, most frequent first.
 fn print_opcodes(report: &ExecutionReport, total: u64) {
     let mut rows: Vec<(String, u64)> = report
         .opcode_counts
@@ -144,7 +144,7 @@ fn main() {
     let expected_digest = inputs.input_digest();
     println!("host-exec: input digest 0x{}", hex(&expected_digest));
 
-    // The guest reads `part` after the commitment ID (S5a-3's stage selector).
+    // The guest reads `part` after the commitment ID (the stage selector).
     let mut stdin = inputs.stdin();
     stdin.write(&args.part);
 
@@ -211,7 +211,7 @@ fn main() {
         fail("the guest's input digest does not match the files on disk");
     }
 
-    // The S3 reference: `fp-host` on the same five paths, with the same ID and -q.
+    // The reference: `fp-host` on the same five paths, with the same ID and -q.
     let reference = hostlib::run_fp_host(&args.root, &config, &inputs)
         .unwrap_or_else(|e| fail(&format!("{e:#}")));
     let reference_out = reference.stdout.as_str();

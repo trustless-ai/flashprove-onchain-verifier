@@ -8,8 +8,8 @@
 //! printed before it is kept.
 //!
 //! Not yet ported: the `q9`/`h9` no-overflow conditions and a few checks that only reject malformed
-//! parameter files without printing (they pass on every admitted parameter file). The S4 lanes
-//! extend the negative side; the accepted path and the two S3 negatives do not reach them.
+//! parameter files without printing (they pass on every admitted parameter file). The negative-control lanes
+//! extend the negative side; the accepted path and the two end-to-end negatives do not reach them.
 
 use alloc::format;
 use alloc::rc::Rc;
@@ -252,7 +252,7 @@ fn last_line(
 }
 
 /// `planEndH` (`cp_verify.cpp:2435-2461`): what a planning call prints after the plans. The round
-/// and field listings are not ported; the S4 planning cases ask for neither.
+/// and field listings are not ported; the planning cases ask for neither.
 fn plan_end(
     out: &mut String,
     st: &Setup,

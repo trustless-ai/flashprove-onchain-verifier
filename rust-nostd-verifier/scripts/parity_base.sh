@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# S2b parity: the base blocks
-#   S2b-1: iop/message.h, chain/{chain,public,rounds}.h, tree/* (verifier side), code/*;
-#   S2b-2: algebraic and fold blocks (tensor, hp, psc, mask, bat, fold, cs, iopp, send, ...);
-#   S2b-3: commitment and lookup blocks (foldeq, lin, link, member, lkp, rng, wf).
+# Base-block parity: the base blocks
+#   step 1: iop/message.h, chain/{chain,public,rounds}.h, tree/* (verifier side), code/*;
+#   step 2: algebraic and fold blocks (tensor, hp, psc, mask, bat, fold, cs, iopp, send, ...);
+#   step 3: commitment and lookup blocks (foldeq, lin, link, member, lkp, rng, wf).
 #
 #   1. each C++ vector tool is built from the checkout's headers and run;
 #   2. its output is compared byte for byte with the stored fixture;

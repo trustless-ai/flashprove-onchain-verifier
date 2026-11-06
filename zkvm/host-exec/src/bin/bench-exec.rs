@@ -1,4 +1,4 @@
-//! S5a-2's benchmark host: executes the `bench` guest with (mode, n) and prints the cycle count.
+//! The benchmark host: executes the `bench` guest with (mode, n) and prints the cycle count.
 //!
 //! Usage: bench-exec <mode> <n>
 //! The guest ELF defaults to the `bench` binary that `cargo prove build -p bench` writes; set

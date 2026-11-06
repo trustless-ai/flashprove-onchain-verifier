@@ -59,7 +59,7 @@ fn g(v: &mut [u64; 16], x: u64, y: u64, a: usize, b: usize, c: usize, d: usize) 
     v[b] = (v[b] ^ v[c]).rotate_right(63);
 }
 
-/// One round's eight `G` calls (`SIGMA[r]`, unrolled). S5a-2: a runtime round loop with
+/// One round's eight `G` calls (`SIGMA[r]`, unrolled).  a runtime round loop with
 /// `m[SIGMA[r][..]]` cost 2,955 cycles per compression on the zkVM target; this unrolled form
 /// costs 2,261 (measured in `zkvm/bench`, same public values).
 macro_rules! rounds {

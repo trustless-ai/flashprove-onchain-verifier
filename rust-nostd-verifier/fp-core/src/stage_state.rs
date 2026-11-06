@@ -2,10 +2,10 @@
 //!
 //! C++ can rely on a fresh process per stage (`cpStagesRun()`, `verifier/src/cp_verify.cpp:2670`).
 //! The port runs the three stages in one process, so every stage must start from these values.
-//! The S1 types are minimal placeholders: S2 replaces the accounting and shape members with the
+//! The initial types are minimal placeholders: a later step replaces the accounting and shape members with the
 //! real ones, keeping the field names and defaults.
 //!
-//! The TL's S1 list names 16 fields. `run_version_word_fixed` is the required partner of
+//! The initial list names 16 fields. `run_version_word_fixed` is the required partner of
 //! `run_version_word` (`vf_common.h:446-447`): dropping it would make the reset incomplete, so it
 //! is the 17th field here.
 
@@ -35,7 +35,7 @@ impl Default for WorkNote {
 
 /// Placeholder for `blk::Accounting` (`blocks/numbers/accounting.h:56-70`).
 ///
-/// S1 only needs a value that can be reset and stored. S2 fills in groups, lists, closeness
+/// The first step only needs a value that can be reset and stored. Later steps fill in groups, lists, closeness
 /// terms and the rest.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct AccountingStub {

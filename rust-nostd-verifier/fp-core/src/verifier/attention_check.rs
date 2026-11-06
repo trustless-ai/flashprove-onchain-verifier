@@ -179,7 +179,7 @@ pub trait AttentionSegment: SegmentGate {
 }
 
 /// The test seam: [`OpenGate`]'s checks plus a batching draw and the equation's own checks. It is
-/// not the frame check that S3 will install.
+/// not the frame check that the sub-proof layer installs.
 #[derive(Default)]
 pub struct OpenSegment {
     pub gate: OpenGate,

@@ -2,11 +2,11 @@
 resolver = "2"
 members = ["guest", "host-exec", "bench", "fp-pv", "hostlib"]
 
-# S5: the SP1 guest (the verifier in the zkVM) and the host that executes it.
+# The SP1 guest line: the SP1 guest (the verifier in the zkVM) and the host that executes it.
 # The Rust verifier itself lives in rust-nostd-verifier/ and is reused read-only.
 
 [profile.release]
-# S5a-1: fat LTO and one codegen unit gave -7.49%; the LLVM inlining threshold is passed on the
-# `cargo prove build` command line (see docs/s5a-cycle-opt-report.md).
+# fat LTO and one codegen unit gave -7.49%; the LLVM inlining threshold is passed on the
+# `cargo prove build` command line (see ../docs/cycle-optimization.md).
 lto = "fat"
 codegen-units = 1

@@ -1,7 +1,7 @@
 //! FlashProve verifier core, ported from `verifier/src`.
 //!
-//! S1 scope: constants, the refusal model, header checks, rejection names, the output-parsing
-//! helpers and the per-stage state container. The proof system arrives in S2.
+//! Scope: constants, the refusal model, header checks, rejection names, the output-parsing
+//! helpers and the per-stage state container. The proof system arrives with the rest of the port.
 //!
 //! This crate is `#![no_std]` and allocates only through `alloc`.
 

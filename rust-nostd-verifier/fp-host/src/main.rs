@@ -55,7 +55,7 @@ fn main() {
     exit(cp_main(&args));
 }
 
-/// `cpMain()` (`cp_verify.cpp:3274-3389`), S1 subset.
+/// `cpMain()` (`cp_verify.cpp:3274-3389`), the command-line layer.
 fn cp_main(args: &[String]) -> i32 {
     let arg1 = args.get(1).map(String::as_str).unwrap_or("");
     if arg1 == "-plan" {

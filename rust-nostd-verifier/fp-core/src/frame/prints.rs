@@ -1,6 +1,6 @@
 //! What a planning call prints (`blocks/frame/prints.h`): the sizes of the groups, the columns
 //! drawn, each file's length and what its proximity terms rest on. The listings of rounds and
-//! fields (`print_rounds`, `print_fields`) are not ported: the S4 planning cases print neither.
+//! fields (`print_rounds`, `print_fields`) are not ported: the planning cases print neither.
 
 use alloc::format;
 use alloc::string::String;

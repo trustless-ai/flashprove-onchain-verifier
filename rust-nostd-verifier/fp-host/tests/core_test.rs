@@ -1,4 +1,4 @@
-//! S1 unit tests for the pure core functions.
+//! Core unit tests for the pure core functions.
 //!
 //! These live in `fp-host/tests` because they use the standard test harness. `fp-core/src`
 //! itself must stay free of `use std`, `extern crate std` and `static mut`.

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The S6 gates that do not need a GPU: schemas, tools, contracts, and (with S6_FULL=1) the SP1
+# The gates that do not need a GPU: schemas, tools, contracts, and (with S6_FULL=1) the SP1
 # execution gate against fp-host.
 #
 #   ./zkvm/scripts/s6-check.sh              # builds + unit tests + gen-vkey --check + forge test

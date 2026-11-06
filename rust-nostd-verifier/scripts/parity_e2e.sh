@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# S3 end-to-end parity gate: the Rust host against the reference goldens, byte for byte.
+# End-to-end parity gate: the Rust host against the reference goldens, byte for byte.
 #
 #   1. the accepted example: the whole stdout against fixtures/golden_stdout.txt, with one
 #      normalization (the three stage headings' seconds, which differ from run to run); exit
@@ -71,7 +71,7 @@ else
   bad "accepted example"
 fi
 
-# 2. A tampered proof, at the one byte that the S3 task book names (offset 2072650, ^= 0x01).
+# 2. A tampered proof, at the one byte that the reference records names (offset 2072650, ^= 0x01).
 python3 -I - "$PROOF" "$tmp/tampered.proof" <<'PY'
 import pathlib
 import sys

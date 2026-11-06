@@ -27,7 +27,7 @@ pub struct Config {
     pub schema: String,
     pub program: ProgramConfig,
     pub inputs: InputsConfig,
-    /// `fp-host` binary used as the S3 reference; defaults to the debug build in the repository.
+    /// `fp-host` binary used as the reference; defaults to the debug build in the repository.
     #[serde(default)]
     pub fp_host: Option<String>,
     #[serde(default)]

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# S2c-1 parity: the shared verifier core, the transcript adapter, and the four public tables
+# Sub-proof parity: the shared verifier core, the transcript adapter, and the four public tables
 #
 #   1. the C++ common-vector tool is built from the checkout's verifier translation unit and its
 #      output is compared with fixtures/common_vectors.txt; the Rust test replays it;

@@ -59,4 +59,4 @@ file. The program vkey falls back to `program.vkey_record` when `chain.program_v
 The wrapper proves that the SP1 circuit, for the configured program vkey, produced a public-values
 block that names the commitment ID, an accepted verdict and the caller's input/output digests. It
 does not prove that the model's weights are hidden, nor that the input is legitimate; see
-`guide/weight-hiding.md` and `docs/s6b-report.md`.
+`guide/weight-hiding.md` and `../../docs/proving-readiness.md`.

@@ -1,4 +1,4 @@
-# S6 handoff: producing a FlashProve SP1 proof
+# Handoff: producing a FlashProve SP1 proof
 
 This page is for the member who runs the GPU proving. It gives the frozen artifact hashes, the
 input convention, the exact commands, the expected outputs, how to check them, and rough resource

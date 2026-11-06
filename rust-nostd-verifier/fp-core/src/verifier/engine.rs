@@ -4,7 +4,7 @@
 //! `value + factor * (entry of the committed mask row)`; a claim is an affine form ([`Aff`]) that
 //! must be 0. `HFork` batches the claims into one equation; the C++ code passes that equation to
 //! `ChainCheck`, which tests it at the end of the segment (`vf_subproof_segment.h`). That wiring
-//! is S3's; here the engine keeps the equation and the values it is built from.
+//! belongs to the sub-proof layer; here the engine keeps the equation and the values it is built from.
 //!
 //! C++ `refuse()` becomes a [`Refusal`] value. Every rejection name that C++ builds by appending
 //! to `HFork::G_` keeps that prefix here. The prover-side test support of the C++ header

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# S2b-4 parity: the frame
-#   parameters / fields / heads / req_frame / configure and the S1 debts.
+# Frame parity: the frame
+#   parameters / fields / heads / req_frame / configure and the CLI-layer debts.
 #
 #   1. the C++ parameter-vector tool is built from the checkout's headers and compared with its
 #      fixture; the Rust test replays it;

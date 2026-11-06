@@ -1,7 +1,7 @@
 //! PSC, the masked sumcheck, ported from `blocks/iop/psc.h` (lines 43-189, the verifier side).
 //!
 //! The C++ template over K is specialised to E, the challenge field of the verifier. The prover's
-//! half needs a `SumcheckProver` and a prover channel; S2b-2 ports the verifier's rows and checks.
+//! half needs a `SumcheckProver` and a prover channel; the verifier's rows and checks are ported.
 
 use alloc::vec;
 use alloc::vec::Vec;

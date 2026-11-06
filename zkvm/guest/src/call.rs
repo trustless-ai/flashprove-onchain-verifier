@@ -1,7 +1,7 @@
 //! The whole call inside the guest: the three stages (`fp_core::verifier::run_stage`) and the
 //! parent's assembly (`cpStagesRun`, `cpCovered`, the `result-v1` line), adapted from
 //! `rust-nostd-verifier/fp-host/src/main.rs` so that the public output's lines match the host's
-//! byte for byte. Only the pass path is assembled in full; the S5 gate is the accepted example.
+//! byte for byte. Only the pass path is assembled in full; the acceptance gate is the accepted example.
 
 use alloc::format;
 use alloc::string::String;
@@ -189,7 +189,7 @@ pub fn run(input: Inputs<'_>) -> (String, i32) {
     let _h_par = configuration_digest(&[input.pol, input.layout, input.kl], &mut host_calls);
     let policy = PolicyNamed::default();
     if input.part != 0 {
-        // S5a-3's per-stage measurement: one stage in this execution.
+        // Per-stage measurement: one stage in this execution.
         let (mode, entry, req, yy, proof): (
             StageMode,
             Option<&[u8]>,

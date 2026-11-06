@@ -86,7 +86,7 @@ impl Default for T2Map {
     }
 }
 
-/// A segment's check on a sub-proof's arrays (`currentSegment` in C++). S3 supplies the real
+/// A segment's check on a sub-proof's arrays (`currentSegment` in C++). The sub-proof layer supplies the real
 /// implementation; `OpenGate` is the test seam.
 pub trait SegmentGate {
     /// `fixedBeforeTheMatrixF`.
@@ -107,7 +107,7 @@ pub trait SegmentGate {
 }
 
 /// A gate for tests and for planning runs: it accepts and marks the named trees committed. It is
-/// not the frame check that S3 will install.
+/// not the frame check that the sub-proof layer installs.
 #[derive(Default)]
 pub struct OpenGate;
 

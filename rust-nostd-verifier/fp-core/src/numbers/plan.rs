@@ -1,8 +1,8 @@
 //! The plan of one protocol run and its verdict, ported from `blocks/numbers/plan.h`.
 //!
-//! S2a ports the data model and the verdict needed by the error accounting. The planners of
+//! The data model and the verdict needed by the error accounting are ported. The planners of
 //! `blocks/numbers/blocks.h`, which append rounds from shapes, arrive with the proof-system shapes
-//! in S2b. A `Planned` here is built from a C++ dump or, later, by the ported planners.
+//! in the base-block layer. A `Planned` here is built from a C++ dump or, later, by the ported planners.
 
 use alloc::collections::{BTreeMap, BTreeSet};
 use alloc::rc::Rc;

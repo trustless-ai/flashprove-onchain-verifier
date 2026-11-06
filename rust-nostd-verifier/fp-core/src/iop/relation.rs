@@ -3,7 +3,7 @@
 //! group layout, BAT's `RunInput`, and the coefficients carried into a group's tables.
 //!
 //! Deviations, all at the verifier's boundary: the prover's engine terms and hints are absent
-//! (S2b-1's verifier never creates them; `Statement::has_no_engine` therefore checks only the
+//! (the base layer never creates them; `Statement::has_no_engine` therefore checks only the
 //! tensors' held factors), and `SampleReceipt` is built by the ported send block.
 
 use alloc::collections::BTreeMap;

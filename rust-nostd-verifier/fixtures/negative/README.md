@@ -1,4 +1,4 @@
-# The S4 negative controls
+# The negative controls
 
 `scripts/parity_negative.sh` runs every case below against the C++ reference (`cp_verify`) and the
 Rust host (`fp-host`) with the same arguments and compares stdout (only the stage headings' seconds

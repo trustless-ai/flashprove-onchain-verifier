@@ -3,7 +3,7 @@
 //! [`N2`], [`Tail2`], `t2AddN`, `t2AddP`, `t2Plan`, `t2FillL`, [`Run2`], `t2Lin` and [`EqRun`].
 //!
 //! The frame side of the header (`LinkCtx`, `currentSegment`, `rootInH`, `t2Batch`, `doorH`,
-//! `rowWeights`) receives and closes the request's segments; that wiring is S3's, so this module
+//! `rowWeights`) receives and closes the request's segments; that wiring belongs to the sub-proof layer, so this module
 //! stops at the equation's weights. `t2Lin`'s C++ test support (`valuesF`) is omitted, as in
 //! [`super::engine`].
 

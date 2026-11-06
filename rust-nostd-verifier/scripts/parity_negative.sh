@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# S4 gate: the negative controls, and the cases of the two reference tests.
+# Negative-control gate: the negative controls, and the cases of the two reference tests.
 #
 # Every case runs the C++ reference and the Rust host with the same arguments and compares, byte
 # for byte, stdout (with only the stage headings' seconds normalized), stderr and the exit status.
@@ -12,7 +12,7 @@
 #   - verifier/tests/what_a_yes_covers_test.py, played on this repository's real-model fixtures
 #     (that test's optional in-two/ and in-one/ proofs are not played: the world that carries them
 #     needs the GPU prover; the test itself reports "in part" without them);
-#   - the S4 mutations: key, leaf, proof header and body, the parameter file's policy numbers,
+#   - the mutations: key, leaf, proof header and body, the parameter file's policy numbers,
 #     KL.bin's length, and the request and y files.
 #
 # Usage: scripts/parity_negative.sh
@@ -65,7 +65,7 @@ P=$here/fixtures/example.proof
 ID=$(tr -d '\n' < "$here/fixtures/ID.txt")
 
 # All case files: policy copies, request/y variants, tampered key/leaf/proof and unreadable paths.
-# The mutations are deterministic recipes over the stored fixtures, like the S3 proof byte.
+# The mutations are deterministic recipes over the stored fixtures, like the end-to-end proof byte.
 python3 -I - "$W" "$CFG" "$IVK" "$REQ" "$Y" "$P" <<'PY'
 import os
 import pathlib
@@ -122,7 +122,7 @@ put_words(rq / "two-words.y", reply + [0])            # statement-range
 (rq / "empty.y").write_bytes(b"")                     # statement-required
 put_words(rq / "other.y", [reply[0] ^ 1])             # another reply: reply-differs
 
-# Tampered proofs: the header's tag, its version word, and the middle word (the S4 proof body).
+# Tampered proofs: the header's tag, its version word, and the middle word (the proof body).
 pr = w / "proofs"
 pr.mkdir()
 for name, off in (("proof0.bin", 0), ("proof4.bin", 4)):
@@ -325,7 +325,7 @@ run_case plan_accounting_option 2 - -plan accounting "$CFG" 128 -no-proof-of-wor
 run_case part_key_no_work 14 "NOT-A-VERIFICATION" -key "$CFG" "$IVK/key.bin" -id "$ID" -no-proof-of-work -q
 run_case part_leaf_no_work 14 "NOT-A-VERIFICATION" -leaf "$CFG" "$IVK/key.bin" "$IVK/leaf/0.bin" -id "$ID" -no-proof-of-work -q
 
-# ---- the S4 mutations: key, leaf, proof header and body, KL.bin's length ----
+# ---- the mutations: key, leaf, proof header and body, KL.bin's length ----
 run_case key_header 1 "NO: cp-key-head" "$CFG" "$W/ivk-key0" "$REQ" "$Y" "$P" -id "$ID" -q
 run_case key_middle 1 "NO: key-refused" "$CFG" "$W/ivk-keymid" "$REQ" "$Y" "$P" -id "$ID" -q
 run_case leaf_header 1 "NO: entry-refused" "$CFG" "$W/ivk-leaf0" "$REQ" "$Y" "$P" -id "$ID" -q
@@ -336,7 +336,7 @@ run_case proof_middle 1 "NO: proof-refused" "$CFG" "$IVK" "$REQ" "$Y" "$W/proofs
 run_case kl_short 1 "NO: KL-length" "$W/config-KLshort" "$IVK" "$REQ" "$Y" "$P" -id "$ID" -q
 run_case kl_odd 1 "NO: KL-length" "$W/config-KLodd" "$IVK" "$REQ" "$Y" "$P" -id "$ID" -q
 
-# ---- the rejection names that S4 must reach ----
+# ---- the rejection names that the negative controls must reach ----
 required="model-statement policy statement-range statement-required proof-refused reply-differs key-refused entry-refused cp-key-head cp-proof-head KL-length"
 names_all=0
 names_ok=0
