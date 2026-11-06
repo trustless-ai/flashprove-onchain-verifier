@@ -23,6 +23,12 @@ here=$(cd "$(dirname "$0")/.." && pwd) || exit 1
 root=$(cd "$here/.." && pwd) || exit 1
 cd "$root" || exit 1
 
+UPSTREAM=${UPSTREAM:-$root/upstream/FlashProve}
+if [ ! -d "$UPSTREAM/blocks" ]; then
+  echo "${0##*/}: upstream/FlashProve is not initialised; run: git submodule update --init --depth 1" >&2
+  exit 1
+fi
+
 CPP=${CPP_BIN:-/tmp/tl_cpp_build/cp_verify}
 if [ ! -x "$CPP" ] && [ -x /tmp/fp_cpp_build/cp_verify ]; then
   CPP=/tmp/fp_cpp_build/cp_verify
@@ -31,10 +37,10 @@ if [ ! -x "$CPP" ]; then
   mkdir -p "$(dirname "$CPP")" || exit 1
   echo "parity: C++ reference not found; building $CPP"
   clang++ -O2 -std=c++17 -pthread \
-    -Iverifier/src -Iblocks -Iprover \
+    -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" \
     -DBLK_FIELD=2 -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
     -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
-    -o "$CPP" verifier/src/cp_verify.cpp || { echo "parity: C++ build failed"; exit 1; }
+    -o "$CPP" "$UPSTREAM/verifier/src/cp_verify.cpp" || { echo "parity: C++ build failed"; exit 1; }
 fi
 echo "parity: C++ reference: $CPP"
 

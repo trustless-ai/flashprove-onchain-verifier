@@ -54,9 +54,29 @@ Two workspaces, kept side by side because the zkVM guest path-depends on the ver
 | `zkvm/config` | The parameter set, the input manifest and the frozen verification key |
 | `zkvm/docs/handoff.md` | The frozen artifacts, the input convention and the build/proving commands |
 | `docs/` | The measured run records, one file per run |
+| `upstream/FlashProve` | The upstream C++ reference, a submodule pinned at `9e2bdd8` |
 
 The sibling layout is deliberate: `zkvm/guest` and `zkvm/bench` reach `fp-core` through
 `../../rust-nostd-verifier/fp-core`, so the two trees must stay exactly where they are.
+
+## Upstream pin
+
+`upstream/FlashProve` is the upstream C++ reference as a git submodule, pinned to
+`9e2bdd8ff5bf9c62f18263d7dac189b0400b260c` — the initial public release of FlashProve 0.16.0,
+Apache-2.0, the same licence as this repository. Checking a proof draws two things from that tree:
+
+- **the inputs** — `examples/accepted-proof/` holds the key, config, request, reply, proof and
+  commitment ID that `rust-nostd-verifier/fixtures/` keeps byte-identical copies of;
+- **the C++ reference** — `verifier/`, `blocks/` and `prover/` are the sources the parity gates build
+  their reference binary from, so a full parity run needs no separate C++ checkout.
+
+```sh
+git submodule update --init --depth 1
+cd upstream/FlashProve/examples/accepted-proof && shasum -a 256 -c SHA256SUMS
+```
+
+The pin is a commit, not a branch: a change upstream shows up here as a submodule diff that has to be
+taken deliberately.
 
 ## Configuration, not constants
 

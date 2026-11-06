@@ -1,0 +1,3 @@
+[submodule "upstream/FlashProve"]
+	path = upstream/FlashProve
+	url = https://github.com/anthropics/FlashProve.git

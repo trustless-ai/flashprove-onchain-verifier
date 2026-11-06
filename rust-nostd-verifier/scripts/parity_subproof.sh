@@ -23,6 +23,12 @@ here=$(cd "$(dirname "$0")/.." && pwd) || exit 1
 root=$(cd "$here/.." && pwd) || exit 1
 cd "$root" || exit 1
 
+UPSTREAM=${UPSTREAM:-$root/upstream/FlashProve}
+if [ ! -d "$UPSTREAM/blocks" ]; then
+  echo "${0##*/}: upstream/FlashProve is not initialised; run: git submodule update --init --depth 1" >&2
+  exit 1
+fi
+
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/fp-tables.XXXXXX") || exit 1
 trap 'rm -rf "$tmp"' EXIT
 
@@ -38,7 +44,7 @@ bad() {
 }
 
 echo "parity_subproof: building common_vectors"
-if clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" -DBLK_FIELD=2 \
   -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
   -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
   -o "$tmp/common_vectors" "$here/scripts/cpp_vectors/common_vectors.cpp"; then
@@ -73,7 +79,7 @@ else
 fi
 
 echo "parity_subproof: building table_vectors"
-if clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" -DBLK_FIELD=2 \
   -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
   -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
   -o "$tmp/table_vectors" "$here/scripts/cpp_vectors/table_vectors.cpp"; then
@@ -100,7 +106,7 @@ else
 fi
 
 echo "parity_subproof: building subproof_vectors"
-if clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" -DBLK_FIELD=2 \
   -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
   -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
   -o "$tmp/subproof_vectors" "$here/scripts/cpp_vectors/subproof_vectors.cpp"; then
@@ -135,7 +141,7 @@ else
 fi
 
 echo "parity_subproof: building attention_vectors"
-if clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" -DBLK_FIELD=2 \
   -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
   -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
   -o "$tmp/attention_vectors" "$here/scripts/cpp_vectors/attention_vectors.cpp"; then
@@ -154,7 +160,7 @@ else
 fi
 
 echo "parity_subproof: building attention_plan_vectors"
-if clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" -DBLK_FIELD=2 \
   -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
   -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
   -o "$tmp/attention_plan_vectors" "$here/scripts/cpp_vectors/attention_plan_vectors.cpp"; then
@@ -183,7 +189,7 @@ for t in attention_vectors attention_plan_vectors attention_run_tests; do
 done
 
 echo "parity_subproof: building weights_vectors"
-if clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" -DBLK_FIELD=2 \
   -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
   -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
   -o "$tmp/weights_vectors" "$here/scripts/cpp_vectors/weights_vectors.cpp"; then
@@ -212,7 +218,7 @@ for t in weights_vectors weights_tests; do
 done
 
 echo "parity_subproof: building layout_vectors"
-if clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" -DBLK_FIELD=2 \
   -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
   -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
   -o "$tmp/layout_vectors" "$here/scripts/cpp_vectors/layout_vectors.cpp"; then
@@ -239,7 +245,7 @@ else
 fi
 
 echo "parity_subproof: building context_vectors"
-if clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" -DBLK_FIELD=2 \
   -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
   -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
   -o "$tmp/context_vectors" "$here/scripts/cpp_vectors/context_vectors.cpp"; then
@@ -267,7 +273,7 @@ else
 fi
 
 echo "parity_subproof: building req_chain_vectors"
-if clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" -DBLK_FIELD=2 \
   -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
   -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
   -o "$tmp/req_chain_vectors" "$here/scripts/cpp_vectors/req_chain_vectors.cpp"; then
@@ -294,7 +300,7 @@ else
 fi
 
 echo "parity_subproof: building layers_plan_vectors"
-if clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" -DBLK_FIELD=2 \
   -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8 \
   -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"' \
   -o "$tmp/layers_plan_vectors" "$here/scripts/cpp_vectors/layers_plan_vectors.cpp"; then

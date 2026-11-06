@@ -11,6 +11,12 @@ here=$(cd "$(dirname "$0")/.." && pwd) || exit 1
 root=$(cd "$here/.." && pwd) || exit 1
 cd "$root" || exit 1
 
+UPSTREAM=${UPSTREAM:-$root/upstream/FlashProve}
+if [ ! -d "$UPSTREAM/blocks" ]; then
+  echo "${0##*/}: upstream/FlashProve is not initialised; run: git submodule update --init --depth 1" >&2
+  exit 1
+fi
+
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/fp-numbers.XXXXXX") || exit 1
 trap 'rm -rf "$tmp"' EXIT
 
@@ -18,7 +24,7 @@ DEF=(-DBLK_FIELD=2 -DBLK_COUNT_HASH_CALLS=1 -DSERVING_BUILD=1 -DDIGEST_WORDS=8
      -DVF_SOURCE_DIGEST='"93afdaf592393a54ebd17b681d1c03295eb883f0161ff0e6ab872a3b39939595"')
 
 echo "parity_numbers: regenerate exact-arithmetic and code vectors"
-clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/numbers_vectors" "$here/scripts/cpp_vectors/numbers_vectors.cpp" ||
   { echo "parity_numbers: FAIL: vector generator build"; exit 1; }
 "$tmp/numbers_vectors" >"$tmp/numbers_vectors.txt" ||
@@ -30,12 +36,12 @@ if ! cmp -s "$tmp/numbers_vectors.txt" "$here/fixtures/numbers_vectors.txt"; the
 fi
 
 echo "parity_numbers: build the C++ verifier as a unit"
-clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover "${DEF[@]}" \
-  -DCP_VERIFY_AS_A_UNIT -c verifier/src/cp_verify.cpp -o "$tmp/cp_verify_unit.o" ||
+clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" "${DEF[@]}" \
+  -DCP_VERIFY_AS_A_UNIT -c "$UPSTREAM/verifier/src/cp_verify.cpp" -o "$tmp/cp_verify_unit.o" ||
   { echo "parity_numbers: FAIL: cp_verify unit build"; exit 1; }
 
 echo "parity_numbers: build and run the plan dump"
-clang++ -O2 -std=c++17 -pthread -Iverifier/src -Iblocks -Iprover "${DEF[@]}" \
+clang++ -O2 -std=c++17 -pthread -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -I"$UPSTREAM/prover" "${DEF[@]}" \
   -c "$here/scripts/cpp_vectors/dump_plans.cpp" -o "$tmp/dump_plans.o" ||
   { echo "parity_numbers: FAIL: dump tool build"; exit 1; }
 clang++ -pthread "$tmp/dump_plans.o" "$tmp/cp_verify_unit.o" -o "$tmp/dump_plans" ||

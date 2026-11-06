@@ -14,6 +14,12 @@ here=$(cd "$(dirname "$0")/.." && pwd) || exit 1
 root=$(cd "$here/.." && pwd) || exit 1
 cd "$root" || exit 1
 
+UPSTREAM=${UPSTREAM:-$root/upstream/FlashProve}
+if [ ! -d "$UPSTREAM/blocks" ]; then
+  echo "${0##*/}: upstream/FlashProve is not initialised; run: git submodule update --init --depth 1" >&2
+  exit 1
+fi
+
 CPP=${CPP_BIN:-/tmp/tl_cpp_build/cp_verify}
 if [ ! -x "$CPP" ] && [ -x /tmp/fp_cpp_build/cp_verify ]; then
   CPP=/tmp/fp_cpp_build/cp_verify
@@ -35,7 +41,7 @@ bad() {
 }
 
 echo "parity_frame: building frame_parameters_vectors"
-if clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/frame_parameters_vectors" "$here/scripts/cpp_vectors/frame_parameters_vectors.cpp"; then
   if "$tmp/frame_parameters_vectors" "$here/fixtures/config/policy.txt" \
     >"$tmp/frame_parameters_vectors.txt"; then
@@ -61,7 +67,7 @@ else
 fi
 
 echo "parity_frame: building frame_layout_vectors"
-if clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/frame_layout_vectors" "$here/scripts/cpp_vectors/frame_layout_vectors.cpp"; then
   if "$tmp/frame_layout_vectors" "$here/fixtures/config/layout.txt" \
     >"$tmp/frame_layout_vectors.txt"; then
@@ -87,7 +93,7 @@ else
 fi
 
 echo "parity_frame: building frame_derive_vectors"
-if clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/frame_derive_vectors" "$here/scripts/cpp_vectors/frame_derive_vectors.cpp"; then
   if "$tmp/frame_derive_vectors" "$here/fixtures/config/policy.txt" \
     >"$tmp/frame_derive_vectors.txt"; then
@@ -113,7 +119,7 @@ else
 fi
 
 echo "parity_frame: building frame_wf_units_vectors"
-if clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/frame_wf_units_vectors" "$here/scripts/cpp_vectors/frame_wf_units_vectors.cpp"; then
   if "$tmp/frame_wf_units_vectors" >"$tmp/frame_wf_units_vectors.txt"; then
     if cmp -s "$tmp/frame_wf_units_vectors.txt" "$here/fixtures/frame_wf_units_vectors.txt"; then
@@ -138,7 +144,7 @@ else
 fi
 
 echo "parity_frame: building frame_wf_lines_vectors"
-if clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/frame_wf_lines_vectors" "$here/scripts/cpp_vectors/frame_wf_lines_vectors.cpp"; then
   if "$tmp/frame_wf_lines_vectors" >"$tmp/frame_wf_lines_vectors.txt"; then
     if cmp -s "$tmp/frame_wf_lines_vectors.txt" "$here/fixtures/frame_wf_lines_vectors.txt"; then
@@ -163,7 +169,7 @@ else
 fi
 
 echo "parity_frame: building plan_emitters_vectors"
-if clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/plan_emitters_vectors" "$here/scripts/cpp_vectors/plan_emitters_vectors.cpp"; then
   if "$tmp/plan_emitters_vectors" >"$tmp/plan_emitters_vectors.txt"; then
     if cmp -s "$tmp/plan_emitters_vectors.txt" "$here/fixtures/plan_emitters_vectors.txt"; then
@@ -188,7 +194,7 @@ else
 fi
 
 echo "parity_frame: building frame_sizes_vectors"
-if clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/frame_sizes_vectors" "$here/scripts/cpp_vectors/frame_sizes_vectors.cpp"; then
   if "$tmp/frame_sizes_vectors" "$here/fixtures/config/policy.txt" \
     >"$tmp/frame_sizes_vectors.txt"; then
@@ -214,7 +220,7 @@ else
 fi
 
 echo "parity_frame: building frame_files_vectors"
-if clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/frame_files_vectors" "$here/scripts/cpp_vectors/frame_files_vectors.cpp"; then
   if "$tmp/frame_files_vectors" "$here/fixtures/config/policy.txt" \
     "$here/fixtures/config-standin/policy.txt" >"$tmp/frame_files_vectors.txt"; then
@@ -240,7 +246,7 @@ else
 fi
 
 echo "parity_frame: building frame_configure_vectors"
-if clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+if clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/frame_configure_vectors" "$here/scripts/cpp_vectors/frame_configure_vectors.cpp"; then
   if "$tmp/frame_configure_vectors" "$here/fixtures/config-standin/policy.txt" \
     >"$tmp/frame_configure_vectors.txt"; then

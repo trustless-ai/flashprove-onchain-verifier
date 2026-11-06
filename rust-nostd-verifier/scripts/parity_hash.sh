@@ -10,6 +10,12 @@ here=$(cd "$(dirname "$0")/.." && pwd) || exit 1
 root=$(cd "$here/.." && pwd) || exit 1
 cd "$root" || exit 1
 
+UPSTREAM=${UPSTREAM:-$root/upstream/FlashProve}
+if [ ! -d "$UPSTREAM/blocks" ]; then
+  echo "${0##*/}: upstream/FlashProve is not initialised; run: git submodule update --init --depth 1" >&2
+  exit 1
+fi
+
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/fp-hash.XXXXXX") || exit 1
 trap 'rm -rf "$tmp"' EXIT
 
@@ -41,7 +47,7 @@ if ! cmp -s "$tmp/mode_vectors.txt" blocks/hash/tests/mode_vectors.txt; then
 fi
 
 echo "parity_hash: regenerate the C++ hash counts"
-clang++ -O2 -std=c++17 -Iverifier/src -Iblocks -DBLK_FIELD=2 -DBLK_COUNT_HASH_CALLS=1 \
+clang++ -O2 -std=c++17 -I"$UPSTREAM/verifier/src" -I"$UPSTREAM/blocks" -DBLK_FIELD=2 -DBLK_COUNT_HASH_CALLS=1 \
   -o "$tmp/hash_counters" "$here/scripts/cpp_vectors/hash_counters.cpp" ||
   { echo "parity_hash: FAIL: C++ counter build"; exit 1; }
 "$tmp/hash_counters" >"$tmp/hash_counts.txt" ||

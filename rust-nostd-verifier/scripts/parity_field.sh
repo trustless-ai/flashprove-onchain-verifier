@@ -6,11 +6,17 @@ here=$(cd "$(dirname "$0")/.." && pwd) || exit 1
 root=$(cd "$here/.." && pwd) || exit 1
 cd "$root" || exit 1
 
+UPSTREAM=${UPSTREAM:-$root/upstream/FlashProve}
+if [ ! -d "$UPSTREAM/blocks" ]; then
+  echo "${0##*/}: upstream/FlashProve is not initialised; run: git submodule update --init --depth 1" >&2
+  exit 1
+fi
+
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/fp-field.XXXXXX") || exit 1
 trap 'rm -rf "$tmp"' EXIT
 
 echo "parity_field: building the C++ vector generator"
-clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 \
+clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 \
   -o "$tmp/field_vectors" "$here/scripts/cpp_vectors/field_vectors.cpp" ||
   { echo "parity_field: C++ build failed"; exit 1; }
 

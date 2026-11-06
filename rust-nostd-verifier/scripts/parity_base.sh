@@ -15,6 +15,12 @@ here=$(cd "$(dirname "$0")/.." && pwd) || exit 1
 root=$(cd "$here/.." && pwd) || exit 1
 cd "$root" || exit 1
 
+UPSTREAM=${UPSTREAM:-$root/upstream/FlashProve}
+if [ ! -d "$UPSTREAM/blocks" ]; then
+  echo "${0##*/}: upstream/FlashProve is not initialised; run: git submodule update --init --depth 1" >&2
+  exit 1
+fi
+
 tmp=$(mktemp -d "${TMPDIR:-/tmp}/fp-base.XXXXXX") || exit 1
 trap 'rm -rf "$tmp"' EXIT
 
@@ -34,7 +40,7 @@ check_cpp() {
   local tool=$1 fixture=$2
   shift 2
   echo "parity_base: building $tool"
-  clang++ -O2 -std=c++17 -Iblocks -DBLK_FIELD=2 "$@" \
+  clang++ -O2 -std=c++17 -I"$UPSTREAM/blocks" -DBLK_FIELD=2 "$@" \
     -o "$tmp/$tool" "$here/scripts/cpp_vectors/$tool.cpp" ||
     { bad "$tool: C++ build"; return; }
   "$tmp/$tool" >"$tmp/$tool.txt" ||
