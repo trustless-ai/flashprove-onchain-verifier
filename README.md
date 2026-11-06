@@ -56,8 +56,11 @@ evidence, and `contracts` accepts it — through either of its two verification 
 
 ## The contracts
 
-Both live under `contracts/src/` and both implement the same inner layer, so an `IAgentVerifier`
-can point at either one without changing anything else.
+Both live under `contracts/src/`, implement ERC-8274's inner layer, and are stateless: they hold
+no agent, no task and no verdict policy. An `IAgentVerifier` — written by the application, stateful,
+holding all of the configuration — wraps either one, which is what lets a single deployment serve
+any number of applications. ERC-8274 goes further and says settlement contracts must not call
+`IProofVerifier` directly: they call an `IAgentVerifier`, which calls this.
 
 | Path | Contract | `proofSystem()` | Evidence it accepts |
 |---|---|---|---|
@@ -75,52 +78,25 @@ verify(
 ) external view returns (bool);
 ```
 
-`FlashProveZKVerifier` returns `true` only when the SP1 verifier accepts the proof for
-`programVKey`, and the public-values block's two digests equal the caller's two hashes.
+`FlashProveZKVerifier` answers true only when the SP1 verifier accepts the proof for `programVKey`,
+and the public-values block's two digests equal the caller's two hashes.
 
 `FlashProveAttestVerifier` is the committee path: a set of pre-approved signers attests that a given
 input produced a given output, and the contract accepts the inference once enough distinct signers
-signed the same attestation. It is a skeleton today — the deployment configuration, the interface
-conformance and the guards are final, while the signature check carries a TODO in the source.
+signed the same attestation. The interface, the deployment configuration and the guards are final;
+the attestation preimage and the signature bundle encoding carry TODO markers for the committee
+design owner. The guarantee rests on the committee being honest and independent, not on a proof
+system.
 
-Neither path reverts on a bad proof: both return `false`, so the layer above can record a failed
-attempt as well as a successful one. `contracts/README.md` has the full layout, the FPV1 table, and
-the hash scheme for both.
+Neither path reverts on bad evidence: both return `false`, so the layer above can record a failed
+attempt as well as a successful one. `contracts/README.md` has the FPV1 block and both hash schemes.
 
-## Why one deployment serves everyone
+## Using it
 
-ERC-8274 splits verification in two. The inner layer — `IProofVerifier` — is stateless: it holds no
-agent, no task, no commitment ID and no policy, and it is implemented once by the proof-system
-provider. The outer layer — `IAgentVerifier` — is stateful, is written by each application, and owns
-all of the configuration: which program vkey, which commitment ID, which verdicts count, who is
-authorized.
-
-That split is what makes a single deployment useful. The zk path takes its program vkey per call
-inside `metadata`; the attestation path fixes its committee at construction. Either way, one
-instance serves any number of agent verifiers without redeployment — instances differ by backend,
-not by application. Deploy it once, and applications point at it. ERC-8274 goes further and says
-settlement contracts must not call `IProofVerifier` directly — they call an `IAgentVerifier`, which
-calls this.
-
-## The name is the product; the backend is reported
-
-The contract is named after the product, not the proof system. What actually backs it is stated at
-run time:
-
-| Call | Value |
-|---|---|
-| `proofSystem()` | `"zk/sp1"` |
-| `proofProfile()` | `keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash))` |
-
-`proofProfile()` is address-scoped and derived from the deployment's own bytecode, so a third party
-can recompute it without trusting us. A different backend is a different deployment, with a
-different `proofSystem()` and therefore a different profile. Two profile-scoped commitments taken
-under different configurations are not comparable — that is why the scheme below is written down.
-
-## What it expects from the caller
-
-`metadata` is 32 bytes: the SP1 program vkey, abi-encoded. `proof` is two abi-encoded byte strings:
-the public values the guest committed, and the SP1 proof itself.
+`metadata` is 32 bytes on both paths — the SP1 program vkey on the zk path, a configuration hash on
+the attestation path. `proof` is two abi-encoded byte strings on the zk path (the public values the
+guest committed, then the proof itself); on the attestation path it is the committee's signature
+bundle.
 
 `inputHash` and `outputHash` are defined by the backend, and ERC-8274 requires that definition to be
 documented:
@@ -131,69 +107,23 @@ input_digest     = SHA-256(INPUT_DOMAIN ‖ length-prefixed ten inputs, in guest
 result_v1_digest = SHA-256(result-v1 line, newline excluded); zero when absent
 ```
 
-Length prefixes keep bytes from moving between fields, and the digest is independent of SP1's
-stdin encoding: a provider computes it from the files, the guest from the values it read, and both
-must agree. Implementation: `zkvm-prover/fp-pv/src/inputs.rs`.
+Length prefixes keep bytes from moving between fields, and the digest is independent of SP1's stdin
+encoding: a provider computes it from the files, the guest from the values it read, and both must
+agree. Implementation: `zkvm-prover/fp-pv/src/inputs.rs`.
 
-## Bringing your own agent verifier
+`contracts/src/examples/ExampleAgentVerifier.sol` is one complete outer layer: it binds a verifier,
+a program vkey, a commitment ID and an accepted-verdict mask, authorizes a set of agents, consumes
+the task on success, and emits a digest on every call. It is a sample, not part of the shared
+deployment — which verdicts count, which commitment ID, who may submit, all of that is policy, and
+policy belongs to you.
 
-`contracts/src/examples/ExampleAgentVerifier.sol` is one complete outer layer: it binds a
-`FlashProveZKVerifier`, a program vkey, a commitment ID and an accepted-verdict mask, authorizes a set
-of agents, consumes the task on success, and emits a digest on every call — success or failure.
-
-It is a sample, not part of the shared deployment. Write your own with the same shape: the
-verifier's job is to answer a yes/no question about a proof; everything else — which verdicts mean
-"answered", whether the call status must be zero, which commitment ID your circuit uses, who may
-submit — is policy, and policy belongs to you.
-
-## What it proves, and what it does not
-
-On the zk path, it proves that a proof, bound to a specific program vkey, verified under the SP1
-verifier this chain trusts, and that the block's digests equal the two hashes the caller supplied.
-
-On the attestation path, `threshold` distinct committee members asserted the same relation instead.
-The guarantee is different in kind: it rests on the committee being honest and independent, not on
-a proof system, and it is worth exactly as much as that assumption.
-
-Neither path proves that the model is the one you wanted, that the inputs are honest, that the
-commitment ID belongs to your circuit, or that the task was authorized and paid for. Those are
-claims about configuration and context — they belong to the `IAgentVerifier` above, or to whoever
-signed the input.
-
-## Where the proof comes from
-
-`rust-verifier/fp-core` is the verdict: `#![no_std]` plus `alloc`, no file-scope state, derived
-from the C++ reference and held to it byte for byte by the parity gates. `zkvm-prover/guest`
-compiles that same core into an SP1 guest, which commits a 128-byte `FPV1` block before anything
-else; `zkvm-prover/host-exec` executes or proves it — CPU and GPU backends, GPU by default. No
-real proving runs here: proving is expected to run where a GPU cluster is available.
-
-That toolchain feeds the `zk/` path only. The `attestation/` path has no guest and no proof: the
-evidence is a signature bundle from the committee that ran the inference, which arrives from
-outside this repository. `zkvm-prover/` and `rust-verifier/` are what a zk deployment needs, not
-what a committee deployment needs.
-
-The upstream C++ reference is a submodule at `upstream/FlashProve`, pinned to
-`9e2bdd8ff5bf9c62f18263d7dac189b0400b260c` (FlashProve 0.16.0, Apache-2.0). Two things come from
-that tree: the accepted example under `examples/accepted-proof/`, which `rust-verifier/fixtures/`
-mirrors byte for byte, and the sources the parity gates build their reference binary from. The pin
-is a commit, not a branch: a change upstream shows up as a submodule diff that has to be taken
-deliberately.
+Everything above can be checked locally:
 
 ```sh
-git submodule update --init --depth 1
-cd upstream/FlashProve/examples/accepted-proof && shasum -a 256 -c SHA256SUMS
-```
-
-## Verify it yourself
-
-Nothing below takes a figure on trust.
-
-```sh
-cd contracts && forge test                      # 32 tests, including the negative controls
-contracts/scripts/anvil-smoke.sh                # the whole call path on a local anvil
-cd zkvm-prover && cargo test --workspace        # the guest, the block layout, the host helpers
-rust-verifier/scripts/parity.sh                 # 27 CLI cases + accepted/negative goldens
+cd contracts && forge test          # 46 tests, including the negative controls
+contracts/scripts/anvil-smoke.sh    # the whole call path on a local anvil
+cd zkvm-prover && cargo test --workspace
+rust-verifier/scripts/parity.sh     # the CLI parity gates against the C++ reference
 ```
 
 The verifier must print the same closing four lines as the C++ reference on the accepted proof, and
@@ -213,68 +143,31 @@ grep -rn "use std\|extern crate std\|static mut" rust-verifier/fp-core/src/ \
 | `zkvm-prover/` | Where the proof comes from: the SP1 guest, the host driver, the benchmark guest, the `FPV1` definition |
 | `rust-verifier/` | Where the verdict comes from: `fp-core` (`no_std`), the CLI host, fixtures, the parity gates |
 | `config/` | The parameter set, the input manifest, the frozen verification key |
-| `docs/` | The measured run records, one file per run, and `handoff.md` |
+| `docs/` | The run records, one file per run, and `handoff.md` |
 | `upstream/FlashProve` | The upstream C++ reference, a submodule pinned at `9e2bdd8` |
 
 One dependency worth naming: `zkvm-prover/guest` reaches `fp-core` through
-`../../rust-verifier/fp-core`, so the two trees stay siblings.
+`../../rust-verifier/fp-core`, so the two trees stay siblings. The verification key is frozen in
+`config/vkey.json` and tied to the guest ELF — rebuild the guest and the key no longer matches;
+`docs/handoff.md` records the values and the commands that re-derive them.
 
-## Configuration, not constants
+## Contribution
 
-The verifier carries no built-in parameter set, and neither does the contract: a program vkey is a
-per-call argument. Everything that says *which* model and *which* protocol a proof belongs to is
-read at proving time from `config/` — the policy and layout files, the commitment key, the leaf
-files, the input manifest naming all ten inputs with a bundle digest.
+This repository is one project under [trustless-ai](https://github.com/trustless-ai) — an open home
+for the standards, reference implementations and live proofs that make AI claims checkable by
+recomputation rather than by trust. How the organisation works, and what else lives in it, is in the
+[org README](https://github.com/trustless-ai).
 
-The verification key is frozen in `config/vkey.json` and tied to the guest ELF:
+- **Open a PR.** A bug, a doc fix, a test, a better hash scheme — every contribution counts, and we
+  review as fast as we can. One rule, the same as the org's: nothing goes in that a third party
+  cannot independently verify from public data.
+- **Talk it through on [Telegram](https://t.me/+P7blHRwexzAyYWZh).** Brainstorm, share ideas, meet
+  the people building this. No commitment needed.
 
-| Field | Value |
-|---|---|
-| ELF SHA-256 | `2d077855ff441449f6778a432d8cca59ff65922b1c48a766dc2ed9bca070f652` |
-| ELF size | 12,245,688 bytes |
-| program vkey | `0x00200f72646a715059f034051e4624c3f6940a6d2c2c4dca8aa3575c45f29464` |
-| SP1 SDK / circuit | 6.10.0 / v6.1.0 |
-
-Rebuild the guest and the key no longer matches. `docs/handoff.md` records these values with the
-commands that re-derive and check them.
-
-## Cost
-
-| Measurement | Cycles |
-|---|---|
-| Verifier, whole run, after the optimization rounds | 26,564,072,573 |
-| Verifier, whole run, before them | 32,385,267,062 |
-| Change | −17.97% |
-| Verifier, whole run, merged with the on-chain side | 27,031,196,170 (+1.76% over the optimized figure) |
-
-These are proving costs, not gas. On-chain gas for deployment and a `verify()` call is not yet
-measured; when it is, it belongs here with the chain and the verifier address it was taken on.
-
-Each figure, the conditions it was taken under and what it does not cover are in `docs/`; the
-per-round deltas are in `docs/cycle-optimization.md`.
+The most useful contribution right now is an independent run: deploy the verifier on a chain you
+care about, call `verify()`, and send us the gas figure we are still missing.
 
 ## License
 
 Apache License 2.0 — the same license as the FlashProve reference implementation and the SP1 zkVM.
 See `LICENSE`, and `NOTICE` / `THIRD_PARTY.md` for the third-party notices.
-
-## Joining Trustless AI
-
-This repository is one project under [trustless-ai](https://github.com/trustless-ai), an open home
-for the standards, reference implementations and live proofs that make AI claims checkable by
-recomputation rather than by trust.
-
-**The one rule:** nothing goes in that a third party can't independently verify from public data.
-That is why the top of this README is a set of commands, not a claim.
-
-- **Say hi on [Telegram](https://t.me/+P7blHRwexzAyYWZh)** — brainstorm, share ideas and meet like-minded
-  builders. No commitment needed; just come and chat.
-- **Grow with this project** — follow it, learn as it evolves, and step in whenever you are ready:
-  open an issue, point out a bug, send a PR. Every contribution counts, and we review and respond as
-  fast as we can.
-- **Start your own** — have an idea that fits the vision? We'll create a repository under the org and
-  hand you full control. Your project, your lead; we're here to support.
-
-If you are here for the verifier specifically, the fastest useful contribution is an independent
-run: deploy it on a chain you care about, call `verify()`, and tell us the gas figure we are still
-missing.
