@@ -32,7 +32,7 @@ contract FlashProveVerifier is IProofVerifier, IERC165 {
         bytes calldata metadata,
         bytes calldata proof
     ) external view returns (bool) {
-        if (metadata.length != 32 || proof.length < 0x40) {
+        if (metadata.length != 32 || proof.length < 0x80) {
             return false;
         }
         bytes32 programVKey = abi.decode(metadata, (bytes32));

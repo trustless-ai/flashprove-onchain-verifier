@@ -160,7 +160,7 @@ Nothing below takes a figure on trust.
 cd contracts && forge test                      # 32 tests, including the negative controls
 contracts/scripts/anvil-smoke.sh                # the whole call path on a local anvil
 cd zkvm-prover && cargo test --workspace        # the guest, the block layout, the host helpers
-rust-verifier/scripts/parity.sh                 # 21 CLI cases + accepted/negative goldens
+rust-verifier/scripts/parity.sh                 # 27 CLI cases + accepted/negative goldens
 ```
 
 The verifier must print the same closing four lines as the C++ reference on the accepted proof, and

@@ -3,8 +3,8 @@
 //! Everything is configuration-driven: the ELF, the vkey record, the input paths, the prover mode,
 //! the output directory and the chain parameters come from a JSON file (`fp-sp1-config/v1`).
 //! Paths in the file are relative to the repository root; the root is found by walking up from the
-//! current directory until a directory holds both `AGENTS.md` and `zkvm/`, or passed on the
-//! command line.
+//! current directory until a directory holds both `zkvm-prover/` and `rust-verifier/`, or passed on
+//! the command line.
 
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -15,7 +15,7 @@ use serde::{Deserialize, Serialize};
 
 pub const CONFIG_SCHEMA: &str = "fp-sp1-config/v1";
 pub const VKEY_SCHEMA: &str = "fp-vkey/v1";
-/// Kept in sync with `zkvm/Cargo.lock` by `tests::sdk_version_matches_lockfile`.
+/// Kept in sync with `zkvm-prover/Cargo.lock` by `tests::sdk_version_matches_lockfile`.
 pub const SP1_SDK_VERSION: &str = "6.10.0";
 
 // ---------------------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ fn default_proof_mode() -> String {
     "groth16".to_string()
 }
 fn default_output_dir() -> String {
-    "out/zkvm/proof".to_string()
+    "out/zkvm-prover/proof".to_string()
 }
 
 #[derive(Debug, Clone, Deserialize)]
@@ -129,7 +129,8 @@ fn default_true() -> bool {
 // ---------------------------------------------------------------------------------------------
 // Paths and loading
 
-/// Walks up from `start` for the repository root (a directory holding `AGENTS.md` and `zkvm/`).
+/// Walks up from `start` for the repository root (a directory holding `zkvm-prover/` and
+/// `rust-verifier/`).
 pub fn find_root(start: &Path) -> Result<PathBuf> {
     for dir in start.ancestors() {
         if dir.join("zkvm-prover").is_dir() && dir.join("rust-verifier").is_dir() {

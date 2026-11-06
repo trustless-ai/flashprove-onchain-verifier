@@ -1,5 +1,8 @@
 # Proving readiness report: the on-chain side, ready
 
+*Historical run record: paths such as `zkvm/config` and `zkvm/contracts` predate the `zkvm` →
+`zkvm-prover` rename.*
+
 on-chain side makes everything on the SP1 path ready except the real proving run, which belongs to a
 machine with a GPU. The guest's public output now carries a fixed 128-byte block (`FPV1`) with the
 commitment ID, the verdict and the digests of the canonical inputs and the `result-v1` line; an

@@ -8,7 +8,7 @@
 //! guest reads with `sp1_zkvm::io::read`.
 //!
 //! Everything comes from the configuration file (`--config`, default
-//! `zkvm/config/flashprove.json`): the ELF, the input paths, the fp-host binary. If a vkey record
+//! `config/flashprove.json`): the ELF, the input paths, the fp-host binary. If a vkey record
 //! exists, this host also requires the ELF to be the one the record was generated from.
 //!
 //! The guest commits, in order: the 128-byte `FPV1` public-values block, the report text, and the
