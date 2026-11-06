@@ -10,49 +10,33 @@ FlashProve checks a model's inference without re-running the model: a proof is v
 commitment, and the answer is recomputed from public data. This repository is the on-chain half of
 that — the contracts that accept that evidence, and the toolchain that produces it.
 
-```
-   off chain                                                  on chain
-   ────────                                                   ────────
+```mermaid
+flowchart TD
+    AV["IAgentVerifier<br/>stateful · task · policy<br/>holds the IProofVerifier address"]
 
-   ┌──────────────────────────────────────────┐
-   │ rust-verifier/                           │
-   │   fp-core    no_std, no state            │
-   │   fp-host    CLI entry                   │
-   │   fixtures   byte-identical              │
-   └─────────────────────┬────────────────────┘
-                         │ compiled into the guest
-                         ▼
-   ┌─────────────────────┬────────────────────┐
-   │ zkvm-prover/                             │
-   │   guest    FPV1 public values            │
-   │   fp-pv    the block layout              │
-   │   host     execute / prove               │
-   └─────────────────────┬────────────────────┘
-                         │ zk proof → zk/FlashProveZKVerifier
-                         ▼
-   ┌─────────────────────┬────────────────────┐
-   │ contracts/                               │
-   │                                          │
-   │   zk/FlashProveZKVerifier                │
-   │     SP1 proof in, verdict out            │
-   │                                          │
-   │   attestation/FlashProveAttestVerifier   │ ◀── committee signatures arrive from
-   │     committee signatures in, verdict out │      outside this repository
-   │                                          │
-   │   stateless · deploy once · anyone calls │
-   └─────────────────────┴────────────────────┘
-                         ▲
-                         │ verify(inputHash, outputHash,
-                         │        metadata, proof) → bool
-   ┌─────────────────────┬────────────────────┐
-   │ your IAgentVerifier                      │
-   │   stateful · task · policy               │
-   └──────────────────────────────────────────┘
+    subgraph onchain["on chain — stateless, deploy once"]
+        ZK["FlashProveZKVerifier<br/>proofSystem() = zk/sp1"]
+        AT["FlashProveAttestVerifier<br/>proofSystem() = attestation/multisig"]
+    end
+
+    subgraph offchain["off chain"]
+        RV["rust-verifier<br/>fp-core, no_std, no state"]
+        ZP["zkvm-prover<br/>guest + host"]
+        CM["committee<br/>signatures from outside this repository"]
+    end
+
+    AV -->|"verify(inputHash, outputHash, metadata, proof)"| ZK
+    AV -->|"very same call"| AT
+    RV -->|"compiled into the guest"| ZP
+    ZP -->|"SP1 proof"| ZK
+    CM -->|"signature bundle"| AT
 ```
 
-Four components, one direction of flow: `rust-verifier` decides, `zkvm-prover` produces the
-evidence, and `contracts` accepts it — through either of its two verification paths. Only
-`contracts` is deployed, and it is deployed once.
+Once, from the top: your `IAgentVerifier` holds the address of one of the two on-chain verifiers
+and asks it one question — is this input/output pair supported by this evidence? Below it the answer
+comes from two different places: `zkvm-prover`, which compiles `rust-verifier`'s `no_std` core into
+an SP1 guest, or a committee signing outside the chain. Only the two verifiers are deployed, each
+once, and neither of them holds state; every application brings its own `IAgentVerifier` on top.
 
 ## The contracts
 
