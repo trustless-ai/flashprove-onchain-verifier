@@ -40,9 +40,9 @@ the zk path, `true` requires all three:
 2. the FPV1 block's `input_digest` equals `inputHash`;
 3. the FPV1 block's `result_v1_digest` equals `outputHash`.
 
-In the attestation path, `true` will require `threshold` distinct committee signatures over the
-same attestation — see [The attestation path](#the-attestation-path), which also lists what is
-still TODO.
+In the attestation path, `true` requires `threshold` distinct committee signatures over the
+same attestation — see [The attestation path](#the-attestation-path) for the signed preimage and
+the bundle encoding.
 
 Neither path reverts on a bad proof: both return `false`, so the outer layer can record the
 attempt either way, and a revert there would throw the record away.
@@ -54,7 +54,7 @@ Both implementations answer the same three calls; only the reported backend diff
 | Call | `FlashProveZKVerifier` | `FlashProveAttestVerifier` |
 |---|---|---|
 | `proofSystem()` | `"zk/sp1"` | `"attestation/multisig"` |
-| `proofProfile()` | `keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash))` | same construction |
+| `proofProfile()` | `keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash))` | `keccak256(abi.encode(PROOF_SYSTEM, address(this).codehash, committeeDigest))`, where `committeeDigest = keccak256(abi.encode(signers, threshold))`: the signer list lives in storage, outside the codehash |
 | `supportsInterface` | `IProofVerifier` and `IERC165` | same |
 
 The contract name carries the product; the backend is reported, not implied. A different proof
@@ -134,29 +134,63 @@ scripts/                                  deploy.sh, anvil-smoke.sh
 signers attests that a given input produced a given output, and the contract accepts the inference
 once `threshold` distinct signers signed the same attestation.
 
-It is a skeleton on purpose. What is already final:
+What it fixes at deployment:
 
 - the interface — the same `verify(inputHash, outputHash, metadata, proof)` as the zk path, the
   same `proofSystem()` / `proofProfile()` shape, the same ERC-165 answer;
-- deployment configuration — the committee and the threshold are constructor arguments, validated
-  (empty committee, zero threshold, threshold above the committee, duplicate or zero signer all
-  revert with `InvalidConfiguration()`), and never written again, so the instance stays stateless;
+- deployment configuration — the committee (at most 256 members) and the threshold are constructor
+  arguments, validated (empty committee, zero threshold, threshold above the committee, a committee
+  above 256, duplicate or zero signer all revert with `InvalidConfiguration()`), and never written
+  again, so the instance stays stateless;
 - the failure mode — unparseable input returns `false`, never reverts;
 - the guards — `metadata` must be 32 bytes, `proof` must be at least `0x80`.
 
-Still open, and marked TODO in the source:
+### What a committee member signs
 
-- the attestation preimage (`attestationDigest`) — whether the domain is EIP-712, whether
-  `metadata` enters as a hash, whether the chain id belongs in it;
-- the bundle encoding and the signature recovery in `_countValidSignatures`.
+An [EIP-712](https://eips.ethereum.org/EIPS/eip-712) typed-data digest, so wallets and signing
+services can display what they sign and a signature is bound to one chain and one deployment:
 
-Until those land the placeholder reports zero valid signatures, so every call answers `false`.
-`test/attestation/FlashProveAttestVerifier.t.sol` pins that state in
-`test_accepts_nothing_until_the_signature_check_lands`, so the test has to be replaced — not
-quietly kept — when the real check arrives.
+```
+domain       = EIP712Domain(string name, string version, uint256 chainId, address verifyingContract)
+               name = "FlashProveAttestVerifier", version = "1",
+               chainId = block.chainid, verifyingContract = this deployment
+Attestation  = Attestation(bytes32 inputHash, bytes32 outputHash, bytes32 metadataHash)
+metadataHash = keccak256(metadata)          // metadata = the 32-byte configuration hash
+digest       = keccak256("\x19\x01" ‖ domainSeparator ‖ keccak256(abi.encode(ATTESTATION_TYPEHASH,
+                                                                  inputHash, outputHash, metadataHash)))
+```
 
-Whatever preimage **and bundle encoding** are chosen must be documented in this file the way the zk
-path's hash scheme is: ERC-8274 requires a verifier's commitment scheme to be written down.
+`attestationDigest(inputHash, outputHash, metadataHash)` and `domainSeparator()` return these values,
+so a signer can check what it is about to sign against the deployment it targets. The separator is
+computed per call: after a chain fork, a signature made for one chain id does not count on the other.
+
+### The proof bundle
+
+```
+proof = abi.encode(bytes[] signatures)      // each signature: 65 bytes, r ‖ s ‖ v
+```
+
+`verify` decodes the bundle, recovers each signature against the digest above and counts **distinct**
+committee members; it answers `true` once the count reaches `threshold`. Order inside the bundle
+does not matter. A signature is ignored — never counted, never a revert — when it is not 65 bytes,
+has `v` outside {27, 28}, has `s` above secp256k1 n/2 (the malleable twin of a valid signature),
+recovers to `address(0)` or to a non-member, or repeats a member already counted. A bundle that
+does not decode answers `false`, and so does a bundle longer than one signature per committee member
+(`0x40 + 0xA0 * committee size` bytes), refused before decoding because the caller pays for every entry.
+An outer `IAgentVerifier` may cap proof length further.
+
+### What an attestation does not prove
+
+A committee signature proves *which* input and output the members signed, under which
+configuration, for which deployment and chain. It does not prove *when* it was signed: the earliest
+time it can be shown to exist is the block of the `IAgentVerifier` call that recorded it. An
+application that needs freshness or ordering commits to it inside what is signed — a deadline or
+nonce in the task that `inputHash` commits to, or a configuration epoch in `metadata` — and its own
+policy must then check it: this contract only verifies that it was signed, never that it is current.
+
+`test/attestation/FlashProveAttestVerifier.t.sol` covers the threshold (accepted at `threshold`,
+rejected one short, 1/1 and 3/3), duplicates counted once, outsiders ignored, binding to input,
+output, metadata, deployment and chain id, and the malformed cases above.
 
 ## Build and test
 

@@ -17,6 +17,12 @@ interface Vm {
     function envBytes32(string calldata name) external view returns (bytes32);
     function envString(string calldata name) external view returns (string memory);
     function envUint(string calldata name) external view returns (uint256);
+    function addr(uint256 privateKey) external pure returns (address);
+    function sign(uint256 privateKey, bytes32 digest)
+        external
+        pure
+        returns (uint8 v, bytes32 r, bytes32 s);
+    function chainId(uint256 newChainId) external;
 }
 
 abstract contract TestBase {
