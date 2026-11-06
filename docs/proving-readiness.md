@@ -14,12 +14,12 @@ baseline run consistency gate.
 
 | Task | Where | Content |
 |---|---|---|
-| B1 | `zkvm/fp-pv` (schema), `zkvm/hostlib/src/bin/gen-vkey.rs`, `zkvm/config/vkey.json` | `client.setup(elf)` → `SP1VerifyingKey::bytes32`; the record holds the ELF path, size and SHA-256, the SP1 SDK and circuit versions, the on-chain vkey and the Poseidon2 digest. `--update`, `--check` (full re-derivation) and `--check-elf` (hash only). |
-| B2 | `zkvm/fp-pv/src/{pv,inputs,sha256}.rs`, `zkvm/guest/src/main.rs`, `zkvm/host-exec/src/main.rs`, `zkvm/config/input-manifest.json` | The `FPV1` block and the canonical input digest; the guest commits the block first with `commit_slice` (offset 0), then the unchanged report text, then the status; `host-exec` rebuilds the same block from `fp-host`'s stdout, requires byte equality, and requires the committed call status to equal `fp-host`'s exit status. `fp-pv manifest` freezes the nine input files and `--check` verifies them on another machine. |
-| B3 | `zkvm/contracts/` | ERC-8274 `IProofVerifier` (`SP1ProofVerifier`) and `IAgentVerifier` (`FlashProveAgentVerifier`), the vendored SP1 verifier interface, the `FPV1` decoder, a mock SP1 verifier, tests, a production deploy script and an anvil smoke script. |
-| B4 | `zkvm/hostlib/src/bin/fp-prover.rs` | CPU / CUDA / mock backends behind one config; `cuda` is the config default; `--plan` validates without `setup`; proofs are verified locally and written with public values, `pv.bin` and an ABI-ready bundle. |
-| B5 | `zkvm/docs/handoff.md` | The no-names handoff: frozen hashes, requirements, build/prove/verify steps, outputs, resource estimates and limits. |
-| support | `zkvm/hostlib`, `zkvm/config/flashprove.json`, `zkvm/config/flashprove.smoke.json`, `zkvm/config/flashprove.bench.json`, `zkvm/scripts/{anvil-smoke,deploy,s6-check}.sh` | One configuration-driven loader for the ELF, the ten inputs, the fp-host reference and the chain parameters; scripts for the local deployment, the production deployment and the gates. |
+| B1 | `zkvm-prover/fp-pv` (schema), `zkvm-prover/hostlib/src/bin/gen-vkey.rs`, `config/vkey.json` | `client.setup(elf)` → `SP1VerifyingKey::bytes32`; the record holds the ELF path, size and SHA-256, the SP1 SDK and circuit versions, the on-chain vkey and the Poseidon2 digest. `--update`, `--check` (full re-derivation) and `--check-elf` (hash only). |
+| B2 | `zkvm-prover/fp-pv/src/{pv,inputs,sha256}.rs`, `zkvm-prover/guest/src/main.rs`, `zkvm-prover/host-exec/src/main.rs`, `config/input-manifest.json` | The `FPV1` block and the canonical input digest; the guest commits the block first with `commit_slice` (offset 0), then the unchanged report text, then the status; `host-exec` rebuilds the same block from `fp-host`'s stdout, requires byte equality, and requires the committed call status to equal `fp-host`'s exit status. `fp-pv manifest` freezes the nine input files and `--check` verifies them on another machine. |
+| B3 | `contracts/` | ERC-8274 `IProofVerifier` (`FlashProveVerifier`) and `IAgentVerifier` (`ExampleAgentVerifier`), the vendored SP1 verifier interface, the `FPV1` decoder, a mock SP1 verifier, tests, a production deploy script and an anvil smoke script. |
+| B4 | `zkvm-prover/hostlib/src/bin/fp-prover.rs` | CPU / CUDA / mock backends behind one config; `cuda` is the config default; `--plan` validates without `setup`; proofs are verified locally and written with public values, `pv.bin` and an ABI-ready bundle. |
+| B5 | `docs/handoff.md` | The no-names handoff: frozen hashes, requirements, build/prove/verify steps, outputs, resource estimates and limits. |
+| support | `zkvm-prover/hostlib`, `config/flashprove.json`, `config/flashprove.smoke.json`, `config/flashprove.bench.json`, `zkvm-prover/scripts/{anvil-smoke,deploy,s6-check}.sh` | One configuration-driven loader for the ELF, the ten inputs, the fp-host reference and the chain parameters; scripts for the local deployment, the production deployment and the gates. |
 
 ## 2. The public values
 
@@ -44,8 +44,8 @@ len‖KL ‖ len‖key ‖ len‖entry ‖ entry_number(u32 LE) ‖ len‖reques
 len‖id)`. It does not depend on SP1's stdin serialization, so a provider computes it from the
 files, the guest computes it from the values it read, and they must agree. `fp-pv manifest` prints
 the nine files with root-relative paths, their sizes, their SHA-256 values, the leaf number and the
-bundle digest. `zkvm/config/input-manifest.json` is the accepted example's frozen manifest;
-`fp-pv manifest --check zkvm/config/input-manifest.json` must print `MATCH`. The check ignores the
+bundle digest. `config/input-manifest.json` is the accepted example's frozen manifest;
+`fp-pv manifest --check config/input-manifest.json` must print `MATCH`. The check ignores the
 path strings, so the provider's copy may live elsewhere and the files are compared by name, size
 and SHA-256. This is how the two sides agree on the bytes before a proof.
 
@@ -67,9 +67,9 @@ The Rust ABI encoder (`fp-pv bundle`) was checked byte-for-byte against
 
 ```
 Settlement (IAgentVerifiable)
-  └── FlashProveAgentVerifier   binds: commitment ID, accepted-verdict mask, status rule,
+  └── ExampleAgentVerifier   binds: commitment ID, accepted-verdict mask, status rule,
         │                              authorized agents, program vkey metadata
-        └── SP1ProofVerifier    calls the SP1 verifier on abi.encode(publicValues, proof),
+        └── FlashProveVerifier    calls the SP1 verifier on abi.encode(publicValues, proof),
               │                 then requires the block's input/result digests to equal the
               │                 caller's inputHash/outputHash
               └── ISP1Verifier  (the deployed SP1 verifier; MockSP1Verifier in local tests)
@@ -107,7 +107,7 @@ gen-vkey: sp1 circuit v6.1.0, sdk 6.10.0,
   vkey 0x007991cd508039250725758bafb93d0173397e4743679884dfd7cae0ca21d0aa
 ```
 
-The record (`zkvm/config/vkey.json`) also carries the Poseidon2 digest
+The record (`config/vkey.json`) also carries the Poseidon2 digest
 `0x3cc8e6a8200e494164aeb1757b93d01719cbf23a0d9e62133faf95c14a21d0aa` and the eight 32-bit
 words. `gen-vkey --check-elf` prints `MATCH` for this ELF.
 
@@ -156,7 +156,7 @@ between two Rust call sites: a Python `hashlib`/`struct` script over the same ni
 the input digest `e0ea24c8…3294392`, and `shasum -a 256` of the `result-v1` line (newline excluded)
 reproduces `0af488bb…b4ec43`.
 
-The input convention is frozen in `zkvm/config/input-manifest.json` (root-relative paths, per-file
+The input convention is frozen in `config/input-manifest.json` (root-relative paths, per-file
 sizes and SHA-256 values, the leaf number and the bundle digest). On the same files:
 
 ```
@@ -173,7 +173,7 @@ Ran 3 test suites: 32 tests passed, 0 failed, 0 skipped (32 total tests)
 
 - 9 decoder tests (magic, version, reserved bytes, verdict range, trailing bytes, big-endian
   status fields);
-- 10 `SP1ProofVerifier` tests (valid bundle, wrong input/output, wrong vkey, inner rejection,
+- 10 `FlashProveVerifier` tests (valid bundle, wrong input/output, wrong vkey, inner rejection,
   malformed metadata/bundle/block, profile, ERC-165);
 - 13 wrapper tests (acceptance, single-use task, unauthorized agent, wrong commitment ID,
   unaccepted verdict, configured mask, nonzero status, wrong digests, inner rejection, malformed
@@ -182,7 +182,7 @@ Ran 3 test suites: 32 tests passed, 0 failed, 0 skipped (32 total tests)
 The anvil smoke, with the real vkey record and a placeholder proof:
 
 ```sh
-ANVIL_PORT=8548 zkvm/scripts/anvil-smoke.sh
+ANVIL_PORT=8548 contracts/scripts/anvil-smoke.sh
 ```
 
 ```
@@ -204,9 +204,9 @@ Transactions saved to: .../zkvm/contracts/broadcast/AnvilSmoke.s.sol/31337/run-l
 anvil-smoke: PASS (the placeholder proof walked the ERC-8274 call path)
 ```
 
-The production path (`Deploy.s.sol`, driven by `zkvm/scripts/deploy.sh` and the configuration's
+The production path (`Deploy.s.sol`, driven by `zkvm-prover/scripts/deploy.sh` and the configuration's
 `chain` section) was also deployed to a local anvil, with `SP1_VERIFIER` set to a placeholder
-address on that chain and every other parameter read from `zkvm/config/flashprove.json`: `Script
+address on that chain and every other parameter read from `config/flashprove.json`: `Script
 ran successfully`, `ONCHAIN EXECUTION COMPLETE & SUCCESSFUL`, 2,011,103 estimated gas.
 
 ### B4 — the driver
@@ -275,7 +275,7 @@ only Plonk/Groth16 for those bytes and writes `proof.bin` and the public values 
 
 ### The configuration-only program switch
 
-`zkvm/config/flashprove.bench.json` names a different guest (the optimization round 2 BLAKE2b benchmark) and its
+`config/flashprove.bench.json` names a different guest (the optimization round 2 BLAKE2b benchmark) and its
 own `vkey.bench.json`; no source file changes. Running `gen-vkey` with it produces a different
 record:
 
@@ -295,8 +295,8 @@ source tree is identical before and after the switch.
 ## 5. What is not done
 
 - **No real proving.** B4's proof is a mock; the GPU member runs `fp-prover` with
-  `prover.mode = "cuda"` and `prover.proof_mode = "groth16"` using `zkvm/docs/handoff.md`.
-- **No on-chain SP1 verifier.** The anvil deployment points `SP1ProofVerifier` at a mock that
+  `prover.mode = "cuda"` and `prover.proof_mode = "groth16"` using `docs/handoff.md`.
+- **No on-chain SP1 verifier.** The anvil deployment points `FlashProveVerifier` at a mock that
   accepts a placeholder proof. A real deployment sets `chain.sp1_verifier` to the deployed SP1
   verifier (the Succinct gateway or a circuit-specific verifier) and uses a Groth16 proof.
 - **The vkey is tied to this ELF.** The optimization round 3 cycle work changes the guest; when it lands, rebuild
@@ -308,19 +308,19 @@ source tree is identical before and after the switch.
   The wrapper adds the on-chain binding, not a new soundness proof. Weight hiding is out of scope
   (`guide/weight-hiding.md`).
 - **ERC-8274 is not final.** The wrapper follows the current text, including `block.timestamp` in
-  `verificationDigest`. If the final ERC changes that preimage, `FlashProveAgentVerifier.verify`,
+  `verificationDigest`. If the final ERC changes that preimage, `ExampleAgentVerifier.verify`,
   the event and the tests must change with it; this is the interface-layer alignment to revisit
   when the standard is final.
 
 ## 6. Files
 
-New: `zkvm/fp-pv/`, `zkvm/hostlib/`, `zkvm/config/` (including the frozen
-`input-manifest.json`), `zkvm/contracts/`, `zkvm/fixtures/smoke/`, `zkvm/scripts/`,
-`zkvm/docs/handoff.md`.
+New: `zkvm-prover/fp-pv/`, `zkvm-prover/hostlib/`, `config/` (including the frozen
+`input-manifest.json`), `contracts/`, `zkvm-prover/fixtures/smoke/`, `zkvm-prover/scripts/`,
+`docs/handoff.md`.
 
-Changed: `zkvm/guest/src/main.rs` (commits the block first), `zkvm/guest/Cargo.toml`,
-`zkvm/host-exec/src/main.rs` (configuration, block comparison, vkey check),
-`zkvm/host-exec/Cargo.toml`, `zkvm/Cargo.toml` (members), `zkvm/Cargo.lock`, `.gitignore`.
+Changed: `zkvm-prover/guest/src/main.rs` (commits the block first), `zkvm-prover/guest/Cargo.toml`,
+`zkvm-prover/host-exec/src/main.rs` (configuration, block comparison, vkey check),
+`zkvm-prover/host-exec/Cargo.toml`, `zkvm-prover/Cargo.toml` (members), `zkvm-prover/Cargo.lock`, `.gitignore`.
 
 Untouched: every C++ source, `fp-core` (except the optimization round 2 state already on the branch), `fp-host`'s
 output, and the five reference fixtures.

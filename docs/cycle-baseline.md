@@ -14,7 +14,7 @@ line by line.
 | SP1 zkVM toolchain (`succinct`) | rustc **1.96.0-dev** | `cargo prove install-toolchain` |
 | zkVM targets shipped | `riscv64im-succinct-zkvm-elf`, `riscv32im-succinct-zkvm-elf` | in `~/.sp1/toolchains/<id>/lib/rustlib/` |
 | Host Rust | rustc 1.97.1 | the repository's toolchain |
-| `sp1-zkvm`, `sp1-sdk`, `sp1-core-executor` | pinned `=6.10.0` | `zkvm/guest/Cargo.toml`, `zkvm/host-exec/Cargo.toml` |
+| `sp1-zkvm`, `sp1-sdk`, `sp1-core-executor` | pinned `=6.10.0` | `zkvm-prover/guest/Cargo.toml`, `zkvm-prover/host-exec/Cargo.toml` |
 
 `cargo prove --version` prints `cargo-prove sp1 (VERGEN_IDEMPOTENT_OUTPUT 2026-11-05T07:35:46Z)`;
 the version is the crates.io package `sp1-cli 6.10.0`, which is the crate that ships the
@@ -27,10 +27,10 @@ toolchain builds by default. This report records the target that was actually us
 
 ## 2. The guest and the host
 
-- `zkvm/guest/` (`#![no_std]`): reads the private input with `sp1_zkvm::io::read` (each byte string
+- `zkvm-prover/guest/` (`#![no_std]`): reads the private input with `sp1_zkvm::io::read` (each byte string
   is length-prefixed: `Vec<u8>`), runs the three stages and commits the call's accounting, its
   `result-v1` line and `YES` (or the rejection) as public output.
-- `zkvm/host-exec/` (std): reads the fixtures, writes the same input with `SP1Stdin::write`,
+- `zkvm-prover/host-exec/` (std): reads the fixtures, writes the same input with `SP1Stdin::write`,
   executes the ELF with `ProverClient::builder().cpu().build()` and `.execute(..).run()`, prints
   the execution report, and compares `result-v1` and `YES` with `fp-host`'s.
 

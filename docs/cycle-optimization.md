@@ -17,7 +17,7 @@ implementation was touched; the C++ sources are untouched.
 
 ## 2. The initial state
 
-- `zkvm/Cargo.toml` had no `[profile.release]`. Cargo's release defaults therefore applied:
+- `zkvm-prover/Cargo.toml` had no `[profile.release]`. Cargo's release defaults therefore applied:
   `opt-level = 3`, `lto = false`, `codegen-units = 16`, `panic = "unwind"`.
 - `sp1-build 6.10.0` always passes these rustflags to the guest build:
   `-C passes=lower-atomic`, `-C link-arg=--image-base=2013265920`, `-C panic=abort`,
@@ -68,7 +68,7 @@ The final build command (reproducible):
 ```sh
 cd zkvm
 cargo prove build -p guest --binaries guest --rustflags="-Cllvm-args=-inline-threshold=1000"
-# zkvm/Cargo.toml: [profile.release] lto = "fat", codegen-units = 1
+# zkvm-prover/Cargo.toml: [profile.release] lto = "fat", codegen-units = 1
 ```
 
 ## 5. Acceptance
@@ -81,7 +81,7 @@ The final configuration (`[profile.release] lto = "fat"`, `codegen-units = 1`, a
 are byte-identical to fp-host)`. The final ELF is 12,194,968 bytes, SHA-256 `ce966b26…` (the
 final rebuild differs from Step 6's `8b841981…` only in metadata; its cycle count is identical).
 
-No `.rs` file changed: the only working-tree change of optimization round 1 is `zkvm/Cargo.toml`. The C++ sources
+No `.rs` file changed: the only working-tree change of optimization round 1 is `zkvm-prover/Cargo.toml`. The C++ sources
 are untouched.
 
 # optimization round 2: the BLAKE2b soft implementation
@@ -110,11 +110,11 @@ everything else (word width, rotations, inline hints) already looked reasonable.
 
 ## 2. Microbenchmarks (Step 2)
 
-`zkvm/bench` is an independent SP1 guest with four modes (`0` current fp-core `f`, `1` handwritten
+`zkvm-prover/bench` is an independent SP1 guest with four modes (`0` current fp-core `f`, `1` handwritten
 unrolled with explicit shifts, `2` `blake2b_simd 1.0.5` (no_std, portable path, one-block hash),
 `3` the same unrolled code with `rotate_right`). It performs `n` compressions of one 128-byte block;
 the cycles-per-compression figure subtracts the `n = 0` execution (~9.2k cycles) and divides by
-`n = 4096`. `zkvm/host-exec/src/bin/bench-exec.rs` executes it. The bench ELF was built with the
+`n = 4096`. `zkvm-prover/host-exec/src/bin/bench-exec.rs` executes it. The bench ELF was built with the
 optimization round 1 final profile and `-Cllvm-args=-inline-threshold=1000`, so the comparison matches the
 production build.
 
@@ -151,7 +151,7 @@ decision is needed.
 **Not selected**: `blake2b_simd 1.0.5`. It is the fastest candidate per compression (1,997), but it
 would be a new dependency of `fp-core` (only `libm` is approved there) and it exposes the standard
 BLAKE2b hash — not the verifier's custom counter/tweak — so it cannot be the `f` that `f2b` and
-`compress64` call. It stays a cost reference in `zkvm/bench`.
+`compress64` call. It stays a cost reference in `zkvm-prover/bench`.
 
 The change: in `fp-core/src/hash/blake2b.rs`, `f`'s round loop became twelve unrolled
 `rounds!` calls; `g` now takes the round's two message words and the four state indices, so every
@@ -183,8 +183,8 @@ The full regression is green: `cargo test --workspace` **229 passed, 0 failed**;
 - The verifier's remaining ~26.8G cycles are its own planning and checking code: the exact
   big-integer arithmetic (`Big`/`Real`), allocation and the large plan structures. The next
   meaningful step, if the PM authorizes one, is to profile that code, not BLAKE2b.
-- The benchmark harness is kept: `zkvm/bench` (four modes) and
-  `zkvm/host-exec/src/bin/bench-exec.rs`; it can measure any future compression change against the
+- The benchmark harness is kept: `zkvm-prover/bench` (four modes) and
+  `zkvm-prover/host-exec/src/bin/bench-exec.rs`; it can measure any future compression change against the
   same protocol.
 
 # optimization round 3: profiling the verifier's own code
@@ -195,7 +195,7 @@ The instruments: `host-exec` now prints the execute report's full opcode distrib
 "other"), and takes `--part 0|1|2|3` (whole call / key alone / leaf alone / request alone). The
 guest gained a `part` input; a partial run executes one stage and commits its text, and `host-exec`
 skips the consistency comparison for it. The full run still passes the gate. All changes are in
-`zkvm/` only; no `fp-core` and no C++ change in this step.
+`zkvm-prover/` only; no `fp-core` and no C++ change in this step.
 
 Full call with the instruments: **27,055,820,319 cycles**, `result-v1`/`YES` IDENTICAL. (This is the
 new measured baseline for optimization round 3; it differs from optimization round 2's 27,079,048,885 by a code-layout shift of
@@ -263,7 +263,7 @@ therefore not pure stage-body shares, and the key/leaf parts, which are almost e
   `Binding`s in plan construction and accounting, and fewer `format!` allocations in the printed
   paths.
 
-The instruments (`--part`, the opcode dump) stay in `zkvm/` for the next rounds.
+The instruments (`--part`, the opcode dump) stay in `zkvm-prover/` for the next rounds.
 
 ## Step 1a: function-level profile
 

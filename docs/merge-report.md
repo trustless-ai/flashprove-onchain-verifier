@@ -7,11 +7,11 @@ Merged with `--no-ff`; the source tree of the C++ verifier was not touched.
 
 ## 1. Conflict points and how they were resolved
 
-Only **one** file conflicted: `zkvm/host-exec/src/main.rs`. `zkvm/guest/src/main.rs` and
-`zkvm/Cargo.toml` / `Cargo.lock` auto-merged (their auto-merged contents were then checked by hand,
+Only **one** file conflicted: `zkvm-prover/host-exec/src/main.rs`. `zkvm-prover/guest/src/main.rs` and
+`zkvm-prover/Cargo.toml` / `Cargo.lock` auto-merged (their auto-merged contents were then checked by hand,
 see below); no fourth conflict appeared.
 
-### 1.1 `zkvm/host-exec/src/main.rs` (conflict)
+### 1.1 `zkvm-prover/host-exec/src/main.rs` (conflict)
 
 The B side is the body: configuration file, `fp_hostlib` (`load_config`, `load_inputs`,
 `vkey_record_path`/`load_vkey_record`/`check_elf`, `run_fp_host`, `expected_public_values`),
@@ -29,7 +29,7 @@ transplanted into it:
   FPV1 decode, digest check, `fp-host` comparison or status check, as specified. The guest still
   commits the FPV1 block in part mode, built from that part's report text.
 
-### 1.2 `zkvm/guest/src/main.rs` (auto-merge, verified)
+### 1.2 `zkvm-prover/guest/src/main.rs` (auto-merge, verified)
 
 The merged file has the intended composition:
 
@@ -42,7 +42,7 @@ The merged file has the intended composition:
 `fp_pv::from_report` tolerates a report without a `result-v1` line, so the part-mode FPV1 block
 (computed from the partial text) is well-defined.
 
-### 1.3 `zkvm/Cargo.toml` / `Cargo.lock` (auto-merge, verified)
+### 1.3 `zkvm-prover/Cargo.toml` / `Cargo.lock` (auto-merge, verified)
 
 - Members are the union: `guest`, `host-exec`, `bench`, `fp-pv`, `hostlib`.
 - The optimization round 1 release profile is retained (`lto = "fat"`, `codegen-units = 1`).
@@ -76,7 +76,7 @@ cargo prove build -p guest --binaries guest \
 
 ### 2.3 vkey
 
-`gen-vkey --config config/flashprove.json --update` rewrote `zkvm/config/vkey.json`:
+`gen-vkey --config config/flashprove.json --update` rewrote `config/vkey.json`:
 
 - **vkey** `0x00200f72646a715059f034051e4624c3f6940a6d2c2c4dca8aa3575c45f29464`
 - circuit v6.1.0, sdk 6.10.0, ELF sha256 `2d077855…`, size 12,245,688
@@ -108,8 +108,8 @@ byte-exact output are unchanged.
 
 ### 2.6 B-line gates
 
-- `zkvm/contracts`: `forge test` → **32 passed** (13 + 10 + 9 in the three suites), 0 failed.
-- `zkvm/scripts/anvil-smoke.sh` → **PASS** (`the placeholder proof walked the ERC-8274 call
+- `contracts`: `forge test` → **32 passed** (13 + 10 + 9 in the three suites), 0 failed.
+- `zkvm-prover/scripts/anvil-smoke.sh` → **PASS** (`the placeholder proof walked the ERC-8274 call
   path`), using the refreshed vkey record.
 
 ## 3. Red lines

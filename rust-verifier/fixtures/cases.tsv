@@ -1,0 +1,27 @@
+no_args	
+bad_option	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-bogus
+bad_bits	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-bits	0128
+bad_j	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-j	0
+bad_id	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-id	xyz
+bad_policy	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-policy	clipped-gap,1,2
+bits_above	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-bits	129
+missing_key	rust-verifier/fixtures/config	rust-verifier/fixtures/no-such-ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_policy	rust-verifier/fixtures/no-such-config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+bad_key_head	-key	rust-verifier/fixtures/config	rust-verifier/fixtures/bad-key.bin	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+short_key	-key	rust-verifier/fixtures/config	rust-verifier/fixtures/short-key.bin	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+bad_proof_head	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/bad-proof.bin	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+short_proof	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/short-proof.bin	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_proof	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/no-such.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_leaf	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk-no-leaf	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+policy_version	rust-verifier/fixtures/config-badversion	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+kl_length	rust-verifier/fixtures/config-shortkl	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_request	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/no-such.req	rust-verifier/fixtures/example.y	rust-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_y	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk	rust-verifier/fixtures/example.req	rust-verifier/fixtures/no-such.y	rust-verifier/fixtures/example.proof	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+missing_entry_part	-leaf	rust-verifier/fixtures/config	rust-verifier/fixtures/ivk/key.bin	rust-verifier/fixtures/no-such-entry	-id	79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183
+plan_no_sub	-plan
+plan_id_argc	-plan	id
+plan_accounting_asked	-plan	accounting	x	1000001
+plan_request_short	-plan	request
+plan_request_no_prompt	-plan	request	a	b	128
+plan_request_bad_option	-plan	request	a	b	128	-bogus
+plan_bogus	-plan	bogus

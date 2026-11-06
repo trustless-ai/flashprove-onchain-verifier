@@ -1,0 +1,61 @@
+{
+  "entry_number": 0,
+  "files": [
+    {
+      "name": "policy",
+      "path": "rust-verifier/fixtures/config/policy.txt",
+      "sha256": "8d9ae1dda2e503550cafade93c54c1b8ecc8eb4b6dab3b843c72a478bb892d2f",
+      "size": 2479
+    },
+    {
+      "name": "layout",
+      "path": "rust-verifier/fixtures/config/layout.txt",
+      "sha256": "a0cce649d992c6f17d1e27c68ac4b900b828ff6ef0bfe8da7c2491fed9f02225",
+      "size": 27038
+    },
+    {
+      "name": "kl",
+      "path": "rust-verifier/fixtures/config/KL.bin",
+      "sha256": "b8fb55ed7c70c4cdc7bac01e804dd0dc79349022ba7972957c7e50a29dc974a2",
+      "size": 464
+    },
+    {
+      "name": "key",
+      "path": "rust-verifier/fixtures/ivk/key.bin",
+      "sha256": "123dc39e8947fd3ba838d7a1a35d587c2f0e1707d1bca9b6ed551b52bf0c2e09",
+      "size": 1096408
+    },
+    {
+      "name": "entry",
+      "path": "rust-verifier/fixtures/ivk/leaf/0.bin",
+      "sha256": "c9484f50fedfaf4e28ec9d1b5d19c3cd5e97bf4582511da49f9eb5693f10e1e0",
+      "size": 536952
+    },
+    {
+      "name": "request",
+      "path": "rust-verifier/fixtures/example.req",
+      "sha256": "ce700974a03d43586d66ca742f9bbc8ad45c936d03dfdb8614dd559a2780aa13",
+      "size": 264
+    },
+    {
+      "name": "y",
+      "path": "rust-verifier/fixtures/example.y",
+      "sha256": "add7f2a4843f8c512c0e2875546581db11b9ba227ee008b5f719dfacb125de76",
+      "size": 4
+    },
+    {
+      "name": "proof",
+      "path": "rust-verifier/fixtures/example.proof",
+      "sha256": "5ed47fd101093e826a5bc833e57633e5a9237b49213c8f37cf518a3c1c8d9d99",
+      "size": 4145300
+    },
+    {
+      "name": "id",
+      "path": "rust-verifier/fixtures/ID.txt",
+      "sha256": "7854b8b0879402583fe279d0f74561331bb89438f72ba6ff7ec81932fe397220",
+      "size": 64
+    }
+  ],
+  "input_digest": "e0ea24c85e2fe7e6458b8d574aa429bb0e9e7ce0a25b6efc605e4afbd3294392",
+  "schema": "fp-input-manifest/v1"
+}

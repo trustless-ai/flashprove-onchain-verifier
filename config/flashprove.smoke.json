@@ -1,0 +1,22 @@
+{
+  "schema": "fp-sp1-config/v1",
+  "program": {
+    "name": "flashprove-verifier",
+    "elf": "zkvm-prover/target/elf-compilation/riscv64im-succinct-zkvm-elf/release/guest",
+    "vkey_record": "config/vkey.json"
+  },
+  "inputs": {
+    "config_dir": "zkvm-prover/fixtures/smoke/config",
+    "ivk_dir": "zkvm-prover/fixtures/smoke/ivk",
+    "request": "zkvm-prover/fixtures/smoke/example.req",
+    "y": "zkvm-prover/fixtures/smoke/example.y",
+    "proof": "zkvm-prover/fixtures/smoke/example.proof",
+    "id_file": "zkvm-prover/fixtures/smoke/ID.txt"
+  },
+  "fp_host": "rust-verifier/target/debug/fp-host",
+  "prover": {
+    "mode": "cpu",
+    "proof_mode": "groth16",
+    "output_dir": "out/zkvm-prover/smoke"
+  }
+}
