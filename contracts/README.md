@@ -115,17 +115,19 @@ Fixed offsets and zeroed reserved bytes mean a verdict has exactly one encoding.
 src/zk/FlashProveZKVerifier.sol             the zk IProofVerifier implementation
 src/attestation/FlashProveAttestVerifier.sol the committee IProofVerifier implementation
 src/libraries/FlashProvePublicValues.sol  FPV1 decoder (shared: the example reads verdicts from it)
+src/anchor/ModelCommitmentAnchor.sol      the commitment-ID anchor registry (no owner)
 src/interfaces/                           IProofVerifier, IAgentVerifier, IAgentVerifiable,
-                                          IERC165, ISP1Verifier
+                                          IERC165, ISP1Verifier, IModelCommitmentAnchor
 src/examples/ExampleAgentVerifier.sol     one complete IAgentVerifier, for reference
 src/mocks/MockSP1Verifier.sol             accepts a placeholder proof; local chains only
 test/zk/                                  the zk contract's tests, including the negative controls
 test/attestation/                         the committee contract's interface-level tests
+test/anchor/                              the anchor registry, incl. the fixture digest vector
 test/FlashProvePublicValues.t.sol         FPV1 decoder vectors
 script/DeployVerifier.s.sol               deploys FlashProveZKVerifier alone
 script/Deploy.s.sol                       deploys it plus one ExampleAgentVerifier
 script/AnvilSmoke.s.sol                   the whole zk path against a local anvil
-scripts/                                  deploy.sh, anvil-smoke.sh
+scripts/                                  deploy.sh, anvil-smoke.sh, recompute-anchor.py
 ```
 
 ## The attestation path
@@ -191,6 +193,80 @@ policy must then check it: this contract only verifies that it was signed, never
 `test/attestation/FlashProveAttestVerifier.t.sol` covers the threshold (accepted at `threshold`,
 rejected one short, 1/1 and 3/3), duplicates counted once, outsiders ignored, binding to input,
 output, metadata, deployment and chain id, and the malformed cases above.
+
+## The anchor
+
+FlashProve's appendix leans on a trusted host that serves the artifacts a commitment ID was made
+from. The anchor does not delete that trust; it moves and narrows it. "Trust the host to serve the
+right bytes" becomes "an anchorer you chose makes a checkable claim that these bytes are the
+commitment", and anyone who redoes the commitment-ID recompute from the weights can falsify that
+claim. The commitment stays outside the SNARK, so the verifier still runs on a laptop.
+
+An anchorer publishes, once per commitment ID, the digest of the static artifacts behind it:
+
+```
+ANCHOR_DOMAIN = "FlashProve/anchor-v1\0"
+anchorDigest  = SHA-256(ANCHOR_DOMAIN
+                        ‖ sha256(policy) ‖ sha256(layout) ‖ sha256(kl) ‖ sha256(key)
+                        ‖ u32le(leafCount) ‖ sha256(leaf_0) ‖ … ‖ sha256(leaf_{n-1}))
+```
+
+Every field is fixed-size, so no length prefixes are needed; the leaves are in entry-number order.
+The rule is pinned twice: `ModelCommitmentAnchor.anchorDigest()` on-chain and
+`scripts/recompute-anchor.py` from the files. The repository's fixtures give
+`0x527d75d42538d608c874cc47a0e605b674448dd6ccae18d6279475167e5374a9`, the vector the tests check.
+
+Two checks then replace the trusted host. Neither one needs to trust whoever served the bytes, and
+**both are required**: the on-chain check alone does not bind any bytes.
+
+1. **On-chain:** an outer `IAgentVerifier` accepts a proof only if the FPV1 block's commitment ID
+   is `isAnchored(anchorer, commitmentId)` under an anchorer it chose. It is one call beside the
+   existing commitment-ID comparison, and a revoked anchor stops verification at once. It proves
+   only that an accepted anchorer holds a live anchor for the ID; the chain never sees the artifact
+   bytes.
+2. **Off-chain:** the client hashes the artifacts it downloaded and compares them with the anchor
+   with `recompute-anchor.py … --expect <anchorDigest>`, or on-chain with
+   `isLive(anchorer, commitmentId, digest)`. The per-request files (request, y, proof, id) are
+   already bound by `input_digest`; the anchor covers the static ones. This is the check that ties the
+   bytes to the anchor. An integrator who wires only `isAnchored` has not bound anything.
+
+The anchor reads the artifact files, never `ID.txt`, so the trailing newline on the fixture's
+`ID.txt` (65 bytes on disk; the manifest hashes its 64 hex characters) does not affect it.
+
+The registry has no owner, no upgrade path and no fee. Each anchor is write-once per
+(anchorer, commitment ID), because changed artifacts mean a different commitment and so a new ID.
+Revocation is permanent. Anchorers are independent of one another, and the verifier decides whose
+anchors count.
+
+### Naming an anchor row: `anchorRef`
+
+The digest is about content: the same artifacts hash the same on every chain, so `chainId` is not
+part of it. A record that composes with an anchor, such as a verifier-profile anchor keyed on
+`(verifier, proofProfile(), keccak(metadata), chainId)`, needs to name one anchor *row*, though, and
+a row does live on one chain, in one registry, under one anchorer. That key is `anchorRef`:
+
+```
+ANCHOR_REF_DOMAIN = "FlashProve/anchor-ref-v1\0"
+anchorRef = SHA-256(ANCHOR_REF_DOMAIN ‖ u256be(chainId) ‖ registry ‖ anchorer ‖ commitmentId)
+```
+
+`ModelCommitmentAnchor.anchorRef(anchorer, commitmentId)` returns it for this deployment, and
+`anchorRefFor(chainId, registry, anchorer, commitmentId)` gives the rule for any deployment.
+`scripts/recompute-anchor.py --ref <chainId> <registry> <anchorer> <commitmentId>` computes the same
+value; the tests check the vector `0xe6979b5c…8cc0` (chain 84532, registry 0x11…11, anchorer
+0x22…22, ID 0x33…33). A model anchor and a verifier-profile anchor stay two records with their own
+lifetimes, revocable versus rotating, and each can carry the other's key so a consumer can join them
+in one hop.
+
+### What an anchor does not prove
+
+An anchor is the anchorer's claim that these artifacts belong to this commitment ID. It does not
+prove that they do. The claim can be checked by anyone who can recompute the commitment ID from the
+weights, which is FlashProve's offline phase. Until that recomputation is cheap enough to run
+routinely, a verifier should accept anchors only from anchorers who publish the recomputation they
+ran. `test/anchor/ModelCommitmentAnchor.t.sol` covers the digest vector, the binding of every field,
+the leaf count and the leaf order, write-once, permanent revocation, revoking only your own anchor,
+independent anchorers, zero inputs, and ERC-165.
 
 ## Build and test
 
