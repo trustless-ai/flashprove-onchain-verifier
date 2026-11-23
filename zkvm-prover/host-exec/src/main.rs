@@ -144,9 +144,9 @@ fn main() {
     let expected_digest = inputs.input_digest();
     println!("host-exec: input digest 0x{}", hex(&expected_digest));
 
-    // The guest reads `part` after the commitment ID (the stage selector).
-    let mut stdin = inputs.stdin();
-    stdin.write(&args.part);
+    // The guest reads `part` after the commitment ID (the stage selector);
+    // the packing takes it explicitly so it is written exactly once.
+    let stdin = inputs.stdin(args.part);
 
     let client = ProverClient::builder().cpu().build();
     let started = std::time::Instant::now();

@@ -132,6 +132,9 @@ struct Job {
 }
 
 fn main() {
+    // Initialize the SDK logger once (the pinned SDK guards re-entry); the
+    // RUST_LOG / RUST_LOGGER environment selects the filters.
+    sp1_sdk::setup_logger();
     if let Err(error) = run() {
         eprintln!("fp-prover: {error:#}");
         std::process::exit(1);
@@ -223,7 +226,9 @@ fn run() -> Result<()> {
         output_dir,
         elf_path,
         elf,
-        stdin: inputs.stdin(),
+        // The guest reads the stage selector after the commitment ID; the
+        // prover always runs the complete call (selector 0).
+        stdin: inputs.stdin(0),
         input_digest,
         record,
         proof_mode,

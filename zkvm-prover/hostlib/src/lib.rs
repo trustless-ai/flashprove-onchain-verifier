@@ -304,7 +304,10 @@ impl Inputs {
 
     /// The stdin the guest reads: `SP1Stdin::write` in the guest's order.
     #[must_use]
-    pub fn stdin(&self) -> sp1_sdk::blocking::SP1Stdin {
+    /// The guest reads a stage selector `part: u32` after the commitment ID
+    /// (the complete call is 0). The packing appends that field once, after
+    /// the ten business records, so the guest read order matches.
+    pub fn stdin(&self, part: u32) -> sp1_sdk::blocking::SP1Stdin {
         let mut stdin = sp1_sdk::blocking::SP1Stdin::new();
         stdin.write(&self.policy);
         stdin.write(&self.layout);
@@ -316,6 +319,7 @@ impl Inputs {
         stdin.write(&self.y);
         stdin.write(&self.proof);
         stdin.write(&self.id);
+        stdin.write(&part);
         stdin
     }
 
@@ -647,6 +651,47 @@ pub fn sha256_hex(bytes: &[u8]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn stdin_packs_the_stage_selector_once_after_the_business_records() {
+        let inputs = Inputs {
+            policy: vec![1u8; 3],
+            layout: vec![2u8; 5],
+            kl: vec![3u8; 7],
+            key: vec![4u8; 9],
+            entry: vec![5u8; 11],
+            entry_number: 6u32,
+            request: vec![7u8; 13],
+            y: vec![8u8; 15],
+            proof: vec![9u8; 17],
+            id: "a".repeat(64),
+            config_dir: PathBuf::new(),
+            ivk_dir: PathBuf::new(),
+            entry_path: PathBuf::new(),
+            request_path: PathBuf::new(),
+            y_path: PathBuf::new(),
+            proof_path: PathBuf::new(),
+            id_path: PathBuf::new(),
+        };
+        let stdin = inputs.stdin(0);
+        assert_eq!(stdin.buffer.len(), 11, "ten business records and one selector");
+        // The ten business records keep their order and bincode encoding
+        // (Vec<u8> = 8-byte length + bytes; u32 = 4-byte little endian).
+        for (index, size) in [3usize, 5, 7, 9, 11].iter().enumerate() {
+            assert_eq!(stdin.buffer[index].len(), 8 + size);
+        }
+        assert_eq!(stdin.buffer[5], 6u32.to_le_bytes().to_vec());
+        for (index, size) in [(6usize, 13usize), (7, 15), (8, 17)].iter().copied() {
+            assert_eq!(stdin.buffer[index].len(), 8 + size);
+        }
+        assert_eq!(stdin.buffer[9].len(), 8 + 64);
+        // The selector is exactly one bincode u32 and nothing follows it.
+        assert_eq!(stdin.buffer[10], 0u32.to_le_bytes().to_vec());
+        // A partial stage keeps its value; nothing else is appended.
+        let partial = inputs.stdin(2);
+        assert_eq!(partial.buffer.len(), 11);
+        assert_eq!(partial.buffer[10], 2u32.to_le_bytes().to_vec());
+    }
 
     #[test]
     fn sdk_version_matches_lockfile() {
