@@ -1,3 +1,12 @@
+> **Status: complete end-to-end (CPU Groth16).** A full CPU Groth16 proof of the accepted
+> FlashProve example was produced on 2026-11-26/27 with SP1 6.10.0 / circuit v6.1.0 and verified
+> on a local Anvil chain by the official SP1 v6.1.0 verifier. See the
+> [reproduction report](docs/end-to-end-cpu-groth16.md) and the
+> [sanitized evidence record](docs/evidence-record.md). The evidence record is a factual summary
+> of hashes and receipts, not the full raw evidence; access to the approved ELF and raw evidence is
+> pending ownership/license and release confirmation, and private storage is not linked. This is a
+> local run, not a public deployment.
+
 <img width="3277" height="1279" alt="trustless-ai" src="https://github.com/user-attachments/assets/76710d7f-4207-45ff-bca4-74fc88610932" />
 
 # flashprove-onchain-verifier
