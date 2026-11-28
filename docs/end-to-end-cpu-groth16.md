@@ -12,12 +12,12 @@ always produces the same guest ELF bytes; the approved ELF and its vkey are iden
 on-chain work was local; no testnet or mainnet deployment was made. No proof was re-run while
 writing this report.
 
-**Documentation-branch prerequisite.** This report, `docs/scripts/verify-onchain-local.sh` and
-`docs/scripts/bundle-tools.py` are added by the documentation branch, not by the base source
-commit `01a7167`. A plain checkout of `01a7167` contains neither script. Copy both from the
-commit-pinned documentation branch/review package; do not run a partial copy. That branch is not
-public yet, so this page does not provide a public script URL. This is a blocking prerequisite for
-a fully public, independently fetchable reproduction kit.
+**Source availability.** This report, `docs/scripts/verify-onchain-local.sh` and
+`docs/scripts/bundle-tools.py` are added by the public PR branch
+`docs/cpu-groth16-end-to-end` on the JimmyShi22 fork; fetch them from that branch. The branch is a
+review branch and may change until its PR is merged; after merge, use the merged commit. The base
+source commit `01a7167` does not contain them. This page does not claim that the branch is merged
+or released, and the approved ELF is still not publicly available.
 
 ## 1. Result at a glance
 
@@ -304,7 +304,14 @@ export FOUNDRY_DIR="${FOUNDRY_DIR:-$HOME/.foundry}"
 export PATH="$FOUNDRY_DIR/bin:$PATH"
 export RPC="http://127.0.0.1:8545"
 export DEPLOYER_PRIVATE_KEY="..."   # set in your shell to a disposable key; never commit it
-mkdir -p "$WORK" "$OUT"
+mkdir -p "$WORK"
+# IMPORTANT: the verifier scripts write $OUT/onchain. Use a fresh dedicated OUT;
+# never point it at an existing evidence directory.
+if [ -e "$OUT/onchain" ]; then
+  echo "OUT already contains verifier/evidence output; choose a fresh OUT" >&2
+  exit 1
+fi
+mkdir -p "$OUT"
 
 git clone https://github.com/JimmyShi22/flashprove-onchain-verifier.git "$ROOT"
 cd "$ROOT"

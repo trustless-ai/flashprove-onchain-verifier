@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Verify an accepted FlashProve bundle on a disposable local Anvil chain.
 #
+# IMPORTANT: OUT must be a fresh dedicated directory. This script writes
+# $OUT/onchain and will refuse to overwrite an existing evidence set unless
+# ALLOW_OVERWRITE=1 is explicitly set.
+#
 # Required:
 #   ROOT                  repository root (contains contracts/ and config/)
 #   OUT                   output root (the accepted run directory)
@@ -34,9 +38,12 @@ RPC=${RPC:-http://127.0.0.1:$PORT}
 KEEP_ANVIL=${KEEP_ANVIL:-0}
 OUTDIR="$OUT/onchain"
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-mkdir -p "$OUTDIR"
 
 fail() { echo "verify-onchain-local: FAIL: $*" >&2; exit 1; }
+if [ -e "$OUTDIR/stack.json" ] || [ -e "$OUTDIR/valid.summary.json" ] || [ -e "$OUTDIR/tamper-proof.fields.json" ]; then
+  [ "${ALLOW_OVERWRITE:-0}" = "1" ] || fail "OUT/onchain already contains evidence; choose a fresh OUT or set ALLOW_OVERWRITE=1"
+fi
+mkdir -p "$OUTDIR"
 need() { command -v "$1" >/dev/null 2>&1 || fail "missing $1"; }
 [ -f "$SCRIPT_DIR/bundle-tools.py" ] || fail "missing $SCRIPT_DIR/bundle-tools.py"
 need jq; need cast; need forge; need anvil; need xxd; need python3
