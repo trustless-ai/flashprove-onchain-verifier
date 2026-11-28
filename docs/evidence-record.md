@@ -5,15 +5,13 @@ described in [the reproduction report](end-to-end-cpu-groth16.md). It records id
 hashes, local transaction hashes and the verification matrix. It contains no private repository
 link, no internal absolute path and no credential.
 
-The full raw logs and the complete private archive are not linked here. A sanitized evidence
-bundle is pending a separate publication and licensing review; this page does not claim that such
-a bundle is already published.
+The full raw logs and complete private archive are not included. The recorded ELF and selected
+proof artifacts are available from [v1.0.0](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/tag/v1.0.0).
 
 ## Identity
 
 | Field | Value |
 |---|---|
-| Source commit | `01a7167536cad26fc0042d393cb7e674daf314c5` |
 | Guest ELF size | 12,242,912 B |
 | Guest ELF SHA-256 | `f31e45a8e29cb63182045517291262422cf86692f02d1989ab7b04d1b74b860b` |
 | Program vkey | `0x00077170f863a7960a725e58df8b8f3d111e58468d7d987618983ce1dc1a8f00` |
@@ -22,19 +20,15 @@ a bundle is already published.
 | Commitment ID | `0x79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183` |
 | Output hash | `0x0af488bb91e0d3b3b645a7f44f990968e50312a40ff4c88b0d606283e9b4ec43` |
 
-The source commit's checked-in `config/vkey.json` still records the historical
-`2d077855…` / `0x00200f72…` identity. The completed run used the approved Docker-built ELF above
-and regenerated the vkey record; see the report for the historical/new distinction.
-
 ## Accepted artifacts
 
 | File | Size (B) | SHA-256 |
 |---|---:|---|
-| `proof.bin` | 8,405 | `10464eba34f906fdbd75b5a0d1d3bdb8a8406141f774de5fbb704a35f87027d8` |
-| `proof.bytes` | 356 | `f75d969982f1652de7f6763ac7b88e4a02f080bf23f800fcb7d9dde5643c18d7` |
-| `public_values.bin` | 6,711 | `1f0bdac6c80e21bece7454bf22459bb1e3e96a1830e6c77bdfa494abd07c12ef` |
+| [`proof.bin`](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/proof.bin) | 8,405 | `10464eba34f906fdbd75b5a0d1d3bdb8a8406141f774de5fbb704a35f87027d8` |
+| [`proof.bytes`](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/proof.bytes) | 356 | `f75d969982f1652de7f6763ac7b88e4a02f080bf23f800fcb7d9dde5643c18d7` |
+| [`public_values.bin`](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/public_values.bin) | 6,711 | `1f0bdac6c80e21bece7454bf22459bb1e3e96a1830e6c77bdfa494abd07c12ef` |
 | `public_values.hex` | 13,425 | `e6c8db805d7f1c776992242632d5e618ddc7e07c90d6fc59f137a47a3fc6134d` |
-| `bundle.bin` | 7,232 | `14c06322317057887f6b464919bae2f8b32b4acdd8869905be61a2320c0ae07a` |
+| [`bundle.bin`](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/bundle.bin) | 7,232 | `14c06322317057887f6b464919bae2f8b32b4acdd8869905be61a2320c0ae07a` |
 | `bundle.hex` | 14,467 | `e8bafd41b7b4aafd19737ff78ee8c52307d19ba33543aa1d81b10509e3ad22af` |
 | `pv.bin` | 128 | `83996c635c7acb17a9b91ff96d4b67ac93b3346dddf50fc91a8a3c8eb4686e4a` |
 | `summary.json` | 959 | `89117bcce8cb77d44c8dced522f95ee7127ccf1c06b80ef4b2346b6371c76724` |
@@ -100,9 +94,8 @@ respective material; this page does not relicense any of it. Proof data (`proof.
 public values, `bundle.bin`/`bundle.hex`, `pv.bin`) and non-sensitive local receipts are generated
 run data and can be public subject to the accepted-input/publication scope. The guest ELF and any
 official verifier bytecode are object-code distributions that require the applicable license
-texts, notices and attribution; they are not published here. The full raw logs/archive and the approved
-ELF remain private pending the separate ownership/license and publication review. This page is a
-factual summary, not the full raw evidence.
+texts, notices and attribution. The full raw logs and archive are not included in the release.
+This page is a factual summary, not the full raw evidence.
 
 ## Verification boundary
 

@@ -12,12 +12,8 @@ always produces the same guest ELF bytes; the approved ELF and its vkey are iden
 on-chain work was local; no testnet or mainnet deployment was made. No proof was re-run while
 writing this report.
 
-**Source availability.** This report, `docs/scripts/verify-onchain-local.sh` and
-`docs/scripts/bundle-tools.py` are added by the public PR branch
-`docs/cpu-groth16-end-to-end` on the JimmyShi22 fork; fetch them from that branch. The branch is a
-review branch and may change until its PR is merged; after merge, use the merged commit. The base
-source commit `01a7167` does not contain them. This page does not claim that the branch is merged
-or released, and the approved ELF is still not publicly available.
+The recorded guest ELF and selected proof artifacts are in the [v1.0.0 release](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/tag/v1.0.0).
+For a short overview, see [FlashProve to on-chain verification](flashprove-to-onchain.md).
 
 ## 1. Result at a glance
 
@@ -41,11 +37,8 @@ two figures describe different intervals and are not added together.
 
 ### 2.1 Source
 
-- Repository: the public `flashprove-onchain-verifier` fork of the `trustless-ai` project.
-- Base commit: `01a7167536cad26fc0042d393cb7e674daf314c5`
-  (`fix(host): pack the guest stage selector into stdin exactly once`).
-- The run used a clean `git archive` copy of that commit; the working tree had no source changes
-  other than the configuration/vkey updates described in §4.
+Run the commands from a repository checkout containing this report and its scripts. The recorded
+guest identity is the ELF hash and vkey below.
 
 ### 2.2 Approved guest identity
 
@@ -58,28 +51,11 @@ two figures describe different intervals and are not added together.
 | Input digest | `0xe0ea24c85e2fe7e6458b8d574aa429bb0e9e7ce0a25b6efc605e4afbd3294392` |
 | Guest cycles | 27,547,235,173 (measured by `host-exec`) |
 
-The approved ELF is the artifact produced by the isolated Docker guest build described in §4.
+The approved ELF is the artifact produced by the isolated Docker guest build described in §2.3.
 The identity that every proof, public value, metadata field and on-chain wrapper in this run uses
 is the triple above: ELF SHA-256, vkey, and input digest.
 
-### 2.3 Historical baseline (not used by this run)
-
-An earlier record in `config/vkey.json` described a different guest:
-
-| Field | Historical value |
-|---|---|
-| ELF size | 12,245,688 bytes |
-| ELF SHA-256 | `2d077855ff441449f6778a432d8cca59ff65922b1c48a766dc2ed9bca070f652` |
-| Program vkey | `0x00200f72646a715059f034051e4624c3f6940a6d2c2c4dca8aa3575c45f29464` |
-
-That record was superseded before the run. Its original ELF is **not present on the machine that
-produced this run**; the machine preserves the old record and an old failed local ELF
-(12,245,488 bytes, SHA-256 `462ae622bbec5671ed2e80d533cafb9e364e692cff0da6be58f9ebe35da0182f`)
-as history. Nothing in the accepted proof or the on-chain closure binds the old vkey. Do not mix
-the two identities: a Groth16 proof is tied to one ELF and one vkey, and the wrapper binds the vkey
-through `metadata`.
-
-### 2.4 How the approved ELF was obtained
+### 2.3 How the approved ELF was obtained
 
 The ELF was built with the official SP1 Docker path, not by a host-native build:
 
@@ -115,11 +91,9 @@ The two lock files were unchanged across the build:
 **Reproducibility boundary.** The command and image above are the provenance of the approved
 artifact. This report does **not** claim that rebuilding the same source always yields the same
 ELF bytes. Compiler/toolchain versions, build paths, link order and other environment details can
-change the bytes, and the historical record above is an example of a different build result. Use
-the approved ELF when reproducing this exact proof. If a rebuild produces a different hash, treat
-it as a new program identity: run `gen-vkey --update`, redeploy or reconfigure the wrapper with the
-new vkey, and produce a new proof. The checked-in `config/vkey.json` at the base commit still
-contains the historical record; the run updated it locally as described in §4.
+change the bytes. Use the recorded ELF when reproducing this exact proof. If a rebuild produces a
+different hash, treat it as a new program identity: run `gen-vkey --update`, redeploy or
+reconfigure the wrapper with the new vkey, and produce a new proof.
 
 ## 3. Requirements
 
@@ -175,7 +149,7 @@ docker image inspect ghcr.io/succinctlabs/sp1:v6.10.0 --format '{{.Id}}'
 docker image inspect ghcr.io/succinctlabs/sp1-gnark:v6.1.0 --format '{{json .RepoDigests}}'
 ```
 
-The recorded image IDs/digests are in §2.4 and §7; an image with a different digest is a different
+The recorded image IDs/digests are in §2.3 and §7; an image with a different digest is a different
 build environment and must be recorded as such.
 
 The Groth16 circuit archive is a third-party download, not part of this repository:
@@ -279,7 +253,7 @@ anvil --version
 test -n "$SP1_GROTH16_CIRCUIT_PATH"
 test -f "$SP1_GROTH16_CIRCUIT_PATH/v6.1.0/groth16_vk.bin"   # archive layout check
 ```
-passed **both** explicit flags:
+The recorded run used **both** explicit flags:
 
 ```sh
 --mode cpu --proof-mode groth16
@@ -290,11 +264,11 @@ Omitting `--mode cpu` on a CUDA-default configuration selects the CUDA path; omi
 
 ## 4. Build and configure
 
-Set the workspace variables first; every later command uses these names:
+From the repository root, set the workspace variables; every later command uses these names:
 
 ```sh
-export WORK="$PWD/fpov-work"
-export ROOT="$WORK/flashprove-onchain-verifier"
+export ROOT="$PWD"
+export WORK="${WORK:-$(dirname "$ROOT")/fpov-work}"
 export OUT="$WORK/run-output"
 export ELF="$ROOT/zkvm-prover/target/elf-compilation/docker/riscv64im-succinct-zkvm-elf/release/guest"
 export SP1_CONTRACTS="$WORK/sp1-contracts-v6.1.0"
@@ -303,15 +277,11 @@ export SP1_CIRCUIT_MODE=release
 export FOUNDRY_DIR="${FOUNDRY_DIR:-$HOME/.foundry}"
 export PATH="$FOUNDRY_DIR/bin:$PATH"
 export RPC="http://127.0.0.1:8545"
-export DEPLOYER_PRIVATE_KEY="..."   # set in your shell to a disposable key; never commit it
+: "${DEPLOYER_PRIVATE_KEY:?set a disposable local key in your shell; never commit it}"
 mkdir -p "$WORK" "$OUT"
 # WARNING: the verifier scripts write $OUT/onchain. Use a fresh dedicated OUT,
 # or deliberately accept that a later stage overwrites the earlier stack/summary.
 # There is no automatic protection against overwriting existing evidence.
-
-git clone https://github.com/JimmyShi22/flashprove-onchain-verifier.git "$ROOT"
-cd "$ROOT"
-git checkout 01a7167536cad26fc0042d393cb7e674daf314c5
 
 git clone https://github.com/succinctlabs/sp1-contracts.git "$SP1_CONTRACTS"
 git -C "$SP1_CONTRACTS" checkout 2ac5ecbbe473421a963d67e55f182e9a36576f7c
@@ -327,10 +297,8 @@ cargo build -p fp-host --manifest-path rust-verifier/Cargo.toml
 had `SP1_DOCKER_IMAGE` unset. If a cargo mirror config is required, record its bytes/hash; do not
 let a stale global config silently change the dependency source.
 
-Build the guest with §2.4. The base commit's `config/vkey.json` records the **historical** ELF,
-and its `config/flashprove.json` and `config/flashprove.smoke.json` point at the host build path.
-The recorded run changed the `program.elf` line in **both** configuration files to the Docker
-output path, and regenerated the vkey record:
+Download the [recorded guest ELF](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/flashprove-guest-f31e45a8.elf) to `$ELF`, or build the guest as described in §2.3. Set the
+`program.elf` line in **both** configuration files to that path, then regenerate the vkey record:
 
 ```text
 "elf": "zkvm-prover/target/elf-compilation/docker/riscv64im-succinct-zkvm-elf/release/guest"
@@ -342,11 +310,12 @@ The recorded final hashes were: `config/flashprove.json` `33a5b474…379a`,
 `config/flashprove.smoke.json` `54a17bf8…7ee4`, `config/vkey.json` `3feb406e…b080`.
 A user who edits formatting may get different file hashes; the identity fields are what matter.
 
-**Check the ELF before `gen-vkey`.** The approved ELF is not yet published from this repository;
-its public release/licensing is pending. If a maintainer supplies the artifact, verify it first;
+**Check the ELF before `gen-vkey`.** Download the recorded artifact and verify its identity;
 if you rebuild, it is a new artifact unless its bytes match:
 
 ```sh
+mkdir -p "$(dirname "$ELF")"
+test -f "$ELF" || curl -fL "https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/flashprove-guest-f31e45a8.elf" -o "$ELF"
 test -f "$ELF" || { echo "approved ELF not available; stop"; exit 1; }
 test "$(stat -c%s "$ELF")" = "12242912" || { echo "ELF size differs"; exit 1; }
 test "$(sha256sum "$ELF" | awk '{print $1}')" = "f31e45a8e29cb63182045517291262422cf86692f02d1989ab7b04d1b74b860b" \
@@ -393,7 +362,7 @@ gate kept its own output, and a failed earlier gate was not used as evidence for
 ### Stage 1 — environment and frozen identity
 
 The machine was inventoried (OS, CPU, memory, disk, no NVIDIA device), the toolchain and Docker
-paths were installed, and the source was frozen at `01a7167`. The accepted manifest and the
+paths were installed. The accepted manifest and the
 production plan were checked as in §4. This stage establishes the identity, not a proof.
 
 Recorded results: manifest `rc=0`, plan `rc=0`, ELF `f31e45a8…`, vkey `0x00077170…`, SDK 6.10.0,
@@ -501,7 +470,7 @@ test "$(cast call "$AGENT_VERIFIER" 'usedTasks(bytes32)(bool)' \
   "$(cast keccak 'stage4-small-input')" --rpc-url "$RPC")" = "false" \
   || { echo "business layer consumed the smoke task unexpectedly"; exit 1; }
 
-# real verifier negatives: tamper the public values, and use the historical old vkey
+# real verifier negatives: tamper the public values, and use the incorrect vkey
 cp "$OUT/small-groth16/public_values.bin" "$OUT/small-groth16/pv-tamper.bin"
 python3 - "$OUT/small-groth16/pv-tamper.bin" <<'PY'
 import sys
@@ -514,9 +483,9 @@ PV_TAMPER_HEX="0x$(xxd -p -c 999999 "$OUT/small-groth16/pv-tamper.bin")"
 if cast call "$SP1_VERIFIER" "verifyProof(bytes32,bytes,bytes)" "$VKEY" "$PV_TAMPER_HEX" "$PROOF_HEX" --rpc-url "$RPC" >/dev/null 2>&1; then
   echo "tampered public values unexpectedly verified"; exit 1
 fi
-OLD_VKEY=0x00200f72646a715059f034051e4624c3f6940a6d2c2c4dca8aa3575c45f29464
-if cast call "$SP1_VERIFIER" "verifyProof(bytes32,bytes,bytes)" "$OLD_VKEY" "$PV_HEX" "$PROOF_HEX" --rpc-url "$RPC" >/dev/null 2>&1; then
-  echo "historical vkey unexpectedly verified"; exit 1
+WRONG_VKEY=0x00200f72646a715059f034051e4624c3f6940a6d2c2c4dca8aa3575c45f29464
+if cast call "$SP1_VERIFIER" "verifyProof(bytes32,bytes,bytes)" "$WRONG_VKEY" "$PV_HEX" "$PROOF_HEX" --rpc-url "$RPC" >/dev/null 2>&1; then
+  echo "incorrect vkey unexpectedly verified"; exit 1
 fi
 
 kill "$(jq -r '.anvil_pid' "$OUT/onchain/stack.json")" 2>/dev/null || true
@@ -524,7 +493,7 @@ kill "$(jq -r '.anvil_pid' "$OUT/onchain/stack.json")" 2>/dev/null || true
 ```
 
 Recorded direct-call result: no revert; the sent transaction had status 1. Tampering the public
-values and using the old vkey both reverted with `ProofInvalid`. The inner
+values and using an incorrect vkey both reverted with `ProofInvalid`. The inner
 `FlashProveZKVerifier` returned `true` for the real proof; the outer `ExampleAgentVerifier`
 returned `false` and left `usedTasks=false` because the smoke block's commitment/verdict does not
 match the configured accepted call. That is the designed business-layer result, not a verifier
@@ -623,10 +592,8 @@ Run it with the §4 variables and the output of Stage 5:
 ```sh
 # Stage 6 must not inherit Stage 4's STACK_ONLY/PORT/KEEP_ANVIL.
 unset STACK_ONLY KEEP_ANVIL
-export ROOT=... OUT=... SP1_CONTRACTS=...
 export PORT=8545
 export RPC="http://127.0.0.1:$PORT"
-export DEPLOYER_PRIVATE_KEY=...       # disposable local key; never commit it
 export BUNDLE="$OUT/accepted/bundle.bin"
 export SUMMARY="$OUT/accepted/summary.json"
 docs/scripts/verify-onchain-local.sh
@@ -771,16 +738,14 @@ exact peaks.
   chain; no testnet or mainnet transaction exists.
 - It does not claim byte-for-byte rebuild determinism. The approved ELF is an identified artifact;
   a different build is a different program identity until its vkey is regenerated and bound.
-- It does not replace the repository's `docs/handoff.md`: that page retains the historical frozen
-  record and its older ELF/vkey. Use this report and the identity in §2 for the completed run.
 - The public evidence record is a sanitized index of hashes and receipts. Raw logs and the full
   private archive are not linked from this repository; a sanitized evidence bundle is pending a
   separate publication review. No private URL is used here.
 
 ## 9. Reproduction checklist
 
-1. Check out the source commit and build the host tools (§4).
-2. Build the guest with the Docker command in §2.4; record the ELF size and SHA-256. Verify
+1. From the current repository checkout, build the host tools (§4).
+2. Download the ELF from v1.0.0 or build the guest with §2.3; record its size and SHA-256. Verify
    size `12,242,912` and SHA `f31e45a8…b860b` **before** doing anything with the vkey. If they
    differ, stop: this is a new identity, not the recorded proof.
 3. Point both `config/flashprove.json` and `config/flashprove.smoke.json` at the Docker output,

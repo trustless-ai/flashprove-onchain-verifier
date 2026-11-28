@@ -21,8 +21,9 @@ identity, artifact hashes and negative controls are recorded in the
 [reproduction report](docs/end-to-end-cpu-groth16.md) and the
 [sanitized evidence record](docs/evidence-record.md).
 
-This is a local verification result, not a public deployment. The approved guest ELF and the raw
-evidence archive are not published; their release and licensing review is pending.
+This is a local verification result, not a public deployment. The recorded ELF and proof artifacts
+are available from [v1.0.0](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/tag/v1.0.0);
+the full raw evidence archive is not included.
 
 ## The problem
 
@@ -93,17 +94,10 @@ does not build the guest.
 ## Quick start
 
 These commands build the host tools and run the test suites. They do not create a proof and do not
-need the circuit archive. The commands assume the README and `docs/scripts/` are present in the
-checkout. After the review branch is merged, clone the upstream default branch. Before merge, use
-the public review branch, which carries the same files:
+need the circuit archive. Clone the repository and run them from its root:
 
 ```sh
-# after merge
 git clone https://github.com/trustless-ai/flashprove-onchain-verifier.git
-
-# before merge, use this instead:
-# git clone --branch docs/cpu-groth16-end-to-end \
-#   https://github.com/JimmyShi22/flashprove-onchain-verifier.git
 
 cd flashprove-onchain-verifier
 
@@ -143,8 +137,19 @@ The recorded build used solc 0.8.20; the resulting `SP1VerifierGroth16.sol/SP1Ve
 artifact had SHA-256 `501cb171d70f4e98decfdca0b8e5f370727107f1f7e6c6dff91ca52df7d15ebe`.
 
 Set the paths and a disposable local key. `OUT` must contain, or `BUNDLE` and `SUMMARY` must point
-to, a bundle and its summary from `fp-prover`. The accepted bundle is not yet published; use a
-bundle you produced, or the accepted evidence asset once the release review completes.
+to, a bundle and its summary from `fp-prover`. You can use a bundle you produced or download the
+[accepted bundle](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/bundle.bin). The script also requires a compatible summary JSON;
+the original raw summary is not among the listed release assets. For the accepted bundle,
+create a minimal compatible summary using the recorded input digest, output hash, and bundle size
+from the identity and artifact tables below (set `OUT` to a fresh directory first):
+
+```sh
+mkdir -p "$OUT/accepted"
+curl -fL https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/bundle.bin -o "$OUT/accepted/bundle.bin"
+jq -n --arg input "0xe0ea24c85e2fe7e6458b8d574aa429bb0e9e7ce0a25b6efc605e4afbd3294392" \
+  --arg output "0x0af488bb91e0d3b3b645a7f44f990968e50312a40ff4c88b0d606283e9b4ec43" \
+  '{input_digest: $input, output_hash: $output, bundle_bytes: 7232}' > "$OUT/accepted/summary.json"
+```
 
 The bundle must match the configured policy: the commitment ID in `config/flashprove.json`, a
 verdict in its accepted mask, `call_status=0`, and the vkey you pass. A mock bundle is not a real
@@ -166,8 +171,8 @@ export RPC="http://127.0.0.1:$PORT"
 docs/scripts/verify-onchain-local.sh
 ```
 
-`VKEY` must match the bundle. The value above is the accepted run's vkey; the checked-in
-`config/vkey.json` is historical, so set `VKEY` explicitly when verifying the accepted bundle.
+`VKEY` must match the bundle. The value above is the accepted run's vkey; set it explicitly
+when verifying the accepted bundle.
 For a bundle you produced, use its vkey. `COMMITMENT` and `AGENT_ID` default to
 `config/flashprove.json`; override them if your configuration differs.
 
@@ -214,14 +219,14 @@ assets.
 | Input digest | `0xe0ea24c85e2fe7e6458b8d574aa429bb0e9e7ce0a25b6efc605e4afbd3294392` |
 | Commitment ID | `0x79a5a2bc7a469b40df73dedf40abeb740671e8ae8077738bd3743897aeb22183` |
 | Output hash | `0x0af488bb91e0d3b3b645a7f44f990968e50312a40ff4c88b0d606283e9b4ec43` |
-| Guest ELF | 12,242,912 B, SHA-256 `f31e45a8e29cb63182045517291262422cf86692f02d1989ab7b04d1b74b860b` — **not published** |
+| Guest ELF | 12,242,912 B, SHA-256 `f31e45a8e29cb63182045517291262422cf86692f02d1989ab7b04d1b74b860b` — [download ELF](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/flashprove-guest-f31e45a8.elf) |
 
 | Artifact | Size | SHA-256 |
 |---|---:|---|
-| `proof.bin` | 8,405 B | `10464eba34f906fdbd75b5a0d1d3bdb8a8406141f774de5fbb704a35f87027d8` |
-| `proof.bytes` | 356 B | `f75d969982f1652de7f6763ac7b88e4a02f080bf23f800fcb7d9dde5643c18d7` |
-| `public_values.bin` | 6,711 B | `1f0bdac6c80e21bece7454bf22459bb1e3e96a1830e6c77bdfa494abd07c12ef` |
-| `bundle.bin` | 7,232 B | `14c06322317057887f6b464919bae2f8b32b4acdd8869905be61a2320c0ae07a` |
+| [`proof.bin`](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/proof.bin) | 8,405 B | `10464eba34f906fdbd75b5a0d1d3bdb8a8406141f774de5fbb704a35f87027d8` |
+| [`proof.bytes`](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/proof.bytes) | 356 B | `f75d969982f1652de7f6763ac7b88e4a02f080bf23f800fcb7d9dde5643c18d7` |
+| [`public_values.bin`](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/public_values.bin) | 6,711 B | `1f0bdac6c80e21bece7454bf22459bb1e3e96a1830e6c77bdfa494abd07c12ef` |
+| [`bundle.bin`](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/bundle.bin) | 7,232 B | `14c06322317057887f6b464919bae2f8b32b4acdd8869905be61a2320c0ae07a` |
 | `summary.json` | 959 B | `89117bcce8cb77d44c8dced522f95ee7127ccf1c06b80ef4b2346b6371c76724` |
 
 The full artifact table, configuration hashes and on-chain receipt hashes are in the
@@ -229,16 +234,14 @@ The full artifact table, configuration hashes and on-chain receipt hashes are in
 [evidence record](docs/evidence-record.md). The `summary.json` hash above is the original accepted
 file; a sanitized public copy would have a different hash because path fields are redacted.
 
-The checked-in `config/vkey.json` at the base commit records an earlier identity. The accepted run
-regenerated it locally against the ELF above; the identity fields in this table are the ones that
-bind the accepted proof. A different ELF or vkey is a different program identity, not a
-reproduction of this run.
+The vkey and ELF identity above bind the accepted proof. A different ELF or vkey is a different
+program identity.
 
 ## Reproducing the accepted proof
 
 The full sequence is in [the report](docs/end-to-end-cpu-groth16.md):
 
-- §2.4 builds the guest with the pinned Docker image and records the ELF identity;
+- §2.3 describes the guest build with the pinned Docker image and records the ELF identity;
 - §3 installs the host toolchain, SP1 CLI, circuit, Foundry and the two Docker images;
 - §4 builds the host tools, points both configurations at the ELF and regenerates the vkey;
 - §5 runs the six gates: identity, smoke mock, placeholder Anvil, small real Groth16, accepted
@@ -260,6 +263,7 @@ SHA-256 against the table above. If they differ, stop: you have a new artifact, 
 | Document | Contents |
 |---|---|
 | [End-to-end CPU Groth16 report](docs/end-to-end-cpu-groth16.md) | identity, six gates, commands, artifacts, resources and limits |
+| [FlashProve to on-chain verification](docs/flashprove-to-onchain.md) | visual overview and recorded artifact hashes |
 | [Evidence record](docs/evidence-record.md) | sanitized hashes, local receipts and the verification matrix |
 | [Contracts](contracts/README.md) | interfaces, FPV1 public values and the attestation path |
 | [Rust verifier](rust-verifier/README.md) | the `no_std` port, its layout and parity gates |
@@ -293,9 +297,8 @@ can carry their own license:
   its `NOTICE` is preserved byte for byte.
 
 Existing copyright, [`NOTICE`](NOTICE) and [`THIRD_PARTY.md`](THIRD_PARTY.md) attribution is
-preserved. This repository does not relicense third-party material. The approved guest ELF is an
-object-code distribution; it is not published, and its license bundle is being completed before
-any release asset is created.
+preserved. This repository does not relicense third-party material. The guest ELF is an
+object-code distribution; its distribution must retain the applicable license information.
 
 ## Known limits
 
@@ -306,21 +309,17 @@ any release asset is created.
   undergone a comprehensive security or legal audit, and they are not certified or endorsed by
   Succinct, Anthropic or any other party. The evidence shows that one accepted example verified
   under the stated versions; it is not a general security claim.
-- **Approved ELF and raw evidence are held.** The approved ELF, the full raw logs and the private
-  archive are not published. Exact reproduction of the accepted proof requires the approved ELF;
-  a rebuild is a new identity until its vkey is regenerated and bound. A sanitized evidence bundle
-  and the ELF release asset are pending ownership, license and publication review.
+- **Evidence scope.** The full raw logs and private archive are not included in the release. Exact
+  reproduction of the accepted proof requires the recorded ELF; a rebuild is a new identity until
+  its vkey is regenerated and bound.
 - **No byte-for-byte rebuild guarantee.** The build command and image identify the recorded
-  artifact. Compiler, path and link-order differences can change the ELF bytes, as the historical
-  baseline in the report demonstrates.
+  artifact. Compiler, path and link-order differences can change the ELF bytes.
 - **Single run.** The record describes one run on one machine. It is not an independent
   reproduction and does not establish that another host reproduces the same bytes or timings.
 - **CPU only.** The accepted run used the CPU prover. The CUDA path was not exercised by this
   proof, and no performance claim is made for it.
 - **Fixture scope.** The accepted inputs are the upstream FlashProve example fixtures. The run
   does not establish input legitimacy, weight hiding or model quality.
-- **Historical config.** The checked-in `config/vkey.json` at the base commit still records an
-  older ELF/vkey. Use the identity table above for the accepted run.
 
 ## Documentation note
 
