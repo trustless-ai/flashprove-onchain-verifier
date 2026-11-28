@@ -108,6 +108,17 @@ grep -rn "use std\|extern crate std\|static mut" rust-verifier/fp-core/src/ \
 The verification key is frozen in `config/vkey.json` and tied to the guest ELF: rebuild the guest
 and it no longer matches. `docs/handoff.md` records the values and how to re-derive them.
 
+## End-to-end verification
+
+| Prover | Proof | Proof generation | Proof size | On-chain bundle size | Verification gas |
+|---|---|---:|---:|---:|---:|
+| CPU | SP1 Groth16 | 32 h 0 min 6 s | 356 B | 7,232 B | 486,216 gas |
+
+Run on: Intel Xeon 6982P-C, 64 vCPUs, 512 GiB RAM · Peak memory: 226.97 GiB (whole machine, sampled).
+
+Verified through the [ERC-8274 verifier](contracts/src/zk/FlashProveZKVerifier.sol) on a local Anvil chain; gas is for the complete
+verification transaction. [Proof path and artifacts](docs/flashprove-to-onchain.md).
+
 ## Contribution
 
 This repository is one project under [trustless-ai](https://github.com/trustless-ai) — an open home
