@@ -1,17 +1,3 @@
-> **Status: complete end-to-end (CPU Groth16).** A full CPU Groth16 proof of the accepted
-> FlashProve example was produced on 2026-11-26/27 with SP1 6.10.0 / circuit v6.1.0 and verified
-> on a local Anvil chain by the official SP1 v6.1.0 verifier. See the
-> [reproduction report](docs/end-to-end-cpu-groth16.md) and the
-> [sanitized evidence record](docs/evidence-record.md). The evidence record is a factual summary
-> of hashes and receipts, not the full raw evidence; access to the approved ELF and raw evidence is
-> pending ownership/license and release confirmation, and private storage is not linked. This is a
-> local run, not a public deployment.
->
-> **Documentation changes in this PR.** This PR adds the status banner and clarifies the license
-> summary; the docs index adds two rows, and `docs/handoff.md` gains only its historical banner.
-> Existing NOTICE/THIRD_PARTY attribution is preserved; the license summary below was clarified,
-> and no notices were deleted.
-
 <img width="3277" height="1279" alt="trustless-ai" src="https://github.com/user-attachments/assets/76710d7f-4207-45ff-bca4-74fc88610932" />
 
 # flashprove-onchain-verifier
@@ -119,8 +105,19 @@ grep -rn "use std\|extern crate std\|static mut" rust-verifier/fp-core/src/ \
   && echo VIOLATION || echo NO_STD_OK
 ```
 
-The verification key is frozen in `config/vkey.json` and tied to the guest ELF: rebuild the guest
-and it no longer matches. `docs/handoff.md` records the values and how to re-derive them.
+The verification key is tied to the guest ELF. `config/vkey.json` records an earlier guest identity;
+the completed run below used a different ELF and vkey. Rebuilding the guest requires checking its
+identity and deriving the matching vkey.
+
+## End-to-end verification
+
+A CPU Groth16 proof for the accepted FlashProve example was verified through the SP1 and
+FlashProve contracts on a local Anvil chain. Tampered proof and public values, as well as a repeated
+task, were rejected. See the [run and reproduction report](docs/end-to-end-cpu-groth16.md) and
+the [evidence summary](docs/evidence-record.md).
+
+The approved guest ELF and full raw evidence are not yet public, so the recorded proof cannot be
+independently reproduced from this repository alone. This run did not deploy to a public network.
 
 ## Contribution
 
