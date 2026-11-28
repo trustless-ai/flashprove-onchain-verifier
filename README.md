@@ -2,6 +2,11 @@
 
 # flashprove-onchain-verifier
 
+**Generate on-chain proofs for AI inference verification (based on [FlashProve]) using SP1 and
+ERC-8274, with a 356-byte proof and a verification transaction costing only 486,216 gas.**
+
+## Implementation
+
 **Two stateless [ERC-8274] `IProofVerifier` implementations for [FlashProve] inference proofs — one
 backed by a zk proof, one backed by a committee attestation. Deploy either once; every agent
 verifier on the chain can call it.**
