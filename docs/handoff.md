@@ -3,6 +3,8 @@
 > **Historical record.** This page predates the completed CPU run and records the older
 > frozen ELF/vkey. For the completed run, the approved identity and the reproduction guide, see
 > [end-to-end-cpu-groth16.md](end-to-end-cpu-groth16.md).
+>
+> *Modification note: only this banner was added; the original handoff text below is unchanged.*
 
 This page is for the member who runs the GPU proving. It gives the frozen artifact hashes, the
 input convention, the exact commands, the expected outputs, how to check them, and rough resource

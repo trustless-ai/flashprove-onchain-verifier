@@ -96,10 +96,13 @@ No third-party binaries or source packages are redistributed by this page. The r
 | FlashProve reference implementation and fixtures | published upstream tree / submodule `9e2bdd8` | Anthropic FlashProve |
 
 The repository's `LICENSE`, `NOTICE`, `THIRD_PARTY.md` and the upstream components govern their
-respective material. This page does not relicense any of it, and it is not a distribution of those
-components. Public redistribution of generated artifacts (including the guest ELF, proof,
-public values or receipts) is pending the separate licensing/ownership review; no such asset is
-published here.
+respective material; this page does not relicense any of it. Proof data (`proof.bin`/`proof.bytes`,
+public values, `bundle.bin`/`bundle.hex`, `pv.bin`) and non-sensitive local receipts are generated
+run data and can be public subject to the accepted-input/publication scope. The guest ELF and any
+official verifier bytecode are object-code distributions that require the applicable Apache/MIT
+notices and attribution; they are not published here. The full raw logs/archive and the approved
+ELF remain private pending the separate ownership/license and publication review. This page is a
+factual summary, not the full raw evidence.
 
 ## Verification boundary
 

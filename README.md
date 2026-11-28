@@ -6,6 +6,11 @@
 > of hashes and receipts, not the full raw evidence; access to the approved ELF and raw evidence is
 > pending ownership/license and release confirmation, and private storage is not linked. This is a
 > local run, not a public deployment.
+>
+> **Documentation changes in this PR.** This PR adds the status banner and clarifies the license
+> summary; the docs index adds two rows, and `docs/handoff.md` gains only its historical banner.
+> Existing NOTICE/THIRD_PARTY attribution is unchanged, and no existing prose or notices were
+> deleted.
 
 <img width="3277" height="1279" alt="trustless-ai" src="https://github.com/user-attachments/assets/76710d7f-4207-45ff-bca4-74fc88610932" />
 
@@ -135,8 +140,12 @@ care about, call `verify()`, and send us the gas figure we are still missing.
 
 ## License
 
-Apache License 2.0 — the same license as the FlashProve reference implementation and the SP1 zkVM.
-See `LICENSE`, and `NOTICE` / `THIRD_PARTY.md` for the third-party notices.
+The repository root is under the **Apache License 2.0** (`LICENSE`). Individual files can carry
+their own license: the Solidity files under `contracts/` declare MIT in their SPDX headers, and the
+vendored `contracts/src/interfaces/ISP1Verifier.sol` comes from `sp1-contracts` v6.1.0 with its own
+MIT attribution. SP1 SDK/zkVM components are dual-licensed **MIT OR Apache-2.0**, not simply “the
+same license” as the repository root. Existing copyright, `NOTICE` and `THIRD_PARTY.md`
+attribution is preserved; this repository does not relicense third-party material.
 
 [ERC-8274]: https://ethereum-magicians.org/t/erc-8274-ai-inference-proof-verification/28083
 [FlashProve]: https://github.com/anthropics/FlashProve
