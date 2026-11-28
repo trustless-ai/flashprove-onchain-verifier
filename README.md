@@ -137,12 +137,8 @@ care about, call `verify()`, and send us the gas figure we are still missing.
 
 ## License
 
-The repository root is under the **Apache License 2.0** (`LICENSE`). Individual files can carry
-their own license: the Solidity files under `contracts/` declare MIT in their SPDX headers, and the
-vendored `contracts/src/interfaces/ISP1Verifier.sol` comes from `sp1-contracts` v6.1.0 with its own
-MIT attribution. SP1 SDK/zkVM components are dual-licensed **MIT OR Apache-2.0**, not simply “the
-same license” as the repository root. Existing copyright, `NOTICE` and `THIRD_PARTY.md`
-attribution is preserved; this repository does not relicense third-party material.
+Apache License 2.0 — the same license as the FlashProve reference implementation and the SP1 zkVM.
+See `LICENSE`, and `NOTICE` / `THIRD_PARTY.md` for the third-party notices.
 
 [ERC-8274]: https://ethereum-magicians.org/t/erc-8274-ai-inference-proof-verification/28083
 [FlashProve]: https://github.com/anthropics/FlashProve
