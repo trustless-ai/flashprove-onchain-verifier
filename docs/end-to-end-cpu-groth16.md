@@ -304,14 +304,10 @@ export FOUNDRY_DIR="${FOUNDRY_DIR:-$HOME/.foundry}"
 export PATH="$FOUNDRY_DIR/bin:$PATH"
 export RPC="http://127.0.0.1:8545"
 export DEPLOYER_PRIVATE_KEY="..."   # set in your shell to a disposable key; never commit it
-mkdir -p "$WORK"
-# IMPORTANT: the verifier scripts write $OUT/onchain. Use a fresh dedicated OUT;
-# never point it at an existing evidence directory.
-if [ -e "$OUT/onchain" ]; then
-  echo "OUT already contains verifier/evidence output; choose a fresh OUT" >&2
-  exit 1
-fi
-mkdir -p "$OUT"
+mkdir -p "$WORK" "$OUT"
+# WARNING: the verifier scripts write $OUT/onchain. Use a fresh dedicated OUT,
+# or deliberately accept that a later stage overwrites the earlier stack/summary.
+# There is no automatic protection against overwriting existing evidence.
 
 git clone https://github.com/JimmyShi22/flashprove-onchain-verifier.git "$ROOT"
 cd "$ROOT"
@@ -617,7 +613,10 @@ The script performs the following, in order:
    mismatch.
 
 The script always writes `$OUT/onchain/stack.json` after deployment, including in full mode. A
-full Stage 6 run therefore replaces any stale Stage 4 addresses/PID with its own current values.
+Stage 4 and Stage 6 run can share the documented `$OUT`: Stage 6 replaces Stage 4's stack/summary
+files with its own current addresses/PID. If both stages' artifacts must be preserved separately,
+give each stage its own `OUT` (or copy the Stage 4 `onchain/` directory before Stage 6). There is no
+automatic overwrite protection.
 
 Run it with the §4 variables and the output of Stage 5:
 
