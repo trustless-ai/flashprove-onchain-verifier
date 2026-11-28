@@ -114,9 +114,7 @@ and it no longer matches. `docs/handoff.md` records the values and how to re-der
 |---|---|---:|---:|---:|---:|
 | CPU | SP1 Groth16 | 32 h 0 min 6 s | 356 B | 7,232 B | 486,216 gas |
 
-The proof was generated on a 64-vCPU Intel Xeon 6982P-C machine with 512 GiB RAM. Observed peak
-whole-machine memory usage was 226.97 GiB, sampled every 5 seconds; this is not a minimum memory
-requirement or an exact instantaneous peak.
+Run on: Intel Xeon 6982P-C, 64 vCPUs, 512 GiB RAM · Peak memory: 226.97 GiB (whole machine, sampled).
 
 The accepted proof was verified on a local Anvil chain. The gas figure is for the complete
 successful `ExampleAgentVerifier` transaction, including transaction input, the SP1 verifier,
