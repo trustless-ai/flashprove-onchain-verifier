@@ -9,8 +9,8 @@
 >
 > **Documentation changes in this PR.** This PR adds the status banner and clarifies the license
 > summary; the docs index adds two rows, and `docs/handoff.md` gains only its historical banner.
-> Existing NOTICE/THIRD_PARTY attribution is unchanged, and no existing prose or notices were
-> deleted.
+> Existing NOTICE/THIRD_PARTY attribution is preserved; the license summary below was clarified,
+> and no notices were deleted.
 
 <img width="3277" height="1279" alt="trustless-ai" src="https://github.com/user-attachments/assets/76710d7f-4207-45ff-bca4-74fc88610932" />
 

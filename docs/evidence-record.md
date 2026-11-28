@@ -99,8 +99,8 @@ The repository's `LICENSE`, `NOTICE`, `THIRD_PARTY.md` and the upstream componen
 respective material; this page does not relicense any of it. Proof data (`proof.bin`/`proof.bytes`,
 public values, `bundle.bin`/`bundle.hex`, `pv.bin`) and non-sensitive local receipts are generated
 run data and can be public subject to the accepted-input/publication scope. The guest ELF and any
-official verifier bytecode are object-code distributions that require the applicable Apache/MIT
-notices and attribution; they are not published here. The full raw logs/archive and the approved
+official verifier bytecode are object-code distributions that require the applicable license
+texts, notices and attribution; they are not published here. The full raw logs/archive and the approved
 ELF remain private pending the separate ownership/license and publication review. This page is a
 factual summary, not the full raw evidence.
 
