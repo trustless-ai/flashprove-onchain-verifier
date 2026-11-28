@@ -116,11 +116,8 @@ and it no longer matches. `docs/handoff.md` records the values and how to re-der
 
 Run on: Intel Xeon 6982P-C, 64 vCPUs, 512 GiB RAM · Peak memory: 226.97 GiB (whole machine, sampled).
 
-The accepted proof was verified on a local Anvil chain. The gas figure is for the complete
-successful `ExampleAgentVerifier` transaction, including transaction input, the SP1 verifier,
-and the FlashProve policy checks. Proof generation happened off-chain; on-chain verification
-wall-clock time was not recorded. See [FlashProve to on-chain verification](docs/flashprove-to-onchain.md)
-for the proof path and artifacts.
+Verified through the [ERC-8274] verifier on a local Anvil chain; gas is for the complete
+verification transaction. [Proof path and artifacts](docs/flashprove-to-onchain.md).
 
 ## Contribution
 
