@@ -149,9 +149,10 @@ bundle you produced, or the accepted evidence asset once the release review comp
 The bundle must match the configured policy: the commitment ID in `config/flashprove.json`, a
 verdict in its accepted mask, `call_status=0`, and the vkey you pass. A mock bundle is not a real
 proof and cannot satisfy the valid case. The small-input Stage 4 CPU Groth16 bundle is a real
-proof, but its smoke call does not match the accepted commitment/verdict policy, so the business
-wrapper returns `NO`; it also cannot satisfy the valid-case assertion. Use a bundle that matches
-the configured accepted policy.
+proof, but its public values carry `verdict=NO` and its smoke call does not match the accepted
+commitment/verdict policy; the business wrapper emits `valid=false` and leaves the task
+unconsumed. It also cannot satisfy the valid-case assertion. Use a bundle that matches the
+configured accepted policy.
 
 ```sh
 export ROOT="$PWD"
