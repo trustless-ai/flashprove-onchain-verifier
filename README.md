@@ -1,4 +1,6 @@
-<img width="3277" height="1279" alt="trustless-ai" src="https://github.com/user-attachments/assets/76710d7f-4207-45ff-bca4-74fc88610932" />
+<div align="center">
+    <img width="3265" height="994" alt="trustless-ai" src="https://github.com/user-attachments/assets/9ed2ab1a-aab5-4133-a5e2-5bcbdad0ffea" />
+</div>
 
 # flashprove-onchain-verifier
 
