@@ -116,7 +116,7 @@ and it no longer matches. `docs/handoff.md` records the values and how to re-der
 
 Run on: Intel Xeon 6982P-C, 64 vCPUs, 512 GiB RAM · Peak memory: 226.97 GiB (whole machine, sampled).
 
-Verified through the [ERC-8274] verifier on a local Anvil chain; gas is for the complete
+Verified through the [ERC-8274 verifier](contracts/src/zk/FlashProveZKVerifier.sol) on a local Anvil chain; gas is for the complete
 verification transaction. [Proof path and artifacts](docs/flashprove-to-onchain.md).
 
 ## Contribution
