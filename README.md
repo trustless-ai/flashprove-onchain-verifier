@@ -17,9 +17,22 @@ It is not a model implementation and it does not decide whether an input is legi
 The accepted FlashProve example has been proved end to end in **CPU Groth16** mode with SP1 6.10.0
 and circuit v6.1.0. The upstream `sp1-contracts` v6.1.0 verifier accepted the proof, and the
 wrapper contracts accepted the resulting bundle on a **local Anvil chain**. The accepted run, its
-identity, artifact hashes and negative controls are recorded in the
-[reproduction report](docs/end-to-end-cpu-groth16.md) and the
-[sanitized evidence record](docs/evidence-record.md).
+identity, artifact hashes and negative controls are summarized in
+[FlashProve to on-chain verification](docs/flashprove-to-onchain.md).
+
+| Prover | Proof | Proof generation | Proof size | On-chain bundle size | Verification gas |
+|---|---|---:|---:|---:|---:|
+| CPU | SP1 Groth16 | 32 h 0 min 6 s | 356 B | 7,232 B | 486,216 gas |
+
+The proof was generated on a 64-vCPU Intel Xeon 6982P-C machine with 512 GiB RAM. Observed peak
+whole-machine memory usage was 226.97 GiB, sampled every 5 seconds; this is not a minimum memory
+requirement or an exact instantaneous peak.
+
+The accepted proof was verified on a local Anvil chain. The gas figure is for the complete
+successful `ExampleAgentVerifier` transaction, including transaction input, the SP1 verifier,
+and the FlashProve policy checks. Proof generation happened off-chain; on-chain verification
+wall-clock time was not recorded. See the [verification overview](docs/flashprove-to-onchain.md)
+for the proof path and artifacts.
 
 This is a local verification result, not a public deployment. The recorded ELF and proof artifacts
 are available from [v1.0.0](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/tag/v1.0.0);

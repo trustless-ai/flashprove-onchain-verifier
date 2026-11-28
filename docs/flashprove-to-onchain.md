@@ -58,10 +58,10 @@ digests. The guest ELF identifies the program being proved; its matching SP1 pro
 
 | File | Where | SHA-256 |
 |---|---|---|
-| Guest ELF | [v1.0.0 asset](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/flashprove-guest-f31e45a8.elf) | `f31e45a8e29cb63182045517291262422cf86692f02d1989ab7b04d1b74b860b` |
-| `proof.bin` — complete SP1 proof | [v1.0.0 asset](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/proof.bin) | `10464eba34f906fdbd75b5a0d1d3bdb8a8406141f774de5fbb704a35f87027d8` |
-| `proof.bytes` — Groth16 proof | [v1.0.0 asset](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/proof.bytes) | `f75d969982f1652de7f6763ac7b88e4a02f080bf23f800fcb7d9dde5643c18d7` |
-| `public_values.bin` — guest output | [v1.0.0 asset](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/public_values.bin) | `1f0bdac6c80e21bece7454bf22459bb1e3e96a1830e6c77bdfa494abd07c12ef` |
+| Guest ELF | [v1.0.0](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/flashprove-guest-f31e45a8.elf) | `f31e45a8e29cb63182045517291262422cf86692f02d1989ab7b04d1b74b860b` |
+| `proof.bin` — complete SP1 proof | [v1.0.0](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/proof.bin) | `10464eba34f906fdbd75b5a0d1d3bdb8a8406141f774de5fbb704a35f87027d8` |
+| `proof.bytes` — Groth16 proof | [v1.0.0](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/proof.bytes) | `f75d969982f1652de7f6763ac7b88e4a02f080bf23f800fcb7d9dde5643c18d7` |
+| `public_values.bin` — guest output | [v1.0.0](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/public_values.bin) | `1f0bdac6c80e21bece7454bf22459bb1e3e96a1830e6c77bdfa494abd07c12ef` |
 
 ## 3. Verify on-chain
 
@@ -78,7 +78,7 @@ The guest result was `verdict=YES`, `call_status=0`. This was not a public-netwo
 
 | File | Where | SHA-256 |
 |---|---|---|
-| `bundle.bin` — encoded proof and public values | [v1.0.0 asset](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/bundle.bin) | `14c06322317057887f6b464919bae2f8b32b4acdd8869905be61a2320c0ae07a` |
+| `bundle.bin` — encoded proof and public values | [v1.0.0](https://github.com/trustless-ai/flashprove-onchain-verifier/releases/download/v1.0.0/bundle.bin) | `14c06322317057887f6b464919bae2f8b32b4acdd8869905be61a2320c0ae07a` |
 | `FlashProveZKVerifier.sol` | [Contract source](https://github.com/trustless-ai/flashprove-onchain-verifier/blob/v1.0.0/contracts/src/zk/FlashProveZKVerifier.sol) | `6cb86c34c4803e1d0440717ff1afcb0983d14361d9a7153a0229df2debe5c66f` |
 | `ExampleAgentVerifier.sol` | [Contract source](https://github.com/trustless-ai/flashprove-onchain-verifier/blob/v1.0.0/contracts/src/examples/ExampleAgentVerifier.sol) | `045b66945888f55b43479d49bd0fb6afcaaf0c923b6262bb7b434efe5e89179c` |
 
